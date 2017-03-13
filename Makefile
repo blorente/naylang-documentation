@@ -82,7 +82,7 @@ BODY_TRAVIS := body_travis.tex
 travis: $(BODY_TRAVIS) $(APPENDIX_TRAVIS) $(TEMPLATE) $(IMAGES)
 	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
 		--table-of-contents --chapters \
-		--metadata author:"Borja Lorente Escobar" --metadata title:Persimmon \
+		--metadata author:"Borja Lorente Escobar" --metadata title:Naylang \
 		--metadata subtitle:"A REPL interpreter and debugger for the Grace educational programming language" \
 		--metadata date:2017-02-18 --metadata documentclass:scrreprt \
 		--metadata colorlinks --metadata lof --metadata papersize:A4 \
