@@ -15,6 +15,7 @@ after_success:  # Build binaries and documentation
     - mkdir bin
     - mv naylang.pdf bin/naylang.pdf
     - cd ..
+    
 
 # Run tests on master & dev
 branches:
