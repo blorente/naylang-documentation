@@ -1,10 +1,5 @@
 PDF := naylang.pdf  # PDF Main Target
-MARKDOWN := introduction.md state_of_the_art.md workflow.md milestones.md \
-	risk_analysis.md interface.md implementation.md type_checking.md \
-	postmortem.md  # Markdown files
-MARKDOWN_COMPLUTENSE := introduction.md focus.md state_of_the_art.md \
-	workflow.md milestones.md risk_analysis.md interface.md implementation.md \
-	type_checking.md postmortem.md
+MARKDOWN_COMPLUTENSE := introduction.md state_of_the_art.md implementation.md # Markdown files
 APPENDICES := appendixA.md appendixB.md  # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography
@@ -12,7 +7,6 @@ CSL := emerald-harvard.csl  # CSL file used for citations
 TEMPLATE := template.tex  # LaTeX template for producing PDF
 
 # Add src prefix to markdown files
-MARKDOWN := $(addprefix src/, $(MARKDOWN))
 MARKDOWN_COMPLUTENSE := $(addprefix src/, $(MARKDOWN_COMPLUTENSE))
 APPENDICES := $(addprefix src/, $(APPENDICES))
 
@@ -22,38 +16,23 @@ IMAGES := $(wildcard images/*.png)  # .png images
 IMAGES += $(addprefix images/, $(notdir $(GRAPHS:.tex=.pdf)))
 
 # Intermediate tex files required for appending after bibliography
-BODY := body.tex
 APPENDIX := appendices.tex
-BODY_COMPLUTENSE := body_complutense.tex
+BODY := body_complutense.tex
 
 all: $(PDF)
 
 $(PDF): $(BODY) $(APPENDIX) $(TEMPLATE) $(IMAGES)
 	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
 		--table-of-contents --top-level-division chapter \
-		--metadata author:"Borja Lorente Escobar" --metadata title:Naylang \
-		--metadata subtitle:"A REPL interpreter and debugger for the Grace educational programming language." \
-		--metadata date:"$(shell date +%Y/%m/%d)" --metadata documentclass:scrreprt \
-		--metadata sansfont:"TeX Gyre Heros" --metadata colorlinks \
-		--metadata lof --metadata papersize:A4 --metadata fontsize:12pt \
-		--metadata mainlang:English \
-		--metadata keywords: \
-		--metadata abstract:"[Abstract goes here]" \
-		$(BODY) $(APPENDIX) -o $@
-
-
-complutense: $(BODY_COMPLUTENSE) $(APPENDIX) $(TEMPLATE) $(IMAGES)
-	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
-		--table-of-contents --top-level-division chapter \
 		--metadata author:"Borja Lorente Escobar" \
-		--metadata title:"A REPL interpreter and debugger for the Grace educational programming language" \
+		--metadata title:"Naylang: A REPL interpreter and debugger for the Grace educational programming language" \
 		--metadata date:"Director: José Luis Sierra" \
 		--metadata documentclass:scrreprt \
 		--metadata sansfont:"TeX Gyre Heros" --metadata colorlinks \
 		--metadata lof --metadata papersize:A4 --metadata fontsize:12pt \
 		--metadata mainlang:English \
 		--metadata keywords:"[Keywords]" \
-		--metadata titlepic:images/fdi.png $(BODY_COMPLUTENSE) $(APPENDIX) \
+		--metadata titlepic:images/fdi.png $(BODY) $(APPENDIX) \
 		-o $(PDF)
 
 
@@ -63,12 +42,7 @@ images/%.pdf: graphs/%.tex
 	mv $*.pdf images/
 	rm -f $*.log $*.aux
 
-$(BODY): $(MARKDOWN) $(BIBLIOGRAPHY) $(CSL)
-	pandoc --no-tex-ligatures --top-level-division chapter \
-		--bibliography $(BIBLIOGRAPHY) --csl $(CSL) $(MARKDOWN) -o $@
-
-
-$(BODY_COMPLUTENSE): $(MARKDOWN_COMPLUTENSE) $(BIBLIOGRAPHY) $(CSL)
+$(BODY): $(MARKDOWN_COMPLUTENSE) $(BIBLIOGRAPHY) $(CSL)
 	pandoc --no-tex-ligatures --top-level-division chapter --table -of-contents \
 		--bibliography $(BIBLIOGRAPHY) --csl $(CSL) $(MARKDOWN_COMPLUTENSE) \
 		-o $@
@@ -90,9 +64,9 @@ travis: $(BODY_TRAVIS) $(APPENDIX_TRAVIS) $(TEMPLATE) $(IMAGES)
 		--metadata keywords:"[Keywords]" \
 		$(BODY_TRAVIS) $(APPENDIX_TRAVIS) -o $(PDF)
 
-$(BODY_TRAVIS): $(MARKDOWN) $(BIBLIOGRAPHY) $(CSL)
+$(BODY_TRAVIS): $(MARKDOWN_COMPLUTENSE) $(BIBLIOGRAPHY) $(CSL)
 	pandoc --no-tex-ligatures --chapters --bibliography $(BIBLIOGRAPHY) --csl \
-		$(CSL) $(MARKDOWN) -o $@
+		$(CSL) $(MARKDOWN_COMPLUTENSE) -o $@
 
 $(APPENDIX_TRAVIS): $(APPENDICES)
 	pandoc --no-tex-ligatures --chapters $(APPENDICES) -o $@
