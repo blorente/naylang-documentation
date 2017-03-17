@@ -26,7 +26,7 @@ $(PDF): $(BODY) $(APPENDIX) $(TEMPLATE) $(IMAGES)
 		--table-of-contents --top-level-division chapter \
 		--metadata author:"Borja Lorente Escobar" \
 		--metadata title:"Naylang: A REPL interpreter and debugger for the Grace educational programming language" \
-		--metadata date:"Director: José Luis Sierra" \
+		--metadata date:"Director: José Luis Sierra Rodríguez" \
 		--metadata documentclass:scrreprt \
 		--metadata sansfont:"TeX Gyre Heros" --metadata colorlinks \
 		--metadata lof --metadata papersize:A4 --metadata fontsize:12pt \

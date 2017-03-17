@@ -3,8 +3,8 @@ Appendix B: How was this document made?
 
 Author
 -------
-**Note:** the process described in this Appendix was originally devised by Álvaro
-Bermejo, who published it under the MIT license in 2017.
+**Note:** the process described in this Appendix was devised by Álvaro
+Bermejo, who published it under the MIT license in 2017 [@persimmon].
 
 
 Process
@@ -23,7 +23,7 @@ Diagrams
 --------
 Diagrams are were created with LaTeX packages such as tikz or pgfgantt, they
 can be inserted directly as PDF, but if we desire to output to formats other
-than LaTeX is more convenient to convert them to .png filesi with tools such
+than LaTeX is more convenient to convert them to .png files with tools such
 as `pdftoppm`.
 
 
