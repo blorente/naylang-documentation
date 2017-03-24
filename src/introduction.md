@@ -18,9 +18,9 @@ Naylang strives to be an exercise in interpreter construction not only for the c
 - To be as approachable as possible by both end users, namely first-time programmers, and project collaborators.
 - To be itself a teaching tool to learn about one possible implementation of a language as flexible as Grace.
 
-To that end, the project follows a Test Driven Development approach \cite{needed}, in which unit tests are written in parallel to or before the code, in very short iterations. This is the best approach for two reasons:
+To that end, the project follows a Test Driven Development approach [], in which unit tests are written in parallel to or before the code, in very short iterations. This is the best approach for two reasons:
 
-Firstly, it provides an easy way to verify which part of the code is working at all times, since tests strive for complete code coverage \cite{needed}. Therefore, newcomers to the project will know where exactly their changes affect the software as a whole, which will allow them to make changes with more confidence.
+Firstly, it provides an easy way to verify which part of the code is working at all times, since tests strive for complete code coverage []. Therefore, newcomers to the project will know where exactly their changes affect the software as a whole, which will allow them to make changes with more confidence.
 
 Secondly, the tests themselves provide documentation that is always up-to-date and synchronized with the code. This, coupled with descriptive test names, provide a myriad of **working code examples**. Needless to say that this would result in vital insight gained at a much quicker pace by a student wanting to learn about interpreters.
 

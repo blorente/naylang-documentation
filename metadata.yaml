@@ -2,7 +2,7 @@
 ---
 author: Borja Lorente
 title: Naylang
-subtitle: A REPL interpreter and debugger for the Grace educational programming language.
+subtitle: A REPL interpreter and debugger for the Grace programming language
 date: 2017-03-14
 documentclass: scrreprt
 colorlinks: True
