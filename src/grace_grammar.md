@@ -6,7 +6,7 @@ ANTLR 4 grammars used for parsing Grace in Naylang.
 Lexer Grammar
 --------
 
-```antlr4
+```antlr
 lexer grammar GraceLexer;
 tokens {
 	DUMMY
@@ -56,7 +56,7 @@ fragment LETTER : [a-zA-Z\u0080-\uFFFF];
 Parser Grammar
 --------
 
-```antlr4
+```antlr
 parser grammar GraceParser;
 
 options {

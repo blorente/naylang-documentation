@@ -1,6 +1,7 @@
 PDF := naylang.pdf  # PDF Main Target
 MARKDOWN := introduction.md the_grace_programming_language.md \
-						state_of_the_art.md  implementation.md  # Markdown files
+						state_of_the_art.md  implementation.md \
+						bibliography.md # Markdown files
 APPENDICES := appendixA.md appendixB.md grace_grammar.md # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography
@@ -24,7 +25,7 @@ all: $(PDF)
 $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
 	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
 		--csl $(CSL) --table-of-contents \
-		--top-level-division chapter --highlight-style breezedark \
+		--top-level-division chapter --highlight-style haddock \
 		--metadata geometry:top=2.5cm,left=4cm,right=2.5cm,bottom=2.5cm \
 		--metadata date:"$(shell date +%Y/%m/%d)" \
 		--metadata sansfont:"TeX Gyre Heros" \
@@ -33,6 +34,10 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
 		--metadata date:"Director: José Luis Sierra Rodríguez" \
 		--metadata keywords:"Intepreters","Programming Languages","Debuggers","Grace" \
 		$(METADATA) $(MARKDOWN) --bibliography $(BIBLIOGRAPHY) --include-after-body $(APPENDIX) -o $@
+
+
+# 		--top-level-division chapter --highlight-style breezedark \
+
 
 # For standalone images
 images/%.pdf: graphs/%.tex
