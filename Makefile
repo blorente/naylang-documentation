@@ -1,6 +1,6 @@
 PDF := naylang.pdf  # PDF Main Target
-MARKDOWN := implementation.md introduction.md state_of_the_art.md  \
-						the_grace_programming_language.md  # Markdown files
+MARKDOWN := introduction.md the_grace_programming_language.md \
+						state_of_the_art.md  implementation.md  # Markdown files
 APPENDICES := appendixA.md appendixB.md grace_grammar.md # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography

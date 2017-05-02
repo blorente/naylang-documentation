@@ -73,7 +73,7 @@ Collections in Grace are represented as Lineups, which are completely polymorphi
 
 ### Object-based inheritance
 
-Everything in Grace is an object. Therefore, the inheritance model is more based on extending existing objects instead of instantiating particular classes. In fact, classes in Grace are no more than factory methods [@factory] that return an object with a predefined set of methods and fields.
+Everything in Grace is an object. Therefore, the inheritance model is more based on extending existing objects instead of instantiating particular classes. In fact, classes in Grace are no more than factory methods that return an object with a predefined set of methods and fields.
 
 Unfortunately, this mechanism is also out of the scope of the project and will be left for future releases.
 
