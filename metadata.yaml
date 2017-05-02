@@ -1,12 +1,19 @@
 
 ---
-author: Borja Lorente
-title: Naylang
-subtitle: A REPL interpreter and debugger for the Grace programming language
-date: 2017-03-14
+author: |
+    Borja Lorente
+title: |
+    Universidad Complutense de Madrid
+    Facultad de Informática
+    Grado en Ingeniería Informática
+    Trabajo de Fin de Grado
+subtitle: |
+    Memoria
+    Mayo 2017
+    Naylang
+#date: 2017-03-01
 documentclass: scrreprt
 colorlinks: True
-link-citations: true
 lof: True
 papersize: A4
 fontsize: 12pt
@@ -14,4 +21,8 @@ mainlang: English
 keywords:
     - Intepreters
     - Programming Languages
+    - Debuggers
+    - Grace
+abstract: >
+    A REPL interpreter and debugger for the Grace programming language.
 ---

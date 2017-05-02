@@ -209,7 +209,7 @@ $if(title)$
   % Let's make titles better
   %\newfontfamily{\titlefont}
   % [UprightFont = {* 43 Light Extended},
-  %  BoldFont = {* 107 Extra Black Condensed}]{Helvetica Neue LT Com}
+  %  BoldFont = {* 107 Extra Black Condensed}]{TeX Gyre Heros}
   %\usepackage{titling}
   %\renewcommand{\maketitlehooka}{\sffamily}
 %$endif$
@@ -248,6 +248,10 @@ $endif$
   $if(title)$
     \maketitle
   $endif$
+  \begin{titlepage}
+  \end{titlepage}
+
+
   $if(abstract)$
     \begin{abstract}
       $abstract$
