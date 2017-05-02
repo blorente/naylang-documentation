@@ -1,7 +1,7 @@
 Introduction
 ============
 
-Naylang is an open source REPL interpreter, runtime and debugger for the Grace programming language written in modern C++;
+Naylang is an open source REPL interpreter, runtime and debugger for the Grace programming language written in modern C++.
 It currently implements a subset of Grace described later, but as both the language and the interpreter evolves the project strives for feature-completeness.
 
 Motivation

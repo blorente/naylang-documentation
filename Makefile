@@ -1,7 +1,7 @@
 PDF := naylang.pdf  # PDF Main Target
 MARKDOWN := implementation.md introduction.md state_of_the_art.md  \
 						the_grace_programming_language.md  # Markdown files
-APPENDICES := appendixA.md appendixB.md # Appendix after bibliography
+APPENDICES := appendixA.md appendixB.md grace_grammar.md # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography
 CSL := emerald-harvard.csl  # CSL file used for citations
@@ -23,7 +23,7 @@ all: $(PDF)
 
 $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
 	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
-		--bibliography $(BIBLIOGRAPHY) --csl $(CSL) --table-of-contents \
+		--csl $(CSL) --table-of-contents \
 		--top-level-division chapter --highlight-style breezedark \
 		--metadata geometry:top=2.5cm,left=4cm,right=2.5cm,bottom=2.5cm \
 		--metadata date:"$(shell date +%Y/%m/%d)" \
@@ -32,7 +32,7 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
 		--metadata subtitle:"A REPL interpreter and debugger for the Grace programming language." \
 		--metadata date:"Director: José Luis Sierra Rodríguez" \
 		--metadata keywords:"Intepreters","Programming Languages","Debuggers","Grace" \
-		$(METADATA) $(MARKDOWN) --include-after-body $(APPENDIX) -o $@
+		$(METADATA) $(MARKDOWN) --bibliography $(BIBLIOGRAPHY) --include-after-body $(APPENDIX) -o $@
 
 # For standalone images
 images/%.pdf: graphs/%.tex
