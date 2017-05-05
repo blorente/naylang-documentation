@@ -372,18 +372,39 @@ to interact with it.
 
 Since this subset of Grace is dynamically typed, object casting has to be
 resolved at runtime. Therefore, `GraceObject`s must have the possibility of
-transforming themselves into other types. Namely, we want the possiblity to,
+casting themselves into other types. Namely, we want the possiblity to,
 for any given object, retrieve it as a native type at runtime. This is
 accomplished via virtual methods in the base class, **which error by default**:
 
 ```c++
+// GraceObject.h
+
+// Each of these methods will throw a type exception called
 virtual const GraceBoolean &asBoolean() const;
 virtual const GraceNumber &asNumber() const;
 virtual const GraceString &asString() const;
 // ...
+```
+
+These functions are then overriden with a valid implementation in the subclasses that can return the appropriate value. For example, `GraceNumber` will provide an implementation for `asNumber()` so that when the evaluation expects a number from a generic object, it can be given. Of course, for types with just **one possible member in their classes** (such as `Done`) and objects that **do not need more data** than the base `GraceObject` provides (such as `UserObject`), no caster method is needed, and a boolean type checker method is sufficient. These methods return false in `GraceObject`, and are overriden to return true in the appropriate classes:
+
+```c++
+// GraceObject.h
+
+// These methods return false by default
+virtual bool isNumber() const;
 virtual bool isClosure() const;
 virtual bool isBlock() const;
+// ...
 ```
+
+This approach has two major benefits:
+
+- It allows the evaluator to treat every object equally, except where a specific cast is necessary, such as the result of evaluating condition expression of an `if` statement, which must be a `GraceBoolean`. Therefore, the type checking is completely detached from the AST and, to an extent, the evaluator. The evaluator only has to worry about types when the language invarints require so.
+
+- It scales very well. For instance, if a new native type arised that could be either a boolean or a number, it would be sufficient to implement both caster methods in an appropriate subclass.
+
+Note that this model is used for runtime dynamic typing and, since Grace is a gradually-typed language, some of the type-checking work will have to be moved the the AST as the possibility of proper static typing is implemented.
 
 Heap and Garbage Collection
 ------
