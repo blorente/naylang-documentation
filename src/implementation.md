@@ -248,32 +248,43 @@ all sorts of requests, with any expression as parameters.
 
 There are two types of Requests:
 
-- Implicit Requests are Requests made to the current scope, that is, they have
-no explicit receiver. These requests are incredibly flexible, and they accept
+**Implicit Requests** are Requests made to the current scope, that is, they have no explicit receiver. These requests are incredibly flexible, and they accept
 almost any parameter. The only necessary parameter is the name of the method or
 field requested, so that the evaluator can look up the correct object
 in the corresponding scope. Optional parameters include a list of expressions
 for the parameters passed to a request (in case it's a method request), and code
 coordinates.
 
-- Explicit Requests are Requests made to a specified receiver, such as invoking
+**Explicit Requests** are Requests made to a specified receiver, such as invoking
 a method of an object. These Requests are little more than a syntactic
 convenience, since they are composed of two Implicit Requests (one for the
 receiver, one for the actual request).
 
 Following are some examples of different code snippets, and how they will be
-translated into nested Requests (for brevity, we will use IR and ER to denote
+translated into nested Requests (for brevity, IR and ER will be used to denote
 ImplicitRequest and ExplicitRequest, respectively):
 
 ```grace
 x;              // IR("x")
-obj.val;        // ER(IR("obj"), "val")
+obj.val;        // ER(IR("obj"), "val"))
 add(4)to(3);    // IR("add(_)to(_)", {4, 3})
 4 + 3;          // ER(4, "+(_)", 3)
 ```
 
 Note that, even in the case of an expression not returning anything, it will
 always return the special object `Done` by default.
+
+### Assigment
+
+Assignments are a special case node. Since, as will be explained later, objects are maps from identifiers to other objects, the easiest way of performing an assignment is to modify the parent's scope. That is, to assign value A to field X of scope Y (`Y.X := A`) the easiest way is to modify Y so that the X identifier is now mapped to A. Note that a user might omit identifier Y (`X := A`), in which case the scope is implicitly set to `self` (the current scope). Therefore, writing `X := A` is syntactically equivalent to writing `self.X := A`.
+
+The ramifications of this decission are clear: 
+
+- Firstly, a special case must be defined both in the parser and in the abstract syntax, to allow the retrieval of the field name and optionally the scope in which that field resides:
+
+//TODO: Code from Assignment
+
+- Secondly, the evaluator must also evaluate the new AST node, which is 
 
 Methods and Dispatch
 ------
