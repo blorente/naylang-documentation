@@ -191,6 +191,9 @@ for any other type of expression, so the rest is left to the implementer.
 A slightly more annotated version of this rule can be found in the parser grammar,
 under the `expression` rule.
 
+Visitor-based Evaluation
+------
+
 Abstract Syntax Tree
 ------
 
@@ -278,16 +281,123 @@ always return the special object `Done` by default.
 
 Assignments are a special case node. Since, as will be explained later, objects are maps from identifiers to other objects, the easiest way of performing an assignment is to modify the parent's scope. That is, to assign value A to field X of scope Y (`Y.X := A`) the easiest way is to modify Y so that the X identifier is now mapped to A. Note that a user might omit identifier Y (`X := A`), in which case the scope is implicitly set to `self` (the current scope). Therefore, writing `X := A` is syntactically equivalent to writing `self.X := A`.
 
-The ramifications of this decission are clear: 
+The ramifications of this decission are clear:
 
 - Firstly, a special case must be defined both in the parser and in the abstract syntax, to allow the retrieval of the field name and optionally the scope in which that field resides:
 
-//TODO: Code from Assignment
+```c++
+class Assignment : public Statement {
+public:
+  // Explicit scope constructor
+  Assignment(
+    const std::string &field,
+    ExpressionPtr scope,
+    ExpressionPtr value);
 
-- Secondly, the evaluator must also evaluate the new AST node, which is 
+  // Implicit scope constructor
+  Assignment(const std::string &field, ExpressionPtr value);
+};
+
+```
+
+- Secondly, the evaluator must also evaluate the new AST node, which is done by evaluating the scope expression first, setting it as the current scope, and then assigning the proper value to the correct field. After that, the previous scope is restored.
 
 Methods and Dispatch
 ------
+
+One of the advantages of Grace is that it integrates native methods and user-defined methods seamlessly in it's syntax. As a consequence, the implementation must be able to handle both types of methods indistinctly from each other. Hence, the `Method` class was created. This class represents a container for everything that is needed to define a Grace method, namely, a list of **formal parameters** in the form of **declarations**, and a list of **statements** that conforms the **body** of the method. The canonical name of a method is used in determining which of an object's methods to use, and not in the execution of the method itself. Hence, it is not necessary to include it in the representation. Since Grace blocks are lambda expressions, it is also possible to instantiate a `Method` from a `Block`:
+
+```c++
+class Method {
+  std::vector<DeclarationPtr> _params;
+  std::vector<StatementPtr> _code;
+public:
+  Method(BlockPtr code);
+  Method(const std::vector<DeclarationPtr> &params, const std::vector<StatementPtr> &body);
+  // ...
+};
+```
+
+### Dispatch
+
+Since every method has to belong to an object, the best way to implement dispatch is to have objects dispatch their own methods. Since user-defined methods contain their code in the AST representation, an object needs an evaluator to evaluate the code, and thus it must be passed as a parameter. In addition, the **effective parameter** values must be precalculated and passed as Grace object, not AST nodes:
+
+```c++
+virtual GraceObjectPtr dispatch(
+  const std::string &methodName,
+  ExecutionEvaluator &eval,
+  const std::vector<GraceObjectPtr> &paramValues);
+```
+
+The object then retrieves the correct `Method`, forms a `MethodRequest` with the parameters, and calls `respond()` on the desired method, returning the value if applicable.
+
+### Self-evaluation
+
+The only responsibility of `Method`s is to be able to `respond()` to requests made by objects. A `MethodRequest` is in charge of holding the **effective parameters** for that particular method call.
+
+```c++
+virtual GraceObjectPtr respond(
+  ExecutionEvaluator &context,
+  GraceObject &self,
+  MethodRequest &request);
+```
+
+How this method is implemented is up to each subclass of `Method`. Native methods, for example, will contain C++ code that emulates the desired behavior of the subprogram. `Method` counts with a default implementation of `respond()`, which is used for user-defined methods, and uses the given context to evaluate every line of the method body:
+
+```c++
+GraceObjectPtr Method::respond(
+  ExecutionEvaluator &context, GraceObject &self, MethodRequest &request) {
+
+    // Create the scope where the parameters are to be instantiated
+    GraceObjectPtr closure = make_obj<GraceClosure>();
+
+    // Instantiate every parameter in the closure
+    for (int i = 0; i < request.params().size(); i++) {
+        closure->setField(params()[i]->name(), request.params()[i]);
+    }
+
+    // Set the closure as the new scope, with the old scope as a parent
+    GraceObjectPtr oldScope = context.currentScope();
+    context.setScope(closure);
+
+    // Evaluate every node of the method body
+    for (auto node : _code) {
+        node->accept(context);
+    }
+
+    // Get return value (if any)
+    GraceObjectPtr ret = context.partial();
+    if (ret == closure) {
+        // The return value hasen't changed. Return Done.
+        ret = make_obj<GraceDoneDef>();
+    }
+
+    // Restore the old scope
+    context.setScope(oldScope);
+    return ret;
+}
+```
+
+### Native methods
+
+Native methods are a special case of `Method`s in that they are implemented using native C++ code. Most of these operations correspond to the operations necessary to handle native types (such as the `+` operator for numbers). Native methods do not require a context to be evaluated, and therefore they define a simpler interface for the subclasses to use, for conveniance.
+
+```c++
+class NativeMethod : public Method {
+public:
+  // Pure abstract method to be implemented by subclasses
+  virtual GraceObjectPtr respond(
+    GraceObject &self, MethodRequest &request) = 0;
+
+  // Note that subclasses can still override this implementation
+  virtual GraceObjectPtr respond(
+    ExecutionEvaluator &context, GraceObject &self, MethodRequest &request) {
+    return respond(self, request);
+  }
+};
+```
+
+Each native method is a subclass of `NativeMethod`, and implements it's functionality in the body of the overriden `respond()` method.
 
 Object and Execution Model
 ------
@@ -312,7 +422,7 @@ protected:
 
 public:
   // ...
-}
+};
 ```
 
 As can be seen, an object is no more than maps of fields and methods. Since
@@ -337,7 +447,7 @@ public:
     virtual MethodPtr getMethod(const std::string &name);
 
     // ...
-}
+};
 ```
 
 ### Native types
@@ -350,12 +460,11 @@ corresponding value. For instance:
 class GraceBoolean : public GraceObject {
     bool _value;
 public:
-
     GraceBoolean(bool value);
     bool value() const;
 
     // ...
-}
+};
 ```
 
 Each of these types has a set of native methods associated with it (such as the
