@@ -17,3 +17,7 @@ Minigrace is currently hosted int GitHub [@minigracerepo].
 
 GDB
 ------
+
+The GNU Project Debugger has been the de facto debugger for C and C++ for many years, and thus it merits some time to study it. The main influence of GDB in Naylang will be the design of it's command set, that is, the commands if offers to the user. In particular, Naylang will focus on reproducing the functionality of the following commands: `run`, `continue`, `next`, `step`, `break`, `print` [@gdbcommands]. Naylang will add another command, `env`, that allows the user to print the current evaluation scope. This set of core commands is simple yet highly usable, and can be composed to form virtually any behavior desired by the user. Support for commands such as `finish` and `list` will be added as future work.
+
+To offer a controlled and pausable execution of a program, GDB reads the executable metada, and executes it pausing in the desired locations set by user-specified breakpoints. This method differs substantially from that of Naylang, which will execute the AST directly, and control it's evaluation instead of reading executable metadata.
