@@ -1,0 +1,172 @@
+\chapter{Appendix A: Grammars}\label{appendix-a-grammars}
+
+ANTLR 4 grammars used for parsing Grace in Naylang.
+
+\section{Lexer Grammar}\label{lexer-grammar}
+
+\begin{verbatim}
+lexer grammar GraceLexer;
+tokens {
+    DUMMY
+}
+
+WS : [ \r\t\n]+ -> skip ;
+INT: Digit+;
+Digit: [0-9];
+
+METHOD: 'method ';
+VAR_ASSIGN: ':=';
+VAR: 'var ';
+DEF: 'def ';
+PREFIX: 'prefix';
+OBJECT: 'object';
+
+COMMA: ',';
+DOT: '.';
+DELIMITER: ';';
+QUOTE: '"';
+EXCLAMATION: '!';
+RIGHT_ARROW: '->';
+OPEN_PAREN: '(';
+CLOSE_PAREN: ')';
+OPEN_BRACE: '{';
+CLOSE_BRACE: '}';
+OPEN_BRACKET: '[';
+CLOSE_BRACKET: ']';
+
+CONCAT: '++';
+PLUS: '+';
+MINUS: '-';
+MUL: '*';
+DIV: '/';
+MOD: '%';
+POW: '^';
+EQUAL: '=';
+
+TRUE: 'true';
+FALSE: 'false';
+
+// Should be defined last, so that reserved words stay reserved
+ID: LETTER (LETTER | '0'..'9')*;
+fragment LETTER : [a-zA-Z\u0080-\uFFFF];
+\end{verbatim}
+
+\section{Parser Grammar}\label{parser-grammar}
+
+\begin{verbatim}
+parser grammar GraceParser;
+
+options {
+    tokenVocab = GraceLexer;
+}
+
+/*
+ * Parser Rules
+ */
+program: (statement)*;
+statement: expression DELIMITER | declaration; //| control;
+
+declaration : variableDeclaration
+            | constantDeclaration
+            | methodDeclaration
+            ;
+
+variableDeclaration: VAR identifier (VAR_ASSIGN expression)? DELIMITER;
+constantDeclaration: DEF identifier EQUAL expression DELIMITER;
+methodDeclaration: prefixMethod
+                 | userMethod
+                 ;
+
+prefixMethod: METHOD PREFIX (EXCLAMATION | MINUS)  methodBody;
+userMethod: METHOD methodSignature methodBody;
+
+methodSignature: methodSignaturePart+;
+methodSignaturePart: identifier (OPEN_PAREN formalParameterList CLOSE_PAREN)?;
+formalParameterList: formalParameter (COMMA formalParameter)*;
+formalParameter: identifier;
+
+methodBody: OPEN_BRACE methodBodyLine* CLOSE_BRACE;
+methodBodyLine: variableDeclaration | constantDeclaration | expression DELIMITER; //| control;
+
+// Using left-recursion and implicit operator precendence. ANTLR 4 Reference, page 70
+expression  : rec=expression op=(MUL | DIV) param=expression        #MulDivExp
+            | rec=expression op=(PLUS | MINUS) param=expression     #AddSubExp
+            | explicitRequest                                       #ExplicitReqExp
+            | implicitRequest                                       #ImplicitReqExp
+            | prefix_op rec=expression                              #PrefixExp
+            | rec=expression infix_op param=expression              #InficExp
+            | value                                                 #ValueExp
+            ;
+
+explicitRequest : rec=implicitRequest DOT req=implicitRequest #ImplReqExplReq
+                | rec=value DOT req=implicitRequest           #ValueExplReq
+                ;
+
+implicitRequest : multipartRequest              #MethImplReq
+                | identifier effectiveParameter #OneParamImplReq // e.g. `print "Hello"`
+                | identifier                    #IdentifierImplReq //variables or 0 params methods
+                ;
+multipartRequest: methodRequestPart+;
+methodRequestPart: methodIdentifier OPEN_PAREN effectiveParameterList? CLOSE_PAREN;
+effectiveParameterList: effectiveParameter (COMMA effectiveParameter)*;
+effectiveParameter: expression;
+methodIdentifier: infix_op | identifier | prefix_op;
+
+value   : objectConstructor #ObjConstructorVal
+        | block             #BlockVal
+        | lineup            #LineupVal
+        | primitive         #PrimitiveValue
+        ;
+
+objectConstructor: OBJECT OPEN_BRACE (statement)* CLOSE_BRACE;
+block: OPEN_BRACE (params=formalParameterList RIGHT_ARROW)? body=methodBodyLine* CLOSE_BRACE;
+lineup: OPEN_BRACKET lineupContents? CLOSE_BRACKET;
+lineupContents: expression (COMMA expression)*;
+
+primitive   : number
+            | boolean
+            | string
+            ;
+
+identifier: ID;
+number: INT;
+boolean: TRUE | FALSE;
+string: QUOTE content=.*? QUOTE;
+prefix_op: MINUS | EXCLAMATION;
+infix_op: MOD | POW | CONCAT;
+\end{verbatim}
+
+\chapter{Appendix B: How was this document
+made?}\label{appendix-b-how-was-this-document-made}
+
+\section{Author}\label{author}
+
+\textbf{Note:} the process described in this Appendix was devised by
+Álvaro Bermejo, who published it under the MIT license in 2017
+{[}@persimmon{]}.
+
+\section{Process}\label{process}
+
+This document was written on Markdown, and converted to PDF using
+Pandoc.
+
+Document is written on Pandoc’s extended Markdown, and can be broken
+amongst different files. Images are inserted with regular Markdown
+syntax for images. A YAML file with metadata information is passed to
+pandoc, containing things such as Author, Title, font, etc\ldots{} The
+use of this information depends on what output we are creating and the
+template/reference we are using.
+
+\section{Diagrams}\label{diagrams}
+
+Diagrams are were created with LaTeX packages such as tikz or pgfgantt,
+they can be inserted directly as PDF, but if we desire to output to
+formats other than LaTeX is more convenient to convert them to .png
+files with tools such as \texttt{pdftoppm}.
+
+\section{References}\label{references}
+
+References are handled by pandoc-citeproc, we can write our bibliography
+in a myriad of different formats: bibTeX, bibLaTeX, JSON, YAML,
+etc\ldots{}, then we reference in our markdown, and that reference works
+for multiple formats
