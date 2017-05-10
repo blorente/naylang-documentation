@@ -62,6 +62,7 @@ There are two Grace-specific folders in the project:
 
 - `grammars` contains the ANTLRv4 grammars necessary to build the project and
 generate `NaylangParserVisitor`. The grammar files have the `.g4` extension.
+
 - `examples` contains short code snippets written in the Grace language and
 used as integration tests for the interpreter and debugger.
 
@@ -70,6 +71,9 @@ used as integration tests for the interpreter and debugger.
 Lastly, the remaining folders contain various aides for compilation and execution:
 
 - `cmake` contains the CMake file bundled with the C++ target, which drives the compilation and linking of the ANTLR runtime. It has been slightly modified to compile a local copy instead of a remote one [@antlr4cmake].
+
 - `thirdparty/antlr` contains two major components:
+
   - A frozen copy of the ANTLRv4 runtime in the 4.7 version , `antlr-4.7-complete.jar` [@antlr4point7], to be compiled and linked against.
+  
   - The ANTLRv4 tool, `antlr-4.7-complete.jar`, which is executed by a macro in the CMake file described earlier to generate the parser and lexer classes. Obviously, this is also in the 4.7 version of ANTLR.

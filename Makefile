@@ -1,9 +1,18 @@
 PDF := naylang.pdf  # PDF Main Target
 MARKDOWN := introduction.md the_grace_programming_language.md \
-						state_of_the_art.md  implementation.md \
-						project_structure.md visitor_based_evaluation.md \
-						parsing.md ast.md methods_and_dispatch.md \
-						object_model.md heap.md debug.md frontend.md \
+						state_of_the_art.md \
+						implementation.md \
+						project_structure.md \
+						visitor_based_evaluation.md \
+						parsing.md \
+						ast.md \
+						methods_and_dispatch.md \
+						object_model.md \
+						heap.md \
+						debug.md \
+						frontend.md \
+						modular_visitor_pattern.md \
+						testing_methodology.md \
 						conclusions.md \
 						bibliography.md # Markdown files
 APPENDICES := grace_grammar.md appendixB.md # Appendix after bibliography
