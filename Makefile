@@ -3,9 +3,10 @@ MARKDOWN := introduction.md the_grace_programming_language.md \
 						state_of_the_art.md \
 						implementation.md \
 						project_structure.md \
-						visitor_based_evaluation.md \
+						execution_flow.md \
 						parsing.md \
 						ast.md \
+						evaluation.md \
 						methods_and_dispatch.md \
 						object_model.md \
 						heap.md \
