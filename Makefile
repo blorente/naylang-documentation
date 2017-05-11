@@ -6,7 +6,7 @@ MARKDOWN := introduction.md the_grace_programming_language.md \
 						execution_flow.md \
 						parsing.md \
 						ast.md \
-						evaluation.md \
+						evaluator.md \
 						methods_and_dispatch.md \
 						object_model.md \
 						heap.md \

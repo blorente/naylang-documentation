@@ -1,4 +1,6 @@
-Object and Execution Model
+\newpage
+
+Object Model
 ------
 
 In Grace, everything is an object, and therefore the implementation of these

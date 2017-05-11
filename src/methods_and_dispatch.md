@@ -1,3 +1,5 @@
+\newpage
+
 Methods and Dispatch
 ------
 

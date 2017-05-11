@@ -1,3 +1,4 @@
+\newpage
 
 Abstract Syntax Tree
 ------
@@ -35,6 +36,104 @@ all other nodes, such as source code coordinates. Control structures, such as
 IfThen and While, are the closest to pure statements that there is. It could be
 said that Return is the purest of statements, since it does not hold any extra
 information.
+
+#### Control Nodes
+
+Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops] [@eiffelgraceexample].
+
+##### Conditional Nodes
+
+These nodes form the basis of control flow, and are what makes the foundation of the language. This class includes the IfThen and IfThenElse node definitions:
+
+```c++
+class IfThenElse : public Statement {
+
+    ExpressionPtr _condition;
+    std::vector<StatementPtr> _then;
+    std::vector<StatementPtr> _else;
+
+public:
+
+    IfThenElse(
+            ExpressionPtr condition,
+            std::vector<StatementPtr> thenExp,
+            std::vector<StatementPtr> elseExp,
+            int line, int col);
+
+    // Accessors and accept()
+};
+```
+
+Both nodes have a similar structure, with an expression node as the condition, and blocks of statements to be executed if the condition is met. 
+
+##### Loop Nodes
+
+Loop nodes are the nodes used to execute an action repeated times. In this case, only one node type is necessary, the While node.
+
+```c++
+class While : public Statement {
+
+    ExpressionPtr _condition;
+    std::vector<StatementPtr> _body;
+
+public:
+    While(
+        ExpressionPtr condition, 
+        const std::vector<StatementPtr> &body, 
+        int line, int col);
+
+    // Accessors and accept()
+};
+```
+
+While loops accept a boolean expression as a condition and a list of statements as a body. 
+
+##### Return Nodes
+
+Return is the most basic control structure, and serves to express the desire of terminating the execution of the current method and optionally return a value from it. As such, the only information they hold is the value to be returned.
+
+```c++
+class Return : public Statement {
+
+    ExpressionPtr _value;
+
+public:
+
+    // Explicit value return
+    Return(
+        ExpressionPtr value,
+        int line, int col);
+
+    // Implicit value return
+    Return(int line, int col);
+
+    // Accessors and accept()
+};
+```
+
+#### Assigment
+
+Assignments are a special case node. Since, as will be explained later, objects are maps from identifiers to other objects, the easiest way of performing an assignment is to modify the parent's scope. That is, to assign value A to field X of scope Y (`Y.X := A`) the easiest way is to modify Y so that the X identifier is now mapped to A. Note that a user might omit identifier Y (`X := A`), in which case the scope is implicitly set to `self` (the current scope). Therefore, writing `X := A` is syntactically equivalent to writing `self.X := A`.
+
+The ramifications of this decission are clear. A special case must be defined both in the parser and in the abstract syntax, to allow the retrieval of the field name and optionally the scope in which that field resides:
+
+```c++
+class Assignment : public Statement {
+public:
+  // Explicit scope constructor
+  Assignment(
+    const std::string &field,
+    ExpressionPtr scope,
+    ExpressionPtr value);
+
+  // Implicit scope constructor
+  Assignment(
+    const std::string &field, 
+    ExpressionPtr value);
+
+  // Accessors and accept()
+};
+```
 
 ### Declaration Nodes
 
@@ -90,110 +189,6 @@ public:
             int line, int col);
 
     // Accessors and accept()
-};
-```
-
-### Expression Nodes
-
-#### Control Nodes
-
-Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops] [@eiffelgraceexample].
-
-##### Conditional Nodes
-
-These nodes form the basis of control flow, and are what makes the foundation of the language. This class includes the IfThen and IfThenElse node definitions:
-
-```c++
-class IfThenElse : public Statement {
-
-    ExpressionPtr _condition;
-    std::vector<StatementPtr> _then;
-    std::vector<StatementPtr> _else;
-
-public:
-
-    IfThenElse(
-            ExpressionPtr condition,
-            std::vector<StatementPtr> thenExp,
-            std::vector<StatementPtr> elseExp,
-            int line, int col);
-
-    // Accessors and accept()
-};
-```
-
-Both nodes have a similar structure, with an expression node as the condition, and blocks of statements to be executed if the condition is met. 
-
-// TODO: Move to evaluation
-
-When evaluating a conditional node, the condition node is evaluated first. Then, if the condition returns `true`, the `then` statements are evaluated. If it is not met, the `else` statements will be evaluated if there are any (IfThenElse nodes), otherwise nothing will be done (IfThen nodes).
-
-#### Loop Nodes
-
-Loop nodes are the nodes used to execute an action repeated times. In this case, only one node type is necessary, the While node.
-
-```c++
-class While : public Statement {
-
-    ExpressionPtr _condition;
-    std::vector<StatementPtr> _body;
-
-public:
-    While(
-    	ExpressionPtr condition, 
-    	const std::vector<StatementPtr> &body, 
-    	int line, int col);
-
-    // Accessors and accept()
-};
-```
-
-While loops accept a boolean expression as a condition and a list of statements as a body. 
-
-#### Return Nodes
-
-Return is the most basic control structure, and serves to express the desire of terminating the execution of the current method and optionally return a value from it. As such, the only information they hold is the value to be returned.
-
-```c++
-class Return : public Statement {
-
-	ExpressionPtr _value;
-
-public:
-
-	// Explicit value return
-    Return(
-    	ExpressionPtr value,
-    	int line, int col);
-
-    // Implicit value return
-    Return(int line, int col);
-
-    // Accessors and accept()
-};
-```
-
-### Assigment
-
-Assignments are a special case node. Since, as will be explained later, objects are maps from identifiers to other objects, the easiest way of performing an assignment is to modify the parent's scope. That is, to assign value A to field X of scope Y (`Y.X := A`) the easiest way is to modify Y so that the X identifier is now mapped to A. Note that a user might omit identifier Y (`X := A`), in which case the scope is implicitly set to `self` (the current scope). Therefore, writing `X := A` is syntactically equivalent to writing `self.X := A`.
-
-The ramifications of this decission are clear. A special case must be defined both in the parser and in the abstract syntax, to allow the retrieval of the field name and optionally the scope in which that field resides:
-
-```c++
-class Assignment : public Statement {
-public:
-  // Explicit scope constructor
-  Assignment(
-    const std::string &field,
-    ExpressionPtr scope,
-    ExpressionPtr value);
-
-  // Implicit scope constructor
-  Assignment(
-  	const std::string &field, 
-  	ExpressionPtr value);
-
-  // Accessors and accept()
 };
 ```
 

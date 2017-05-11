@@ -1,3 +1,5 @@
+\newpage
+
 Execution flow
 ------
 
@@ -7,10 +9,4 @@ At it's core, Naylang is designed to be an visitor-based interpreter [@visitorin
 
 The main evaluator in Naylang is `ExecutionEvaluator`, with `DebugEvaluator` extending the functionality by providing the necessary mechanisms for debugging. The implementation of the evaluation has been designed to be extensible and modular by default, which is described in [Modularity](Modularity).
 
-// TODO: Move to evaluation
-
-and it is in charge of traversing the tree and executing the program defined in it, to provide an output. It has several noteworthy parts:
-
-- **The scope** is what determines which fields and methods are accessible at a given time. It is a `GraceObject`, as will be discussed later, and the evaluator features several methods to modify it.
-- **The partial** is the means of communicating between function calls. Any objects created as a result of interpreting a node (e.g. a `GraceNumber` created by a `NumberLiteral` node) are placed here, to be cosumed by the caller method.
-
+// TODO: Add diagram
