@@ -29,6 +29,14 @@ Note that ANTLRv4 names the visitor methods `visit<RuleName>` by convention.
 For example, `visitBlock()` will be called when the `block` rule is matched in
 parsing.
 
+#### Parsing Strategy
+
+The strategy followed for parsing the source code was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an Assignment), the child nodes were visited and instatiated before constructing the parent node, as opposed as constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
+
+- It corresponds with a postorder traversal of the implicit parse tree, which is more akin to most traditional parsing algorithms.
+
+- As will be seen, it simplifies the design of AST nodes, since it eliminates the need to have mutation operators and transforms them into Data Objects [@dataobjectpattern]. 
+
 ### The Naylang Parser Stack
 
 During the AST construction process, information must be passed between parser
