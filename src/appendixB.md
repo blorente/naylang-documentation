@@ -1,11 +1,10 @@
-Appendix B: How was this document made?
+How was this document made?
 =======================================
 
 Author
 -------
-**Note:** the process described in this Appendix was devised by Álvaro
-Bermejo, who published it under the MIT license in 2017 [@persimmon].
-
+The process described in this Appendix was devised by Álvaro
+Bermejo, who published it under the MIT license in 2017 [@persimmon]. What follows is a verbatim copy of the original.
 
 Process
 -------
