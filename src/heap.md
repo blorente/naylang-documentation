@@ -52,6 +52,22 @@ The second change to integrate the Heap into the project is to have each evaluat
 
 // TODO: Add UML diagram
 
+Lastly, the GraceObject class needs to be extended to allow the retrieval of all the fields to ease traversal, and to include a `visited` flag so that the algorithm knows which objects to delete.
+
+```c++
+class GraceObject {
+protected:
+    std::map<std::string, MethodPtr> _nativeMethods;
+    // ...
+
+public:
+    bool _visited;
+  	// ...
+
+  	std::vector<GraceObjectPtr> fields();
+};
+```
+
 ### Garbage Collection Algorithm
 
 In order to implement garbage collection in the Heap, an appropriate algorithm had to be selected from the myriad of options available. When reviewing the different possibilities, the focus was set on finding the simplest algorithm that could manage memory without memory leaks. This criteria was informed by the desire of making Naylang a learning exercise, and not a commercial-grade interpreter. As a result, the **Mark and Sweep** garbage collection algorithm was selected [@markandsweep], since it is the most straightforward to implement.
@@ -64,4 +80,86 @@ Note that the Heap is implemented in such a way that the garbage-collection func
 
 ### Implementation
 
-//TODO: DO
+The internal design of the Heap class is vital to ensure that the objects are stored in an efficient manner, and that the garbage collection itself does not hinder the capabilities of the evaluator too greatly. 
+
+#### Object storage
+
+The requirements for object storage in the Heap must be taken into consideration when selecting a data structure for object storage. 
+
+Of course, all objects must be **accessible at any point** in the execution, but this is accomplished with pointers returned at object creation and not by looking up in the Heap storage itself. Therefore, a structure with the possibility for fast lookup (such as an `std::map` [@stdmap]) is not necessary. Furthermore, it can be said that the **insertion order is not important**.
+
+The mark and sweep algorithm needs to **traverse** the stored objects at least twice every time the garbage collection is triggered: Once to mark every object as not visited, and another time after the marking to check whether or not it is still accesible. Therefore, the storage must allow the possibility of traversal, but it does not need to be extremely efficient since a relatively small number of passes need to be made.
+
+Lastly, the storage must allow to **delete elements at arbitrary locations**, since at any point any object can go out of scope and will need to be removed when the collector triggers. This is perhaps the most performance-intensive requirement, since several object deletions can be necessary for each pass.
+
+The two first requirements make it clear that a linear storage (array, vector or linked list) is needed, and the last requirement pushes the decision strongly in favor of a linked list. Luckily, C++ already has an implementation of a doubly-linked list [@stdlist], which the Heap will be using.
+
+With the container selected, the only remaining thing is to establish which of C++'s mechanisms will be used to hold the object's lifespan. The concept of _memory ownsership_ was introduced in a previous section, and it was established that the Heap is responsible for _owning_ the memory of all runtime objects [@memoryownership]. In modern C++, memory ownership is expressed by means of a _unique pointer_, that is, a smart pointer that has exactly one reference. The object that holds that reference then is responsible for keeping the memory of the referenced object. When the container object goes out of scope or is destroyed, the destructor for the contained object is immediately called, liberating the memory [@stdunique_ptr]. In the case of Naylang, this menas that the object will be destroyed either when it is extracted from the list, or when the list itself is destroyed.
+
+With this information, the Heap storage can be designed as a **linked list** of _cells_, wherein each _cell_ is a `unique_ptr` to an instance of one of the subclasses of `GraceObject`.
+
+// TODO: Include diagram
+
+#### Mark and Sweep algorithm
+
+The implementation of the algorithm itself is rather straightforward, since it is nothing more complicated than performing several traversals in the object storage:
+
+```c++
+void Heap::markAndSweep() {
+	for (auto obj : _storage) {
+		obj->_visited = false;
+	}
+
+	auto scope = _eval->currentScope();
+	scope->_visited = true;
+	visit(scope);
+
+	int index = 0;
+	std::vector<int> toDelete;
+	for (auto obj : _storage) {		
+		if (!obj->_visited) {
+			toDelete.push_back(index);
+		}
+		index++;
+	}
+
+	for (auto ndx : toDelete) {
+		_storage.erase(ndx);
+	}
+}
+
+void Heap::visit(GraceObject* scope) {
+	for (auto field : scope->fields()) {
+		field->_visited = true;
+		visit(field);
+	}
+}
+```
+
+#### Memory capacity and GC triggers
+
+Ideally, the garbage-collection mechanism would be transparent to the evaluator, meaning that no explicit calls to the collection algorithm should be done from the evaluation engine. Rather, it is the Heap itself who must determine when to trigger the GC algorithm. To this end, the Heap is initialized with three values: 
+
+- An absolute capacity, which acts as a upper bound for the storage available. When the number of objects contained in the Heap reaches this value, any subsequent attempts to create objects will result in an error.
+
+- A trigger threshold, which indicates the Heap when it needs to start triggering the garbage collection algorithm. When this number of stored objects is surpassed, the Heap will start triggering the garbage collection algorithm with every interval.
+
+- The object creation interval. This value indicates how often garbage collection has to trigger once the threshold has been hit. For instance, if this value is ten the garbage collection will trigger every tenth object inserted, if the threshold has been hit.
+
+Therefore, this would be the code relevant to triggering the garbage collection:
+
+```c++
+void Heap::triggerIfNeeded() {
+	if (_totalObjects >= _maxCapacity) {
+		throw std::string{"Out of Memory"};
+	}
+
+	if (_nthObject == _interval) {
+		if (_totalObjects >= _threshold) {
+			markAndSweep();
+		}
+	}
+}
+```
+
+Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap.
