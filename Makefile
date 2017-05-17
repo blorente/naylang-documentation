@@ -26,17 +26,17 @@ TEMPLATE := template.tex  # LaTeX template for producing PDF
 MARKDOWN := $(addprefix src/, $(MARKDOWN))
 APPENDICES := $(addprefix src/, $(APPENDICES))
 
-#GRAPHS := $(wildcard graphs/*.tex)  # Latex diagrams
-#IMAGES := $(wildcard images/*.png)  # .png images
+GRAPHS := $(wildcard graphs/*.tex)  # Latex diagrams
+IMAGES := $(wildcard images/*.png)  # .png images
 # Generated PDF Images
-#IMAGES += $(addprefix images/, $(notdir $(GRAPHS:.tex=.pdf)))
+IMAGES += $(addprefix images/, $(notdir $(GRAPHS:.tex=.pdf)))
 
 # Intermediate tex files required for appending after bibliography
 APPENDIX := appendix.tex
 
 all: $(PDF)
 
-$(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
+$(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
 	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
 		--csl $(CSL) --table-of-contents \
 		--top-level-division chapter --highlight-style haddock \
