@@ -1,0 +1,45 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}
+  \begin{tikzpicture}  
+    \begin{umlpackage}[x=0, y=0]{src/core/model/ast}
+      \umlclass[x=-1, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int}{}
+      \umlclass[x=1, y=0]{GraceAST} {nodes : std::vector<StatementPtr>}{}
+      \begin{umlpackage}{expressions}
+        \umlclass{Expression} {}{}
+        \umlclass{ObjectConstructor} {\_statements : std::vector<StatementPtr>}{}
+        \begin{umlpackage}{primitives}
+          \umlclass{NumberLiteral} {\_value : double} {value() : double}
+          \umlclass{StringLiteral} {\_value : string} {value() : const string \&}
+          \umlemptyclass{more}
+        \end{umlpackage}{primitives}
+        \begin{umlpackage}{requests}
+          \umlclass{RequestNode}
+            {\_name : string \\ \_params : std::vector<ExpressionPtr>}
+            {identifier() const : const string \& \\ params() const : const std::vector<ExpressionPtr> \&}
+          \umlemptyclass{ImplicitRequestNode}
+          \umlclass{ExplicitRequestNode} {\_receiver : ExpressionPtr} {receiver() const : const ExpressionPtr \&}
+        \end{umlpackage}{requests}
+      \end{umlpackage}{expressions}
+      \begin{umlpackage}{declarations}
+        \umlclass{Declaration}{}{\umlvirt{virtual name() const : const string \&}}
+      	\umlclass{MethodDeclaration}{\_name :string \\ \_params : std::vector<DeclarationPtr> \\ \_body : std::vector<StatementPtr>}{}
+      	\umlclass{ConstantDeclaration}
+      	  {\_name : string \\ \_value : ExpressionPtr}
+      	  {name() const : const string \& \\ value() const : ExpressionPtr}
+      \end{umlpackage}{declarations}
+      \begin{umlpackage}{control}
+        \umlclass{Assignment}
+          {\_field : string \\ \_scope : ExpressionPtr \\ \_value : ExpressionPtr}
+          {field() const : const string \& \\ scope() const : const ExpressionPtr \& \\ value() const :const ExpressionPtr \&}
+        \umlclass{IfThen}
+          {\_condition : ExpressionPtr \\ \_then : std::vector<StatementPtr>}
+          {condition() const : ExpressionPtr \\ thenPart() const :  const std::vector<StatementPtr> \&}
+        \umlemptyclass{more}
+      \end{umlpackage}
+    \end{umlpackage}
+  \end{tikzpicture}
+\end{document}

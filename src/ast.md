@@ -13,8 +13,7 @@ design decisions in the execution model required changes in the AST
 representation, and vice versa. The following diagram represents the current
 class hierarchy:
 
-// TODO: add class diagram
-[]
+![Abstract Syntax Tree class hierarchy](images/ast_high_level.pdf)
 
 The design of the abstract syntax representation hierarchy is subject to change as new features are implemented
 in the interpreter.
