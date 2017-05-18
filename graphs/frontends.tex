@@ -1,0 +1,107 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}
+% -------------------------
+% Control
+% -------------------------
+
+\begin{umlpackage}[x=8, y=0]{Control}
+ \umlsimpleclass[x=2, y=0]{Interpreter}
+ \umlsimpleclass[x=4.5, y=-1]{Debugger}
+ \umlsimpleclass[x=0, y=-1]{REPLInterpreter}
+ \umlclass[x=0, y=-3]{ConsoleFrontend}{}{
+ 	run() : void \\
+    promptAndRun() : void \\
+    handleMetaCommand(name : string \&, body : string \&) : bool 
+ }     
+ \umlclass[x=11, y=-3.25]{ConsoleExecutionMode}{}{
+ 	\umlvirt{prompt() = 0 : void} \\
+    \umlvirt{runCommand(name : string \&, body : string \&) = 0 : void} \\
+    \umlvirt{getNextCommand() : FrontendCommand} \\
+    \umlvirt{executeNextCommand() : void}
+ }
+ \umlclass[x=11, y=-7]{DebugMode}{}{ 
+    runCommand(name : string \&, body : string \&) override : void \\
+    prompt() override : void 
+ }
+ \umlclass[x=11, y=-10]{DebugCommand}{}{
+ 	\umlvirt{execute(debugger : Debugger \&) = 0 : void}
+ }
+ \umlclass[x=0, y=-7]{REPLMode}{}{ 
+    runCommand(name : string \&, body : string \&) override : void \\
+    prompt() override : void 
+ }
+ \umlclass[x=0, y=-10]{REPLCommand}{}{
+ 	\umlvirt{execute(interp : REPLInterpreter \&) = 0 : void}
+ }
+
+ \umlclass[x=0, y=-12]{LoadCommand}{}{
+ 	execute(interp : REPLInterpreter \&) override : void
+ }
+ \umlclass[x=0, y=-14]{ExecCommand}{}{
+ 	execute(interp : REPLInterpreter \&) override : void
+ }
+ \umlclass[x=0, y=-16]{PrintCommand}{}{
+ 	execute(interp : REPLInterpreter \&) override : void
+ }
+
+ \umlclass[x=11, y=-12]{DebugRun}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-14]{DebugBreak}{
+ 	line : int
+ }{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-16]{DebugPrintEnv}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-18]{DebugPrintExp}{
+ 	code : string
+ }{
+ 	execute(debugger : Debugger \&) override : void
+ }
+  \umlclass[x=11, y=-20]{DebugContinue}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-22]{DebugInvalid}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-24]{DebugStepIn}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+ \umlclass[x=11, y=-26]{DebugStepOver}{}{
+ 	execute(debugger : Debugger \&) override : void
+ }
+\end{umlpackage}
+
+% Inheritances
+
+\umlinherit[geometry=|-]{Debugger}{Interpreter}
+\umlinherit[geometry=|-]{REPLInterpreter}{Interpreter}
+\umlinherit[geometry=-|-]{DebugMode}{ConsoleExecutionMode}  
+\umlinherit[geometry=--]{REPLMode}{ConsoleExecutionMode}
+
+\umlinherit[geometry=--]{LoadCommand}{REPLCommand}
+\umlinherit[geometry=--]{ExecCommand}{REPLCommand}
+\umlinherit[geometry=--]{PrintCommand}{REPLCommand}
+
+\umlinherit[geometry=-|-]{DebugRun}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugBreak}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugPrintEnv}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugPrintExp}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugContinue}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugInvalid}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugStepIn}{DebugCommand}
+\umlinherit[geometry=-|-]{DebugStepOver}{DebugCommand}
+
+\umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {ConsoleFrontend}{ConsoleExecutionMode}
+\umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {REPLMode}{REPLCommand}
+\umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {DebugMode}{DebugCommand}
+
+\end{tikzpicture}
+\end{document}
