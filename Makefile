@@ -55,7 +55,7 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(M
 
 # For standalone images
 images/%.pdf: graphs/%.tex
-	xelatex $< #> /dev/null
+	xelatex $< > /dev/null
 	@mv $*.pdf images/
 	@rm -f $*.log $*.aux
 

@@ -1,0 +1,21 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\begin{document}
+  \begin{tikzpicture}
+  	\draw  (-5.5,4) rectangle (5.5,-5.5);
+	\draw  (6,4) rectangle (10.5,-5.5);
+	\node at (8, 2) {VariableDeclaration} [grow'=down]
+		child {node {val}
+			child {node {NumberLiteral}
+				child{node{\_val}
+					child{node{"5"}}
+				}
+			}
+		}
+		child {node {\_id}
+			child {node {"x"}}		
+	};
+\end{tikzpicture}
+\end{document}

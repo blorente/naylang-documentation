@@ -23,9 +23,17 @@ The following sections explain different variations in the pattern, and provide 
 
 The most straightforward way to implement a Modular Visitor is to directly subclass the class that needs to be extended. This way, the old class can be replaced with the new subclass in the parts of the system that need that functionality with minimal influence in the rest of the codebase. 
 
-// TODO: Add class diagram
+By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods.
 
-By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods. 
+Figure //TODO demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
+
+```
+proc createExtensioVisitor() {
+	return new ExtensionVisitor();
+}
+```
+
+![Direct Subclass Modular Visitor Pattern](images/mod_direct.pdf)
 
 #### Example
 
@@ -64,9 +72,18 @@ As a way of solving the rigidity issues posed by the previous version of the pat
 
 In this technique, what previously was a subclass of the extended class is now at the same level in the class hierarchy. Instead of calling the superclass to access the implementation of the main visitor, the extender class _holds a reference_ to the main class and uses it to call the desired evaluation methods.
 
-// TODO: Add class diagram
-
 Obviously, since the main visitor is not being extended anymore, **all of the methods** it implements will have to be overriden from the extender class to include _at least_ calls to the main evaluator.
+
+Figure //TODO demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+
+```
+proc createExtensioVisitor() {
+	super := new MainVisitor();
+	return new ExtensionVisitor(super);
+}
+```
+
+![Composite Modular Visitor Patern](images/mod_composite.pdf)
 
 #### Example
 
@@ -122,7 +139,16 @@ This final version of the Modular Visitor Pattern tries to solve some of the iss
 
 One way to accomplish these goals is to define an intermediate layer of inheritance in the class hierarchy such that all the default calls to the main visitor are implemented in a superclass, and only the relevant functionality is implemented in a subclass. Roughly speaking, it consists on **grouping together** extensions that need to interject the execution at similar times, and **moving all the non-specific code to a superclass**. This way, it is the superclass that has the responsibility of handling the main evaluator instance.
 
-// TODO: Add class diagram
+Figure //TODO demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+
+```
+proc createExtensioVisitor() {
+	super := new MainVisitor();
+	return new ExtensionVisitorA(super);
+}
+```
+
+![Wrapper Superclass Modular Pattern](images/mod_group.tex)
 
 #### Example
 

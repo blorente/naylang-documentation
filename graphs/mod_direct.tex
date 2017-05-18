@@ -1,0 +1,29 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}
+
+\umlclass[x=0, y=0]{AbstractVisitor}{}{
+	\umlvirt{visit(n : A) : void} \\
+	\umlvirt{visit(n : B) : void} \\
+	\umlvirt{visit(n : C) : void}
+}
+
+\umlclass[x=0, y=-3]{MainVisitor}{}{
+	\umlvirt{visit(n : A) override : void} \\
+	\umlvirt{visit(n : B) override : void} \\
+	\umlvirt{visit(n : C) override : void}
+}
+
+\umlclass[x=5.5, y=-3]{ExtensionVisitor}{}{
+	\umlvirt{visit(n : A) override : void}
+}
+
+\umlinherit[geometry=-|]{MainVisitor}{AbstractVisitor}
+\umlinherit[geometry=--]{ExtensionVisitor}{MainVisitor}
+
+\end{tikzpicture}
+\end{document}
