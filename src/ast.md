@@ -40,6 +40,10 @@ information.
 
 Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops] [@eiffelgraceexample].
 
+Figure //TODO shows the class definitions of the existing control nodes
+
+![Control nodes in Naylang](images/ast_control.pdf)
+
 ##### Conditional Nodes
 
 These nodes form the basis of control flow, and are what makes the foundation of the language. This class includes the IfThen and IfThenElse node definitions:
@@ -141,6 +145,9 @@ value to an identifier. Therefore, all nodes must have a way of retrieving their
 names so that the fields can be created in the corresponding objects. We must
 distinguish between two types of declarations: __Field Declarations__, and __Method Declarations__.
 
+Figure //TODO shows the class structure for declarations in Naylang
+
+![Declarations in Naylang](images/ast_definitions.pdf)
 
 #### Field Declarations
 
@@ -148,12 +155,9 @@ Field declarations represent the intent of mapping an identifier to a value in t
 
 ```c++
 class VariableDeclaration : public Declaration {
-
     std::string _identifier;
     ExpressionPtr _initialValue;
-
 public:
-
     VariableDeclaration(
     	const std::string &identifier,
     	ExpressionPtr intialValue,
@@ -162,7 +166,6 @@ public:
     VariableDeclaration(
     	const std::string &identifier,
     	int line, int col);
-
     // Accessors and accept()
 };
 ```
@@ -175,18 +178,15 @@ Method declarations represent a subroutine inside a grace Object. While their ev
 
 ```c++
 class MethodDeclaration : public Declaration {
-
     std::string _name;
     std::vector<DeclarationPtr> _params;
     std::vector<StatementPtr> _body;
-
 public:
     MethodDeclaration(
             const std::string &name,
             const std::vector<DeclarationPtr> &params,
             const std::vector<StatementPtr> &body,
             int line, int col);
-
     // Accessors and accept()
 };
 ```
@@ -204,20 +204,18 @@ Primitives are the expressions that, when evaluated, must return objects in the 
 
 ```c++
 class StringLiteral : public Expression {
-
     std::string _value;
-
 public:
-
     StringLiteral(
     	const std::string &value, 
     	int line, int col);
-
     // Accessors and accept()
 };
 ```
 
-The list of primitives includes: NumberLiteral, StringLiteral, BooleanLiteral and Lineup.
+Figure //TODO shows a diagram of the current primitive expressions in Naylang
+
+![Primitive expressions in Naylang](images/ast_primitives.pdf)
 
 #### Requests
 
@@ -233,9 +231,7 @@ class RequestNode : public Expression {
 protected:
     std::string _name;
     std::vector<ExpressionPtr> _params;
-
 public:
-
 	// Request with parameters
     RequestNode(
     	const std::string &methodName, 
@@ -246,7 +242,6 @@ public:
     RequestNode(
     	const std::string &methodName, 
     	int line, int col);
-
    	// Accessors and accept()
 };
 ```
@@ -265,7 +260,6 @@ class ImplicitRequestNode : public RequestNode {
 
 public:
 	// Constructors inherited from superclass
-
     ImplicitRequestNode(
     	const std::string &methodName, 
     	const std::vector<ExpressionPtr> &params, 
@@ -321,6 +315,10 @@ add(4)to(3);    // IR("add(_)to(_)", {4, 3})
 
 Note that, even in the case of an expression not returning anything, it will
 always return the special object `Done` by default.
+
+Figure //TODO shows a diagram of the current requests in Naylang
+
+![Requests in Naylang](images/ast_requests.pdf)
 
 #### ObjectConstructor Nodes
 

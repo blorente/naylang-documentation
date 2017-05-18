@@ -1,0 +1,63 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}  
+  \def\len{1cm}
+  \begin{tikzpicture}
+    \begin{umlpackage}{src/core/model/ast}
+      \umlclass[x=-1, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int}{}
+      \umlclass[x=7, y=0]{GraceAST} {nodes : vector<StatementPtr>}{}
+      \begin{umlpackage}[y=-4]{expressions}
+        \umlsimpleclass{Expression}
+        \umlsimpleclass{ObjectConstructor}[y=-3] {statements : vector<StatementPtr>}{}
+        \begin{umlpackage}[x=4]{primitives}
+          \umlclass{NumberLiteral} {value : double} {value() : double}
+          \umlclass{StringLiteral} {value : string} {value() : const string \&}
+          \umlemptyclass{other-primitives}
+        \end{umlpackage}{primitives}
+        \begin{umlpackage}[x=8]{requests}
+          \umlclass{RequestNode}
+            {name : string \\ params : vector<ExpressionPtr>}
+            {identifier() const : const string \& \\ params() const : const vector<ExpressionPtr> \&}
+          \umlemptyclass{ImplicitRequestNode}
+          \umlclass{ExplicitRequestNode} {receiver : ExpressionPtr} {receiver() const : const ExpressionPtr \&}
+        \end{umlpackage}{requests}
+      \end{umlpackage}{expressions}
+      \begin{umlpackage}[y=-8]{declarations}
+        \umlclass{Declaration}{}{\umlvirt{virtual name() const : const string \&}}
+        \umlclass{MethodDeclaration}{name :string \\ params : vector<DeclarationPtr> \\ body : vector<StatementPtr>}{}
+        \umlclass{ConstantDeclaration}
+          {name : string \\ value : ExpressionPtr}
+          {name() const : const string \& \\ value() const : ExpressionPtr}
+      \end{umlpackage}{declarations}
+      \begin{umlpackage}[y=-12]{control}
+        \umlclass{Assignment}
+          {field : string \\ scope : ExpressionPtr \\ value : ExpressionPtr}
+          {field() const : const string \& \\ scope() const : const ExpressionPtr \& \\ value() const :const ExpressionPtr \&}
+        \umlclass{IfThen}
+          {condition : ExpressionPtr \\ then : vector<StatementPtr>}
+          {condition() const : ExpressionPtr \\ thenPart() const :  const vector<StatementPtr> \&}
+        \umlemptyclass{other-control-structures}
+      \end{umlpackage}
+    \end{umlpackage}
+
+    % Inheritances
+    \umlinherit[geometry=-|]{Expression}{Statement}
+    \umlinherit[geometry=-|]{RequestNode}{Expression}
+    \umlinherit[geometry=-|]{ImplicitRequestNode}{RequestNode}
+    \umlinherit[geometry=-|]{ExplicitRequestNode}{RequestNode}
+    \umlinherit[geometry=-|]{NumberLiteral}{Expression}
+    \umlinherit[geometry=-|]{StringLiteral}{Expression}
+    \umlinherit[geometry=-|]{other-primitives}{Expression}
+    \umlinherit[geometry=-|]{ObjectConstructor}{Expression}
+    \umlinherit[geometry=-|]{Declaration}{Statement}
+    \umlinherit[geometry=-|]{ConstantDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{MethodDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{Assignment}{Statement}
+    \umlinherit[geometry=-|]{IfThen}{Statement}
+    \umlinherit[geometry=-|]{other-control-structures}{Statement}
+
+  \end{tikzpicture}
+\end{document}

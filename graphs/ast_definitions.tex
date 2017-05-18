@@ -1,0 +1,30 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}  
+  \def\len{1cm}
+  \begin{tikzpicture}
+    \begin{umlpackage}{src/core/model/ast}
+      \umlsimpleclass[x=-1, y=0]{Statement}
+      \begin{umlpackage}[y=-3]{declarations}
+        \umlclass[x=0, y=0]{Declaration}{}{\umlvirt{virtual name() const : const string \&}}
+        \umlclass[x=-4, y=-2.5]{MethodDeclaration}{name :string \\ params : vector(DeclarationPtr) \\ body : vector(StatementPtr)}{}
+        \umlclass[x=4, y=-2.5]{ConstantDeclaration}
+          {name : string \\ value : ExpressionPtr}
+          {name() const : const string \& \\ value() const : ExpressionPtr}
+        \umlclass[x=0, y=-5.5]{VariableDeclaration}
+          {name : string \\ value : ExpressionPtr}
+          {name() const : const string \& \\ value() const : ExpressionPtr}
+      \end{umlpackage}{declarations}
+    \end{umlpackage}{ast}    
+
+    % Inheritances
+    \umlinherit[geometry=-|]{Declaration}{Statement}
+    \umlinherit[geometry=-|]{ConstantDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{VariableDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{MethodDeclaration}{Declaration}
+
+  \end{tikzpicture}
+\end{document}

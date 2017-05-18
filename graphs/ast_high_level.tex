@@ -3,43 +3,64 @@
 \usepackage{tikz-uml}
 \usetikzlibrary{positioning}
 
-\begin{document}
-  \begin{tikzpicture}  
-    \begin{umlpackage}[x=0, y=0]{src/core/model/ast}
-      \umlclass[x=-1, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int}{}
-      \umlclass[x=1, y=0]{GraceAST} {nodes : std::vector<StatementPtr>}{}
-      \begin{umlpackage}{expressions}
-        \umlclass{Expression} {}{}
-        \umlclass{ObjectConstructor} {\_statements : std::vector<StatementPtr>}{}
-        \begin{umlpackage}{primitives}
-          \umlclass{NumberLiteral} {\_value : double} {value() : double}
-          \umlclass{StringLiteral} {\_value : string} {value() : const string \&}
-          \umlemptyclass{more}
+\begin{document}  
+  \def\len{1cm}
+  \begin{tikzpicture}
+    \begin{umlpackage}{src/core/model/ast}
+      \umlsimpleclass[x=0, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int \\ \umlvirt{accept(eval : Evaluator \&) : void}}
+      \umlsimpleclass[x=5, y=0]{GraceAST} {nodes : vector<StatementPtr>}{}
+      \begin{umlpackage}[y=-4, x=8]{expressions}
+        \umlsimpleclass[x=-4,y=2]{Expression}
+        \umlsimpleclass[y=-2.5, x=0]{ObjectConstructor}
+        \umlsimpleclass[y=-3.5, x=0]{Block}
+        \begin{umlpackage}[x=0, y=-5.5]{primitives}
+          \umlsimpleclass[y=0]{NumberLiteral}
+          \umlsimpleclass[y=-1]{StringLiteral}
+          \umlsimpleclass[y=-2]{BooleanLiteral}
+          \umlsimpleclass[y=-3]{Lineup}
         \end{umlpackage}{primitives}
-        \begin{umlpackage}{requests}
-          \umlclass{RequestNode}
-            {\_name : string \\ \_params : std::vector<ExpressionPtr>}
-            {identifier() const : const string \& \\ params() const : const std::vector<ExpressionPtr> \&}
-          \umlemptyclass{ImplicitRequestNode}
-          \umlclass{ExplicitRequestNode} {\_receiver : ExpressionPtr} {receiver() const : const ExpressionPtr \&}
+        \begin{umlpackage}[x=3.5, y=0]{requests}
+          \umlsimpleclass[x=-4]{RequestNode}
+          \umlsimpleclass[x=-1.5, y=-1]{ImplicitRequestNode}
+          \umlsimpleclass[x=-1.5, y=1]{ExplicitRequestNode}
         \end{umlpackage}{requests}
       \end{umlpackage}{expressions}
-      \begin{umlpackage}{declarations}
-        \umlclass{Declaration}{}{\umlvirt{virtual name() const : const string \&}}
-      	\umlclass{MethodDeclaration}{\_name :string \\ \_params : std::vector<DeclarationPtr> \\ \_body : std::vector<StatementPtr>}{}
-      	\umlclass{ConstantDeclaration}
-      	  {\_name : string \\ \_value : ExpressionPtr}
-      	  {name() const : const string \& \\ value() const : ExpressionPtr}
+      \begin{umlpackage}[y=-9]{declarations}
+        \umlsimpleclass[x=0,y=0]{Declaration}
+      	\umlsimpleclass[x=-2.5,y=-1]{MethodDeclaration}
+      	\umlsimpleclass[x=-2.5,y=-2]{ConstantDeclaration}
+      	\umlsimpleclass[x=0,y=-3]{VariableDeclaration}
       \end{umlpackage}{declarations}
-      \begin{umlpackage}{control}
-        \umlclass{Assignment}
-          {\_field : string \\ \_scope : ExpressionPtr \\ \_value : ExpressionPtr}
-          {field() const : const string \& \\ scope() const : const ExpressionPtr \& \\ value() const :const ExpressionPtr \&}
-        \umlclass{IfThen}
-          {\_condition : ExpressionPtr \\ \_then : std::vector<StatementPtr>}
-          {condition() const : ExpressionPtr \\ thenPart() const :  const std::vector<StatementPtr> \&}
-        \umlemptyclass{more}
+      \begin{umlpackage}[x=-3,y=-1]{control}
+        \umlsimpleclass[x=0,y=-2]{Assignment}
+        \umlsimpleclass[x=0,y=-3]{IfThen}
+        \umlsimpleclass[x=0,y=-4]{IfThenElse}
+        \umlsimpleclass[x=0,y=-5]{While}
+        \umlsimpleclass[x=0,y=-6]{Return}
       \end{umlpackage}
     \end{umlpackage}
+
+    % Inheritances
+    \umlinherit[geometry=-|]{Expression}{Statement}
+    \umlinherit[geometry=-|]{RequestNode}{Expression}
+    \umlinherit[geometry=-|]{ImplicitRequestNode}{RequestNode}
+    \umlinherit[geometry=-|]{ExplicitRequestNode}{RequestNode}
+    \umlinherit[geometry=-|]{NumberLiteral}{Expression}
+    \umlinherit[geometry=-|]{StringLiteral}{Expression}
+    \umlinherit[geometry=-|]{BooleanLiteral}{Expression}
+    \umlinherit[geometry=-|]{Lineup}{Expression}
+    \umlinherit[geometry=-|]{ObjectConstructor}{Expression}
+    \umlinherit[geometry=-|]{Block}{Expression}
+    \umlinherit[geometry=-|]{Declaration}{Statement}
+    \umlinherit[geometry=-|]{ConstantDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{VariableDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{MethodDeclaration}{Declaration}
+    \umlinherit[geometry=-|]{Assignment}{Statement}
+    \umlinherit[geometry=-|]{IfThen}{Statement}
+    \umlinherit[geometry=-|]{IfThenElse}{Statement}
+    \umlinherit[geometry=-|]{While}{Statement}
+    \umlinherit[geometry=-|]{Return}{Statement}
+
   \end{tikzpicture}
 \end{document}
+\grid

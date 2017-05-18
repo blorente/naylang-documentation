@@ -1,0 +1,30 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document}  
+  \def\len{1cm}
+  \begin{tikzpicture}
+    \begin{umlpackage}{src/core/model/ast}
+      \umlsimpleclass[x=-5,y=0]{Statement}
+      \begin{umlpackage}[x=0,y=-3]{expressions}
+        \umlsimpleclass[x=-5,y=1.5]{Expression}
+        \begin{umlpackage}[x=-7, y=-1]{requests}
+          \umlclass[x=2, y=0]{RequestNode}
+            {name : string \\ params : vector<ExpressionPtr>}
+            {identifier() const : const string \& \\ params() const : const vector<ExpressionPtr> \&}
+          \umlemptyclass[x=-1, y=-3]{ImplicitRequestNode}
+          \umlclass[x=6, y=0-3]{ExplicitRequestNode} {receiver : ExpressionPtr} {receiver() const : const ExpressionPtr \&}
+        \end{umlpackage}{requests}
+      \end{umlpackage}{expressions}      
+    \end{umlpackage}
+
+    % Inheritances
+    \umlinherit[geometry=-|]{Expression}{Statement}
+    \umlinherit[geometry=-|]{RequestNode}{Expression}
+    \umlinherit[geometry=-|]{ImplicitRequestNode}{RequestNode}
+    \umlinherit[geometry=-|]{ExplicitRequestNode}{RequestNode}
+
+  \end{tikzpicture}
+\end{document}
