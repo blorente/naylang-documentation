@@ -46,4 +46,4 @@ ndb> skip (sk)
 
 Figure //TODO displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent what can be done with such structure.
 
-![Frontends And Controllers](images/fronteds.pdf) 
+![Frontends And Controllers](images/frontends.pdf) 

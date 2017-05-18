@@ -11,7 +11,7 @@ The main evaluator in Naylang is `ExecutionEvaluator`, with `DebugEvaluator` ext
 
 Figure //TODO presents an example AST, whose evaluation stack trace is presented below:
 
-![Example AST for execution flow](images/eval_flow.tex)
+![Example AST for execution flow](images/eval_flow.pdf)
 
 ```c++
 ExecutionEvaluator::evaluate(const GraceAST &ast)

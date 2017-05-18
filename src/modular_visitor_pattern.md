@@ -15,13 +15,13 @@ This pattern takes advantage of the very structure of Visitor-based interpreters
 
 However, the key to this technique is to take advantage of those intervention points and the extra control over the execution flow and insert arbitrary code at those points. This code pieces could potentially do anything, from pausing the normal evaluation flow (e.g. in a debugger) to modifying the AST itself, allowing for any new feature to be developed.
 
-This pattern is most comfortably used with classes that implement the same methods as the original class, since that will provide with a common and seamless interface with the rest of the system. 
+This pattern is most comfortably used with classes that implement the same methods as the original class, since that will provide with a common and seamless interface with the rest of the system.
 
 The following sections explain different variations in the pattern, and provide examples based on how Naylang would implement the debugging mechanism with each of the variations.
 
 ### Direct Subclass Modularity
 
-The most straightforward way to implement a Modular Visitor is to directly subclass the class that needs to be extended. This way, the old class can be replaced with the new subclass in the parts of the system that need that functionality with minimal influence in the rest of the codebase. 
+The most straightforward way to implement a Modular Visitor is to directly subclass the class that needs to be extended. This way, the old class can be replaced with the new subclass in the parts of the system that need that functionality with minimal influence in the rest of the codebase.
 
 By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods.
 
@@ -49,7 +49,7 @@ class DebugEvaluator : public ExecutionEvaluator {
 
 public:
 	// Override the desired function
-	virtual evaluate(VariableDeclaration &expression) override;	
+	virtual evaluate(VariableDeclaration &expression) override;
 }
 
 void DebugEvaluator::evaluate(VariableDeclaration &expression) {
@@ -68,7 +68,7 @@ This version of the pattern is the most straightforward to implement, and has mi
 
 ### Composite Modularity
 
-As a way of solving the rigidity issues posed by the previous version of the pattern, this second version transforms the pattern to use _composition instead of inheritance_, as it is usually preferred by the industry [@compositionoverinheritance]. 
+As a way of solving the rigidity issues posed by the previous version of the pattern, this second version transforms the pattern to use _composition instead of inheritance_, as it is usually preferred by the industry [@compositionoverinheritance].
 
 In this technique, what previously was a subclass of the extended class is now at the same level in the class hierarchy. Instead of calling the superclass to access the implementation of the main visitor, the extender class _holds a reference_ to the main class and uses it to call the desired evaluation methods.
 
@@ -101,8 +101,8 @@ public:
 	// Obtain a reference to the desired evaluator
 	DebugEvaluator(Evaluator *super);
 	// Override from Evaluator this time.
-	virtual evaluate(VariableDeclaration &expression) override;	
-	virtual evaluate(NumberLiteral &expression) override;	
+	virtual evaluate(VariableDeclaration &expression) override;
+	virtual evaluate(NumberLiteral &expression) override;
 	// ...
 }
 
@@ -124,7 +124,7 @@ void DebugEvaluator::evaluate(NumberLiteral &expression) {
 
 #### Discussion
 
-This method simplifies greatly the class hierarchy by moving the composition of visitors from the subclassing mechanism to runtime instantiation. However, this also means that the desired composition of visitors must be explicitly instantiated and passed to their respective constructors (e.g. via _factory methods_). 
+This method simplifies greatly the class hierarchy by moving the composition of visitors from the subclassing mechanism to runtime instantiation. However, this also means that the desired composition of visitors must be explicitly instantiated and passed to their respective constructors (e.g. via _factory methods_).
 
 This problem can be circunvented by having the extender class explicitly create the instances of the visitors it nedds directly into it's constructor. This can be a solution in some cases, but implementors must be aware of the tradeoff in flexibility that it poses, since then the extender is bound to have only one possible class to call.
 
@@ -148,7 +148,7 @@ proc createExtensioVisitor() {
 }
 ```
 
-![Wrapper Superclass Modular Pattern](images/mod_group.tex)
+![Wrapper Superclass Modular Pattern](images/mod_group.pdf)
 
 #### Example
 
@@ -161,7 +161,7 @@ protected:
 
 public:
 	BeforeAfterEvaluator(Evaluator *super);
-	
+
 	virtual evaluate(VariableDeclaration &expression) override {
 		_super->evaluate(expression);
 	}
@@ -182,7 +182,7 @@ public:
 	virtual void before();
 	virtual void after();
 
-	virtual evaluate(VariableDeclaration &expression) override;	
+	virtual evaluate(VariableDeclaration &expression) override;
 }
 
 void DebugEvaluator::evaluate(VariableDeclaration &expression) {
@@ -203,6 +203,6 @@ Applications
 
 This visitor design pattern has a myriad of applications. The main benefit is that it allows to practically extend the functionality of an intepreting engine without needing to change the previous processings. It permits to add both semantic power to the language (e.g. by creating a type checking extension, or an importing system) and extralinguistic tools (such as the debugging mechanism) with minimal risk to the existing processing core of the language.
 
-**Further investigation is necessary**, but this technique could lead to a way of **incrementally designing a language**, wherein a language implementation could grow incrementally and iteratively in parallel to it's design and specification, safely. It is not hard to imagine the benefits of having the most atomic parts of a language implemented first, and more visitor extensions are added as more complex features are introduced to the language. 
+**Further investigation is necessary**, but this technique could lead to a way of **incrementally designing a language**, wherein a language implementation could grow incrementally and iteratively in parallel to it's design and specification, safely. It is not hard to imagine the benefits of having the most atomic parts of a language implemented first, and more visitor extensions are added as more complex features are introduced to the language.
 
 This idea of a fully modular language has been developed in several academic works where the use of monads was suggested [@jlstesis]. This approach, when applied specifically to Visitor-based interpreters, allows similar levels of flexibility while maintaining the approachability that a design pattern requires.

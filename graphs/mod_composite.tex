@@ -18,14 +18,14 @@
 	\umlvirt{visit(n : C) override : void}
 }
 
-\umlclass[x=5.5, y=-3]{ExpandedVisitor}{}{
+\umlclass[x=5.5, y=-3]{ExtensionVisitor}{}{
 	\umlvirt{visit(n : A) override : void} \\
 	\umlvirt{visit(n : B) override : void} \\
 	\umlvirt{visit(n : C) override : void}
 }
 
 \umlinherit[geometry=-|]{MainVisitor}{AbstractVisitor}
-\umlinherit[geometry=--]{ExpandedVisitor}{AbstractVisitor}
+\umlinherit[geometry=--]{ExtensionVisitor}{AbstractVisitor}
 \umlunicompo[arg=super, align2=right, pos=0.8 , angle1=180 , angle2=18 , loopsize=2cm] {ExtensionVisitor}{MainVisitor}
 
 \end{tikzpicture}

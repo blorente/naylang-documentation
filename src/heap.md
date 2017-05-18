@@ -3,7 +3,7 @@
 Memory Management
 ------
 
-Grace is a garbage-collected language [@gracespecgarbagecollection], and therefore there must be some mechanism to automatically control memory consumption during the evaluation. 
+Grace is a garbage-collected language [@gracespecgarbagecollection], and therefore there must be some mechanism to automatically control memory consumption during the evaluation.
 
 ### Reference-counting
 
@@ -80,11 +80,11 @@ Note that the Heap is implemented in such a way that the garbage-collection func
 
 ### Implementation
 
-The internal design of the Heap class is vital to ensure that the objects are stored in an efficient manner, and that the garbage collection itself does not hinder the capabilities of the evaluator too greatly. 
+The internal design of the Heap class is vital to ensure that the objects are stored in an efficient manner, and that the garbage collection itself does not hinder the capabilities of the evaluator too greatly.
 
 #### Object storage
 
-The requirements for object storage in the Heap must be taken into consideration when selecting a data structure for object storage. 
+The requirements for object storage in the Heap must be taken into consideration when selecting a data structure for object storage.
 
 Of course, all objects must be **accessible at any point** in the execution, but this is accomplished with pointers returned at object creation and not by looking up in the Heap storage itself. Therefore, a structure with the possibility for fast lookup (such as an `std::map` [@stdmap]) is not necessary. Furthermore, it can be said that the **insertion order is not important**.
 
@@ -138,7 +138,7 @@ void Heap::visit(GraceObject* scope) {
 
 #### Memory capacity and GC triggers
 
-Ideally, the garbage-collection mechanism would be transparent to the evaluator, meaning that no explicit calls to the collection algorithm should be done from the evaluation engine. Rather, it is the Heap itself who must determine when to trigger the GC algorithm. To this end, the Heap is initialized with three values: 
+Ideally, the garbage-collection mechanism would be transparent to the evaluator, meaning that no explicit calls to the collection algorithm should be done from the evaluation engine. Rather, it is the Heap itself who must determine when to trigger the GC algorithm. To this end, the Heap is initialized with three values:
 
 - An absolute capacity, which acts as a upper bound for the storage available. When the number of objects contained in the Heap reaches this value, any subsequent attempts to create objects will result in an error.
 
@@ -162,4 +162,6 @@ void Heap::triggerIfNeeded() {
 }
 ```
 
-Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap.
+Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap, as is explained in Figure //TODO
+
+![Heap Storage Model](images/heap_storage_model.png)
