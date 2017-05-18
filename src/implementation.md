@@ -12,5 +12,7 @@ which allows to debug a file with the usual commands (run, continue, step in,
 step over, break). The mechanisms necessary for controlling the execution
 flow are embedded in the evaluator, as is explained later.
 
-//TODO Class diagram
-[]
+Figure //TODO shows the general workflow of Naylang, and how the components fit with each other.
+
+![Main Components of Naylang](images/components.pdf)
+

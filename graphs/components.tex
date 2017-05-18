@@ -1,0 +1,128 @@
+\documentclass{standalone}
+
+\usepackage{tikz-uml}
+\usetikzlibrary{positioning}
+
+\begin{document} 
+  \begin{tikzpicture}
+  
+  % -------------------------
+  % Parsing
+  % -------------------------
+  
+   \begin{umlpackage}[x=-3.75, y=0, anchor=west]{Parsing}
+     \umlsimpleclass[x=-1, y=0]{GraceParser}      
+     \umlsimpleclass[x=2,y=0]{GraceLexer}
+     \umlsimpleclass[x=0,y=-1]{GraceParserBaseVisitor}
+     \umlsimpleclass[x=0,y=-2.2]{NaylangParserVisitor}
+     \umlsimpleclass[x=0,y=-3.7]{NaylangParserStack}   
+   \end{umlpackage}
+
+	% Inheritances
+	\umlinherit[geometry=-|]{NaylangParserVisitor}{GraceParserBaseVisitor}
+	\umlunicompo[arg=stack, align2=right, pos=0.8 , angle1=180 , angle2=18 , loopsize=2cm] {NaylangParserVisitor}{NaylangParserStack}
+   
+  % -------------------------
+  % AST
+  % -------------------------
+    \begin{umlpackage}[x=0,y=-6, anchor=west]{Abstract Syntax}
+      \umlsimpleclass[x=-2, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int \\ \umlvirt{accept(eval : Evaluator \&) : void}}
+      \umlsimpleclass[x=-5, y=0]{GraceAST}
+      \begin{umlpackage}[y=-2, x=4]{expressions}
+        \umlsimpleclass[x=-4,y=0]{Expression}
+        \umlsimpleclass[x=-4,y=-1.5]{Other Exprs}
+      \end{umlpackage}{expressions}
+      \begin{umlpackage}[x=-4,y=-3]{declarations}
+        \umlsimpleclass[x=0,y=0]{Declaration}
+        \umlsimpleclass[x=0,y=-1.5]{Other Decls}
+      \end{umlpackage}{declarations}
+      \begin{umlpackage}[x=0,y=-6]{control}
+        \umlsimpleclass[x=0,y=0]{IfThenElse}
+        \umlsimpleclass[x=0,y=-1.5]{Other Control}
+      \end{umlpackage}
+    \end{umlpackage}
+
+    % Inheritances
+    \umlinherit[geometry=-|]{Expression}{Statement}
+    \umlinherit[geometry=-|]{Other Exprs}{Expression}
+    \umlinherit[geometry=-|]{Declaration}{Statement}
+    \umlinherit[geometry=-|]{IfThenElse}{Statement}
+    \umlinherit[geometry=-|]{Other Control}{Statement}
+    \umlinherit[geometry=-|]{Other Decls}{Declaration}
+    
+    \umlunicompo[geometry=|-|, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {NaylangParserStack}{Statement}
+  	\umlunicompo[geometry=--, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {GraceAST}{Statement}
+    
+  % -------------------------
+  % Eval
+  % -------------------------
+  
+   \begin{umlpackage}[x=3, y=0]{Evaluation}
+     \umlsimpleclass[x=0, y=0]{Evaluator}      
+     \umlsimpleclass[x=0,y=-1.5]{ExecutionEvaluator}
+     \umlsimpleclass[x=0,y=-3]{DebugEvaluator}      
+   \end{umlpackage}
+
+	% Inheritances
+	\umlinherit[geometry=-|]{ExecutionEvaluator}{Evaluator}
+	\umlinherit[geometry=-|]{DebugEvaluator}{ExecutionEvaluator}
+	
+  % -------------------------
+  % Object Model
+  % -------------------------
+  
+   \begin{umlpackage}[x=4, y=-10.1]{Object Model}
+     \umlsimpleclass[x=4.5, y=0]{GraceObject}      
+     \umlsimpleclass[x=0,y=-1.5]{GraceNumber}
+     \umlsimpleclass[x=3.1,y=-1.5]{GraceBoolean}
+     \umlsimpleclass[x=6,y=-1.5]{UserObject}     
+     \umlsimpleclass[x=9,y=-1.5]{Other Objects}
+     
+     \umlsimpleclass[x=0, y=-3]{Method}      
+     \umlsimpleclass[x=8,y=-3]{MethodRequest}
+     \umlsimpleclass[x=3.5,y=-3]{NativeMethod}
+   \end{umlpackage}
+
+	% Inheritances
+	\umlinherit[geometry=|-]{GraceNumber}{GraceObject}
+	\umlinherit[geometry=-|-]{GraceBoolean}{GraceObject}
+	\umlinherit[geometry=-|-]{UserObject}{GraceObject}
+	\umlinherit[geometry=|-]{Other Objects}{GraceObject}	
+	
+	\umlinherit[geometry=|-]{NativeMethod}{Method}
+	
+	\umlunicompo[arg=fields, mult=*, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {GraceObject}{GraceObject}
+	\umlunicompo[align2=right, pos=0.9 , angle1=30 , angle2=60, loopsize=2cm] {ExecutionEvaluator}{GraceObject}
+	
+  % -------------------------
+  % Control
+  % -------------------------
+  
+   \begin{umlpackage}[x=8, y=0]{Control}
+     \umlsimpleclass[x=2, y=0]{Interpreter}
+     \umlsimpleclass[x=4.5, y=-1]{Debugger}
+     \umlsimpleclass[x=0, y=-1]{REPLInterpreter}
+     \umlsimpleclass[x=0, y=-3]{ConsoleFrontend}
+     \umlsimpleclass[x=4.5, y=-3]{ConsoleExecutionMode}
+     \umlsimpleclass[x=4.5, y=-4.5]{DebugMode}
+     \umlsimpleclass[x=4.5, y=-6]{DebugCommand}
+     \umlsimpleclass[x=0, y=-4.5]{REPLMode}
+     \umlsimpleclass[x=0, y=-6]{REPLCommand}
+   \end{umlpackage}
+
+	% Inheritances
+
+  \umlinherit[geometry=|-]{Debugger}{Interpreter}
+  \umlinherit[geometry=|-]{REPLInterpreter}{Interpreter}
+  \umlinherit[geometry=-|-]{DebugMode}{ConsoleExecutionMode}  
+  \umlinherit[geometry=--]{REPLMode}{ConsoleExecutionMode}
+  
+  \umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {ConsoleFrontend}{ConsoleExecutionMode}
+  \umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {REPLMode}{REPLCommand}
+  \umlunicompo[align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {DebugMode}{DebugCommand}
+  \umlunicompo[geometry=-|-, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {REPLMode}{ExecutionEvaluator}
+  \umlunicompo[geometry=|-|, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {DebugMode}{DebugEvaluator}
+  
+
+  \end{tikzpicture}
+\end{document}
