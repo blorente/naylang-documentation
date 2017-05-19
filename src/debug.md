@@ -42,13 +42,13 @@ enum DebugState {
 And the debug functions handle a relatively small set of cases:
 
 ```c++
-void ExecutionEvaluator::beginDebug(Statement *node) {
+void DebugEvaluator::beginDebug(Statement *node) {
     if (_state == STEP_OVER)
         _state = CONTINUE;
     _debugger->debug(node);
 }
 
-void ExecutionEvaluator::endDebug(Statement *node, DebugState prevState) {
+void DebugEvaluator::endDebug(Statement *node, DebugState prevState) {
     if (!node->stoppable())
         return;
     if (prevState == STEP_OVER)
@@ -58,7 +58,33 @@ void ExecutionEvaluator::endDebug(Statement *node, DebugState prevState) {
 }
 ```
 
+The state can also be changed with external commands such as `continue`, which changes the state unconditionally to `CONTINUE`, or by the controller because of breakpoints.
 
+### Debugger Class
 
-The state can also be changed with external commands such as `continue`, which changes the state unconditionally to `CONTINUE`, or by the controller because of breakpoints. These transitions will be explained later.
+The `Debugger` class can be thought of as the controller for the `DebugEvaluator` execution controller. It is responsible for:
+
+- Handling user-defined breakpoints. In this case, the breakpoints are only a set of lines in which a breakpoint is set.
+- Implementing the `debug()` function which the `DebugEvaluator` calls to update it's state.
+- Implementing auxuliary public functions that correspond with the different debug commands (e.g. `run()`, `continue()`).
+- Interfacing with the execution mode (and therefore the frontend) to output information and request additional commands when necessary. 
+
+```c++
+class Debugger : public Interpreter {
+    GraceAST _AST;
+    std::set<int> _breakpoints;
+    DebugMode *_frontend;
+public:
+    // Functions to be used by DebugCommands
+    void run();
+    void setBreakpoint(int line);
+    void printEnvironment();
+    void resume();
+    void stepIn();
+    void stepOver();
+
+    // Called from the Debugger
+    void debug(Statement *node);
+};
+```
 
