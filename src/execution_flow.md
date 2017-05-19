@@ -9,17 +9,7 @@ At it's core, Naylang is designed to be an visitor-based interpreter [@visitorin
 
 The main evaluator in Naylang is `ExecutionEvaluator`, with `DebugEvaluator` extending the functionality by providing the necessary mechanisms for debugging. The implementation of the evaluation has been designed to be extensible and modular by default, which is described in [Modularity](Modularity).
 
-Figure //TODO presents an example AST, whose evaluation stack trace is presented below:
+Figure //TODO presents an example AST and it's evaluation stack trace is presented below:
 
 ![Example AST for execution flow](images/eval_flow.pdf)
 
-```c++
-ExecutionEvaluator::evaluate(const GraceAST &ast)
-|--> VariableDeclaration::accept(Evaluator &eval)
-	|--> ExecutionEvaluator::evaluate(VariableDeclaration &node)
-		|--> ExecutionEvaluator:setIdentifier(node.id());
-		|--> Number::accept(this)
-			|--> ExecutionEvaluator::evaluate(NumberLiteral &node)
-				|--> ExecutionEvaluator::setPartial(new GraceNumber(node.val()))
-		|--> ExecutionEvaluator::declareVariable(id, _partial)
-```
