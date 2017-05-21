@@ -25,7 +25,7 @@ The most straightforward way to implement a Modular Visitor is to directly subcl
 
 By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods.
 
-Figure //TODO demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
+Figure 5.1 demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
 
 ```
 proc createExtensioVisitor() {
@@ -37,7 +37,7 @@ proc createExtensioVisitor() {
 
 #### Example
 
-In Naylang, this would translate to creating a direct subclass of `ExecutionEvaluator`, called `DebugEvaluator`. As is described in [Debugging](Debugging), the aim of this class is to maintain and handle the current debug state of the evaluation (`STOP`, `RUN`...), and to maintain breakpoints.
+In Naylang, this would translate to creating a direct subclass of `ExecutionEvaluator`, called `DebugEvaluator`. As is described in [Debugging](#debugging), the aim of this class is to maintain and handle the current debug state of the evaluation (`STOP`, `RUN`...), and to maintain breakpoints.
 
 Assuming the previous mechanisms are in place to handle state, the only capability required from the debugger is to be able to **block the evaluation** of the AST at the points where it is required (e.g. by a breakpoint). As previously described this can only happen in _stoppable_ nodes, and therefore only the processing of those nodes need to be modified. For this example, assume that only `VariableDeclaration` and `ConstantDeclaration` nodes are stoppable, and that we need to add processing **both at the beginning and at the end** of the node evaluation to handle changing debug states.
 
@@ -74,7 +74,7 @@ In this technique, what previously was a subclass of the extended class is now a
 
 Obviously, since the main visitor is not being extended anymore, **all of the methods** it implements will have to be overriden from the extender class to include _at least_ calls to the main evaluator.
 
-Figure //TODO demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 5.2 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
 proc createExtensioVisitor() {
@@ -139,7 +139,7 @@ This final version of the Modular Visitor Pattern tries to solve some of the iss
 
 One way to accomplish these goals is to define an intermediate layer of inheritance in the class hierarchy such that all the default calls to the main visitor are implemented in a superclass, and only the relevant functionality is implemented in a subclass. Roughly speaking, it consists on **grouping together** extensions that need to interject the execution at similar times, and **moving all the non-specific code to a superclass**. This way, it is the superclass that has the responsibility of handling the main evaluator instance.
 
-Figure //TODO demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 5.3 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
 proc createExtensioVisitor() {
@@ -192,7 +192,6 @@ void DebugEvaluator::evaluate(VariableDeclaration &expression) {
 }
 ```
 
-// TODO: Add class diagram
 
 #### Discussion
 

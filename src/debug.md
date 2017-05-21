@@ -3,9 +3,9 @@
 Debugging
 ------
 
-As previously mentioned, Naylang implements a set of debug commands similar to that of GDB. More precisely, the set of commands whose functionality is replicated is `run`, `continue`, `next` (step over), `step` (step into), `break` and `print`. The list of commands and an explaination of their uses is listed in the [Frontends](Frontends) section.
+As previously mentioned, Naylang implements a set of debug commands similar to that of GDB. More precisely, the set of commands whose functionality is replicated is `run`, `continue`, `next` (step over), `step` (step into), `break` and `print`. The list of commands and an explaination of their uses is listed in the [Frontends](#frontends) section.
 
-The debugging mechanisms described are implemented using the [Modular Visitor Pattern](Modular Visitor Pattern). Specifically, since the debugger needs only to interject in the `ExecutionEvaluation` function calls, the [Direct Subclass Pattern](Direct Subclass Pattern) was used.
+The debugging mechanisms described are implemented using the [Modular Visitor Pattern](#modular-visitor-pattern). Specifically, since the debugger needs only to interject in the `ExecutionEvaluation` function calls, the [Direct Subclass Pattern](#direct-subclass-pattern) was used.
 
 In addition to that, a controler was created (`Debugger`) to act as an adaption layer between the extended evaluatio and the frontend.
 

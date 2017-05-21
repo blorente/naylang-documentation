@@ -50,8 +50,6 @@ Since the interface provided by `std::shared_ptr<>` is similar to that of raw po
 
 The second change to integrate the Heap into the project is to have each evaluator hold an instance of Heap. There should be only one instance of an execution evaluator per programming session, and therefore it is reasonable that every instance of the evaluator will have an instance of the Heap.
 
-// TODO: Add UML diagram
-
 Lastly, the GraceObject class needs to be extended to allow the retrieval of all the fields to ease traversal, and to include a `visited` flag so that the algorithm knows which objects to delete.
 
 ```c++
@@ -76,7 +74,7 @@ In this algorithm, the Heap must hold references to all objects created in a lis
 
 Since this implementation of the Heap only simulates the storage of the objects, and does not make claims about it's continuity, heap fragmentation cannot happen. Therefore, no strategy is needed to defragment the memory.
 
-Note that the Heap is implemented in such a way that the garbage-collection functionality is blocking and synchronous, and thus it can be called at any point in the evaluator. This would enable, for example, to implement an extension of the evaluator to include garbage collection triggers at key points of the exection, using the [Modular Visitor Pattern](Modular Visitor Pattern).
+Note that the Heap is implemented in such a way that the garbage-collection functionality is blocking and synchronous, and thus it can be called at any point in the evaluator. This would enable, for example, to implement an extension of the evaluator to include garbage collection triggers at key points of the exection, using the [Modular Visitor Pattern](#modular-visitor-pattern).
 
 ### Implementation
 
@@ -97,8 +95,6 @@ The two first requirements make it clear that a linear storage (array, vector or
 With the container selected, the only remaining thing is to establish which of C++'s mechanisms will be used to hold the object's lifespan. The concept of _memory ownsership_ was introduced in a previous section, and it was established that the Heap is responsible for _owning_ the memory of all runtime objects [@memoryownership]. In modern C++, memory ownership is expressed by means of a _unique pointer_, that is, a smart pointer that has exactly one reference. The object that holds that reference then is responsible for keeping the memory of the referenced object. When the container object goes out of scope or is destroyed, the destructor for the contained object is immediately called, liberating the memory [@stdunique_ptr]. In the case of Naylang, this menas that the object will be destroyed either when it is extracted from the list, or when the list itself is destroyed.
 
 With this information, the Heap storage can be designed as a **linked list** of _cells_, wherein each _cell_ is a `unique_ptr` to an instance of one of the subclasses of `GraceObject`.
-
-// TODO: Include diagram
 
 #### Mark and Sweep algorithm
 
@@ -162,6 +158,6 @@ void Heap::triggerIfNeeded() {
 }
 ```
 
-Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap, as is explained in Figure //TODO
+Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap, as is explained in Figure 4.8
 
 ![Heap Storage Model](images/heap_storage_model.png)

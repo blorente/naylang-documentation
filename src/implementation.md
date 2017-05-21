@@ -11,7 +11,7 @@ In addition to the REPL commands, Naylang includes a debug mode,
 which allows to debug a file with the usual commands detailed in [Debugging](#debugging) and [Frontends](#frontend). The mechanisms necessary for controlling the execution
 flow are embedded in the evaluator, as is explained later.
 
-Figure //TODO shows the general workflow of Naylang, and how the components fit with each other.
+Figure 4.1 shows the general workflow of Naylang, and how the components fit with each other.
 
 ![Main Components of Naylang](images/components.pdf)
 

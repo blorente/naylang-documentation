@@ -18,10 +18,6 @@ class hierarchy:
 The design of the abstract syntax representation hierarchy is subject to change as new features are implemented
 in the interpreter.
 
-### GraceAST class
-
-// TODO: Complete when merged with NodeFactory and removed the nodelink crap
-
 ### Pointers
 
 In the representation of the different parts of the abstract syntax, often a node has to reference other nodes in the tree. Since that memory management of tree nodes was not clear at the beginning of the project, a series of aliases were created to denote pointers to the different major classes of nodes available. These aliases are named `<Nodeclass>Ptr` (e.g. `ExpressionPtr`). For the current representation of the language, only three classes need these pointers specified: Statement, Declaration and Expression. These three classes of pointers give the perfect balance of specificity and generality to be able to express the necessary constructs in Grace. For instance, a variable declaration might want an ExpressionPtr as it's value field, while a method declaration might want DeclarationPtrs for it's formal parameters and high-level StatementPtrs for it's body.
@@ -40,7 +36,7 @@ information.
 
 Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops] [@eiffelgraceexample].
 
-Figure //TODO shows the class definitions of the existing control nodes
+Figure 4.4 shows the class definitions of the existing control nodes
 
 ![Control nodes in Naylang](images/ast_control.pdf)
 
@@ -145,7 +141,7 @@ value to an identifier. Therefore, all nodes must have a way of retrieving their
 names so that the fields can be created in the corresponding objects. We must
 distinguish between two types of declarations: __Field Declarations__, and __Method Declarations__.
 
-Figure //TODO shows the class structure for declarations in Naylang
+Figure 4.5 shows the class structure for declarations in Naylang
 
 ![Declarations in Naylang](images/ast_definitions.pdf)
 
@@ -170,7 +166,7 @@ public:
 };
 ```
 
-Every Field Declaration is a __breakable statement__ (see [Debugging](Debugging)).
+Every Field Declaration is a __breakable statement__ (see [Debugging](#debugging)).
 
 #### Method Declarations
 
@@ -213,7 +209,7 @@ public:
 };
 ```
 
-Figure //TODO shows a diagram of the current primitive expressions in Naylang
+Figure 4.6 shows a diagram of the current primitive expressions in Naylang
 
 ![Primitive expressions in Naylang](images/ast_primitives.pdf)
 
@@ -316,7 +312,7 @@ add(4)to(3);    // IR("add(_)to(_)", {4, 3})
 Note that, even in the case of an expression not returning anything, it will
 always return the special object `Done` by default.
 
-Figure //TODO shows a diagram of the current requests in Naylang
+Figure 4.7 shows a diagram of the current requests in Naylang
 
 ![Requests in Naylang](images/ast_requests.pdf)
 

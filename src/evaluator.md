@@ -95,7 +95,7 @@ However, Grace provides a useful invariant to design the evaluation of requests:
 
 Once a request is found to represent a **field request**, it's evaluation becomes simple. Requests are expressions, and thus must place a value in the partial. Implicit requests are requests made to the current scope, and thus it is sufficient to retrieve the value of the field in the current scope.
 
-Evaluating a **method call** requires slightly more processing. First, the values of the effective parameters must be computed by evaluating their expression nodes. These values are then stored in a list that will ultimately be passed to the method object. After that, a request has to be made to the current scope to `dispatch()` the method named in the request, and the return value is stored in the partial. The dispatch and method evaluation mechanism is further discussed in [Methods and Dispatch](methods and dispatch).
+Evaluating a **method call** requires slightly more processing. First, the values of the effective parameters must be computed by evaluating their expression nodes. These values are then stored in a list that will ultimately be passed to the method object. After that, a request has to be made to the current scope to `dispatch()` the method named in the request, and the return value is stored in the partial. The dispatch and method evaluation mechanism is further discussed in [Methods and Dispatch](#methods-and-dispatch).
 
 ```c++
 void ExecutionEvaluator::evaluate(ImplicitRequestNode &expression) {

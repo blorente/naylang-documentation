@@ -29,7 +29,7 @@ Note that ANTLRv4 names the visitor methods `visit<RuleName>` by convention.
 For example, `visitBlock()` will be called when the `block` rule is matched in
 parsing.
 
-To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the initial value expression node in a variable declaration). A full description of this structure is found in [a following section](Naylang Parser Visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
+To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the initial value expression node in a variable declaration). A full description of this structure is found in [a following section](#naylang-parser-visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
 
 #### Parsing Strategy
 
@@ -66,7 +66,7 @@ in order of insertion.
 or Declarations, the three abstract types of AST nodes that the parser handles.
 
 The resulting structure declaration can be found in
-`interpreter/src/core/parser/NaylangParserStack.h`. It uses template
+`NaylangParserStack.h`. It uses template
 metaprogramming to be able to specify the desired return type from the caller
 and cast the extracted elements to the right type. Note that a faulty conversion
 is possible and the structure does not enforce any type invariants other than
