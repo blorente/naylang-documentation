@@ -7,6 +7,8 @@ In Grace, everything is an object, and therefore the implementation of these
 must be flexible enough to allow for both JavaScript-like objects and native
 types such as booleans, numbers and strings.
 
+To represent this, a shallow bit wide class hierarchy was used, with an abstract `GraceObject` class at the top and every other type of object implemented as a direct subclass of it.
+
 ### GraceObject
 
 For the implementation, a generic `GraceObject` class was created, which defined
@@ -88,6 +90,10 @@ There are some other native types, most of them used in the implementation and
 invisible to the user, but they have no methods and only one element in their
 type class, such as `Undefined`, which throws an error whenever the user tries
 to interact with it.
+
+#### Blocks
+
+Blocks are a particular case of native types in Naylang. They represent lambda functions that respond to an `apply()` method with a correct number of parameters. Therefore, a block will be represented as a GraceBlock with one user-defined method (`apply`) which will nave no set number of parameters, and will simpy consume all the parameters available. The implementation of `apply` will represent the desired behavior of the lambda function.
 
 ### Casting
 

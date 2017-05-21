@@ -26,30 +26,59 @@ Similar to other approachable high-level languages such as Python or JavaScript,
 Grace is gradually typed, which means that the programmer may choose the degree of type checking that is to be performed. This flexibility is atomic at the statement level, which means that any declaration may or may not be typed. For instance, we might have all of the following in the same code:
 
 ```
-var x := 5              // x is inferred to be a Number, a native type of Grace
-var y : Number := 6     // y is declared as a Number, a native type of Grace
-var z : Rational := 7.0 // z is declared as a Rational, a user-defined type
-                          // which may or may not inherit from Number
+var x := 5 // x is inferred to be a Number, a native type of Grace.
+var y : Number := 6	// y is declared as a Number, a native type of Grace
+var z : Rational := 7.0	// z is declared as a Rational, 
+						// a user-defined type which may or may not 
+						// inherit from Number
 ```
 
 This mechanism brings to instructors the tools to teach types at the beginning of a course, leave them until the end, or explain them at the moment they deem appropriate.
 
-However, this mechanism is not within the scope of the project and for the moment Naylang will only have a dynamic typing mechanism similar to JavaScript, as is explained in [Object Model](Object Model)
+However, this mechanism is not within the scope of the project and for the moment Naylang will only have a dynamic typing mechanism similar to JavaScript, as is explained in the next section.
+
+### Object Model
+
+Simirarly to other interpreted languages such as JavaScript or Ruby, everything is an object in Grace. A generic object can have constant or variable _fields_ that point to other objects, and method fields that store user-defined or native methods. An object's fields are accessible to any subscope inside that object, particularly they can be used and assigned to in methods.
+
+```
+object {
+	def base = "Hi";
+	var times := 4;
+	def objField = object {
+		def innerField = true;
+	};
+	method repeatBase {
+		var i := 0;
+		ver res := "";
+		while {i < times} do {
+			res := res ++ base;
+			i := i + 1;
+		}
+		return res;
+	}
+}
+```
+
+Native types are implemented as objects with no fields and a series of predefined methods (such as the boolean _and_, `&&(_)`).
 
 ### Multi-part method signatures
 
-Method signatures have a few particularities in Grace. Firstly, a method signature can have multiple parts. A part is a Unicode string followed by a parameter list. That way, methods with much more intuitive names can be formed:
+Method signatures have a few particularities in Grace. Firstly, a method signature can have multiple **parts**. A **part** is a Unicode string followed by a parameter list. That way, methods with much more intuitive names can be formed:
 
 ```
+// Declaration
 method substringFrom(first)to(last) {
-    // Return a substring of the caller object from index "first" to index "last"
+    // Method body
 }
-"hello".substringFrom(2)to(4) // Would return "llo"
+
+// Request (call)
+"hello".substringFrom(2)to(4); // Would return "llo"
 ```
 
 This way there is a more direct correlation between the mental model of the student and the code.
 
-To differentiate between methods, Grace uses the arity of each of the parts to construct a _canonical name_ for the method. A canonical name is not more than the concatenation of each of the parts, substituting the parameter names for underscores. That way, the canonical name of the method above would be `substringFrom(_)to(_)`.
+To differentiate between methods, Grace uses the arity of each of the parts to construct a _canonical name_ for the method. A canonical name is nothing more than the concatenation of each of the parts, substituting the parameter names for underscores. That way, the canonical name of the method above would be `substringFrom(_)to(_)`.
 
 Two methods are different if and only if their canonical names are different. For example, `substringFrom(_)to(_)` is different from `substringFromto(_,_)`. As it is obvious, this mechanism imposes a differentiation by arity, and not by parameter types. Therefore, we could have this situation:
 
@@ -63,21 +92,21 @@ method substringFrom(first : Integer)to(last : Integer) {
 }
 ```
 
-In this case, the second method is considered to be the same as the first, and it will cause a _shadowing error_ for conflicting names. This design decision stems directly from the gradual typing, since there is no way to discern objects that are dynamically typed, and any object may be dynamically typed at any point. As a side effect, this method makes request dispatch considerably simpler.
+In this case, the second method is considered to be the same as the first, and it will cause a _shadowing error_[^shadowing] for conflicting names. This design decision stems directly from the gradual typing, since there is no way to discern objects that are dynamically typed, and any object may be dynamically typed at any point. As a side effect, this method makes request dispatch considerably simpler, as is explained in [Methods and Dispatch](#methods-and-dispatch)
 
-### Lexically scoped, single namespace
+#### Lexically scoped, single namespace
 
 Grace has a single namespace for convenience, since novice projects will rarely be so large that they require separation of namespaces. It is also lexically scoped, so the declarations in a block are accessible to that scope and every scope inside it, but not to any outer scopes.
 
 ### Lineups
 
-Collections in Grace are represented as Lineups, which are completely polymorphic lists of objects that implement the Iterable interface.
+Collections in Grace are represented as Lineups, which are completely polymorphic lists of objects that implement the Iterable interface. As the spec says, the common trait of Lineups is that they implement the `Iterable` interface. In the case of Naylang, since no inheritance or type system is needed yet, no such interface has been implemented. Rather, the `GraceIterable` native type has been created.
 
 ### Object-based inheritance
 
 Everything in Grace is an object. Therefore, the inheritance model is more based on extending existing objects instead of instantiating particular classes. In fact, classes in Grace are no more than factory methods that return an object with a predefined set of methods and fields.
 
-Unfortunately, this mechanism is also out of the scope of the project and will be left for future releases.
+Unfortunately, this mechanism is also **out of the scope of the project** and will be left for future releases.
 
 Subset of Grace in a Page
 ------
@@ -126,3 +155,5 @@ while {i < 20} { // While
     i := i + 1; // Assignment
 }
 ```
+
+[^shadowing]: http://gracelang.org/documents/grace-spec-0.7.0.html#declarations

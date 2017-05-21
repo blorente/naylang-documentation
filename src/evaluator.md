@@ -121,7 +121,7 @@ void ExecutionEvaluator::evaluate(ImplicitRequestNode &expression) {
 
 #### Explicit Requests
 
-Explicit Requests are similar to Implicit Requests, the only difference being that Explicit Requests can make requests to scopes other than the current one. An additional step must be added to compute the effective scope of the request (which was always `self`in the case of Implicit Requests). Then, the requests will be done to the newly retrieved object instead of the current scope.
+Explicit Requests are similar to Implicit Requests, the only difference being that Explicit Requests can make requests to scopes other than the current one. An additional step must be added to compute the effective scope of the request (which was always `self` in the case of Implicit Requests). Then, the requests will be done to the newly retrieved object instead of the current scope.
 
 ```c++
 void ExecutionEvaluator::evaluate(ExplicitRequestNode &expression) {
@@ -129,7 +129,6 @@ void ExecutionEvaluator::evaluate(ExplicitRequestNode &expression) {
     auto receiver = _partial;
 
     // Note the use of receiver instead of _currentScope
-
     if (expression.params().size() == 0) {
         if (receiver->hasField(expression.identifier())) {
         	_partial = receiver->getField(expression.identifier());
@@ -146,13 +145,13 @@ void ExecutionEvaluator::evaluate(ExplicitRequestNode &expression) {
 }
 ```
 
-This evaluation contains duplicate code that could certainly be refactorized, but it was left as-is in benefit of clarity by providing completely independent evaluation functions.
+This evaluation contains duplicate code that could certainly be refactorized, but it was left as-is in benefit of clarity by providing evaluation functions that are completely independent from each other.
 
 #### Block Nodes
 
-Block nodes are similar to Object Constructor nodes in that they place a new object with effectively arbitrary content in the partial. The only difference is that, while Object Constructor nodes immediately evaluate every one of the statements, a Block node is inherently a lambda method definition, and thus the body of the method cannot be evaluated until all the effective parameters are known.
+Block nodes are similar to Object Constructor nodes in that they place a new object with effectively arbitrary content in the partial. The only difference is that while Object Constructor nodes immediately evaluate every one of the statements, a Block node is inherently a lambda method definition, and thus the body of the method cannot be evaluated until all the effective parameters are known.
 
-Therefore, the evaluation of a Block in grace consists of forming an anonymous method with the contents of the Block node and creating a `GraceBlock` object with that method as it's `apply()` method, to be evaluated whenever it is requested.
+Therefore, the evaluation of a Block in grace consists of forming an anonymous method with the contents of the Block node and creating a `GraceBlock` object with that method as its `apply()` method, to be evaluated whenever it is requested.
 
 ```c++
 void ExecutionEvaluator::evaluate(Block &expression) {
@@ -163,11 +162,11 @@ void ExecutionEvaluator::evaluate(Block &expression) {
 
 ### Declaration Nodes
 
-Declarations, from the EE's point of view, are nodes that add to the current scope in some way - be it adding new fields, or new methods. In general very little processing is done in declarations, and the do not modify the partial directly.
+Declarations, from the EE's point of view, are nodes that add to the current scope in some way - be it adding new fields, or new methods. In general, very little processing is done in declarations and they do not modify the partial directly.
 
 #### Field Declarations
 
-Field Declarations are the nodes that, when processed, insert a field with an initial value in the current scope. The processing of these nodes is quite simple, since they delegate the initial value processing to their respective children. After retrieving the initial value, evaluating them is a matter of extending the current scope to include the new field:
+Field Declarations are the nodes that, when processed, **insert a new field** with an initial value in the current scope. The processing of these nodes is quite simple, since they delegate the initial value processing to their respective children. After retrieving the initial value, evaluating them is a matter of extending the current scope to include the new field:
 
 ```c++
 void ExecutionEvaluator::evaluate(VariableDeclaration &expression) {
