@@ -41,7 +41,7 @@ The strategy followed for parsing the source code was to override only the neces
 
 #### Prefix and Infix Operators
 
-Prefix and infix operators are a special case of syntactic sugar in Grace, since they allow for the familiar infix and prefix syntax (e.g. `4 + 5`). It is necessary to process these operators as special cases of the syntax, to convert them to valid AST nodes. As the Grace specification says [@gracespecinfixops], infix and prefix operators must be converted to explicit requests on an object.
+Prefix and infix operators are a special case of syntactic sugar in Grace, since they allow for the familiar infix and prefix syntax (e.g. `4 + 5`). It is necessary to process these operators as special cases of the syntax, to convert them to valid AST nodes. As the Grace specification says [^gracespecinfixops], infix and prefix operators must be converted to explicit requests on an object.
 
 In the case of **prefix operators**, the operation must be transformed to an explicit request in the right-hand receiver. In addition to that, the name of the method to call must be preceded with the `prefix` keyword. For instance, a call to the logical not operator `!x` would be transformed into the explicit request `x.prefix!`. As can be seen, a prefix operator does not take parameters.
 
@@ -165,3 +165,6 @@ for any other type of expression, so the rest is left to the implementer.
 
 A slightly more annotated version of this rule can be found in the parser grammar,
 under the `expression` rule.
+
+
+[^gracespecinfixops]: http://gracelang.org/documents/grace-spec-0.7.0.html#method-requests

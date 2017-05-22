@@ -91,7 +91,7 @@ void ExecutionEvaluator::evaluate(ObjectConstructor &expression) {
 
 Implcit Request are the most complex nodes to evaluate, since they can represent a number of intents. Said nodes can be either field requests or method calls (with or without parameters), and thus the evaluation has to include several checks to determine it's behavior. 
 
-However, Grace provides a useful invariant to design the evaluation of requests: All identifiers are unique within a scope or it's outer scopes [@graceuniqueidentifiers]. As a consequence, for any given object, the sets of field and method identifiers **have to be disjoint**. Therefore, it does not make a difference the order in which we check whether a request is a field request or method call. In the case of Naylang, a decision was made to check whether a request was a field request first, and default to interpreting it as a method request if it wasn't.
+However, Grace provides a useful invariant to design the evaluation of requests: All identifiers are unique within a scope or it's outer scopes. As a consequence, for any given object, the sets of field and method identifiers **have to be disjoint**. Therefore, it does not make a difference the order in which we check whether a request is a field request or method call. In the case of Naylang, a decision was made to check whether a request was a field request first, and default to interpreting it as a method request if it wasn't.
 
 Once a request is found to represent a **field request**, it's evaluation becomes simple. Requests are expressions, and thus must place a value in the partial. Implicit requests are requests made to the current scope, and thus it is sufficient to retrieve the value of the field in the current scope.
 

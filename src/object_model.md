@@ -31,7 +31,7 @@ public:
 As can be seen, an object is no more than maps of fields and methods. Since
 every __field__ (object contained in another object) has a unique string
 identifier, and methods can be differentiated by their canonical name
-[@gracecanonname], a plain C++ string is sufficient to serve as index for the
+[^gracecanonname], a plain C++ string is sufficient to serve as index for the
 lookup tables of the objects.
 
 `GraceObject` also provides some useful methods to modify and access these maps:
@@ -132,3 +132,6 @@ This approach has two major benefits:
 - It scales very well. For instance, if a new native type arised that could be either a boolean or a number, it would be sufficient to implement both caster methods in an appropriate subclass.
 
 Note that this model is used for runtime dynamic typing and, since Grace is a gradually-typed language, some of the type-checking work will have to be moved the the AST as the possibility of proper static typing is implemented.
+
+
+[^gracecanonname]: http://gracelang.org/documents/grace-spec-0.7.0.html#method-names

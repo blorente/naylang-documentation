@@ -3,7 +3,7 @@
 Memory Management
 ------
 
-Grace is a garbage-collected language [@gracespecgarbagecollection], and therefore there must be some mechanism to automatically control memory consumption during the evaluation.
+Grace is a garbage-collected language [^gracespecgarbagecollection], and therefore there must be some mechanism to automatically control memory consumption during the evaluation.
 
 ### Reference-counting
 
@@ -168,3 +168,5 @@ Note that, even though objects may vary in size slightly, there are never degene
 [^stdmap]: http://en.cppreference.com/w/cpp/container/map
 
 [^stdunique_ptr]: http://en.cppreference.com/w/cpp/memory/unique_ptr
+
+[^gracespecgarbagecollection]: http://gracelang.org/documents/grace-spec-0.7.0.html#garbage-collection

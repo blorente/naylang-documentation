@@ -34,7 +34,7 @@ information.
 
 #### Control Nodes
 
-Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops].
+Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [^preludeloops].
 
 Figure 4.4 shows the class definitions of the existing control nodes
 
@@ -170,7 +170,7 @@ Every Field Declaration is a __breakable statement__ (see [Debugging](#debugging
 
 #### Method Declarations
 
-Method declarations represent a subroutine inside a grace Object. While their evaluation might be complex, the abstract representation of a method is rather straightforward. Sintactically, a method is comprised of a canonical identifier [@cannonnames], a list of formal parameter definitions (to be later instantiated in the method scope) and a list of statements that comprises the body of the method.
+Method declarations represent a subroutine inside a grace Object. While their evaluation might be complex, the abstract representation of a method is rather straightforward. Sintactically, a method is comprised of a canonical identifier [^cannonnames], a list of formal parameter definitions (to be later instantiated in the method scope) and a list of statements that comprises the body of the method.
 
 ```c++
 class MethodDeclaration : public Declaration {
@@ -357,6 +357,10 @@ public:
 };
 ```
 
+[^preludeloops]: http://gracelang.org/documents/grace-prelude-0.7.0.html#control-structures
+
 [^weakptrcpp]: http://en.cppreference.com/w/cpp/memory/weak_ptr
 
 [^sharedptrcpp]: http://en.cppreference.com/w/cpp/memory/shared_ptr
+
+[^cannonnames]: http://gracelang.org/documents/grace-spec-0.7.0.html#method-names
