@@ -22,7 +22,7 @@ in the interpreter.
 
 In the representation of the different parts of the abstract syntax, often a node has to reference other nodes in the tree. Since that memory management of tree nodes was not clear at the beginning of the project, a series of aliases were created to denote pointers to the different major classes of nodes available. These aliases are named `<Nodeclass>Ptr` (e.g. `ExpressionPtr`). For the current representation of the language, only three classes need these pointers specified: Statement, Declaration and Expression. These three classes of pointers give the perfect balance of specificity and generality to be able to express the necessary constructs in Grace. For instance, a variable declaration might want an ExpressionPtr as it's value field, while a method declaration might want DeclarationPtrs for it's formal parameters and high-level StatementPtrs for it's body.
 
-Currently, the aliases are implemented as reference-counted pointers (`std::shared_ptr<>` [@sharedptrcpp]). However, as the project has moved towards a centralized tree manager (`GraceAST`), the possibility of making that clas responsible for the memory of the nodes has arised. This would permit the aliases to switch to weak pointers [@weakptrcpp] or even raw pointers in their representation, probably reducing memory management overhead.
+Currently, the aliases are implemented as reference-counted pointers (`std::shared_ptr<>` [^sharedptrcpp]). However, as the project has moved towards a centralized tree manager (`GraceAST`), the possibility of making that clas responsible for the memory of the nodes has arised. This would permit the aliases to switch to weak pointers [^weakptrcpp] or even raw pointers in their representation, probably reducing memory management overhead.
 
 ### Statement Nodes
 
@@ -34,7 +34,7 @@ information.
 
 #### Control Nodes
 
-Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops] [@eiffelgraceexample].
+Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [@preludeloops].
 
 Figure 4.4 shows the class definitions of the existing control nodes
 
@@ -356,3 +356,7 @@ public:
     // Accessors and accept()
 };
 ```
+
+[^weakptrcpp]: http://en.cppreference.com/w/cpp/memory/weak_ptr
+
+[^sharedptrcpp]: http://en.cppreference.com/w/cpp/memory/shared_ptr

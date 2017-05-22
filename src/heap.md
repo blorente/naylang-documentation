@@ -84,15 +84,15 @@ The internal design of the Heap class is vital to ensure that the objects are st
 
 The requirements for object storage in the Heap must be taken into consideration when selecting a data structure for object storage.
 
-Of course, all objects must be **accessible at any point** in the execution, but this is accomplished with pointers returned at object creation and not by looking up in the Heap storage itself. Therefore, a structure with the possibility for fast lookup (such as an `std::map` [@stdmap]) is not necessary. Furthermore, it can be said that the **insertion order is not important**.
+Of course, all objects must be **accessible at any point** in the execution, but this is accomplished with pointers returned at object creation and not by looking up in the Heap storage itself. Therefore, a structure with the possibility for fast lookup (such as an `std::map` [^stdmap]) is not necessary. Furthermore, it can be said that the **insertion order is not important**.
 
 The mark and sweep algorithm needs to **traverse** the stored objects at least twice every time the garbage collection is triggered: Once to mark every object as not visited, and another time after the marking to check whether or not it is still accesible. Therefore, the storage must allow the possibility of traversal, but it does not need to be extremely efficient since a relatively small number of passes need to be made.
 
 Lastly, the storage must allow to **delete elements at arbitrary locations**, since at any point any object can go out of scope and will need to be removed when the collector triggers. This is perhaps the most performance-intensive requirement, since several object deletions can be necessary for each pass.
 
-The two first requirements make it clear that a linear storage (array, vector or linked list) is needed, and the last requirement pushes the decision strongly in favor of a linked list. Luckily, C++ already has an implementation of a doubly-linked list [@stdlist], which the Heap will be using.
+The two first requirements make it clear that a linear storage (array, vector or linked list) is needed, and the last requirement pushes the decision strongly in favor of a linked list. Luckily, C++ already has an implementation of a doubly-linked list [^stdlist], which the Heap will be using.
 
-With the container selected, the only remaining thing is to establish which of C++'s mechanisms will be used to hold the object's lifespan. The concept of _memory ownsership_ was introduced in a previous section, and it was established that the Heap is responsible for _owning_ the memory of all runtime objects [@memoryownership]. In modern C++, memory ownership is expressed by means of a _unique pointer_, that is, a smart pointer that has exactly one reference. The object that holds that reference then is responsible for keeping the memory of the referenced object. When the container object goes out of scope or is destroyed, the destructor for the contained object is immediately called, liberating the memory [@stdunique_ptr]. In the case of Naylang, this menas that the object will be destroyed either when it is extracted from the list, or when the list itself is destroyed.
+With the container selected, the only remaining thing is to establish which of C++'s mechanisms will be used to hold the object's lifespan. The concept of _memory ownsership_ was introduced in a previous section, and it was established that the Heap is responsible for _owning_ the memory of all runtime objects [@memoryownership]. In modern C++, memory ownership is expressed by means of a _unique pointer_, that is, a smart pointer that has exactly one reference. The object that holds that reference then is responsible for keeping the memory of the referenced object. When the container object goes out of scope or is destroyed, the destructor for the contained object is immediately called, liberating the memory [^stdunique_ptr]. In the case of Naylang, this menas that the object will be destroyed either when it is extracted from the list, or when the list itself is destroyed.
 
 With this information, the Heap storage can be designed as a **linked list** of _cells_, wherein each _cell_ is a `unique_ptr` to an instance of one of the subclasses of `GraceObject`.
 
@@ -161,3 +161,10 @@ void Heap::triggerIfNeeded() {
 Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap, as is explained in Figure 4.8
 
 ![Heap Storage Model](images/heap_storage_model.png)
+
+
+[^stdlist]: http://en.cppreference.com/w/cpp/container/list
+
+[^stdmap]: http://en.cppreference.com/w/cpp/container/map
+
+[^stdunique_ptr]: http://en.cppreference.com/w/cpp/memory/unique_ptr

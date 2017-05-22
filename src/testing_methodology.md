@@ -8,11 +8,11 @@ This decision has in fact proven to be of great value in the later stages of the
 Tests as an educational resource
 ------
 
-Naylang aims to be more than just a Grace interpreter, but to also be an approachable FOSS [@freeopensourcesoftware] project for both potential collaborators and programming language students the same. Having a sufficiently big automated test suite is vital to make the project amiable to newcomers, for the following reasons:
+Naylang aims to be more than just a Grace interpreter, but to also be an approachable Free Software [^freesoftware] project for both potential collaborators and programming language students the same. Having a sufficiently big automated test suite is vital to make the project amiable to newcomers, for the following reasons:
 
 - Automated tests provide **complete, synchronized documentation** of the system. Unlike written documentation or comments, automated tests do not get outdated and, if they are sufficiently atomic and well-named, provide working **specification and examples** of what a part of the system does and is supposed to be used. A newcomer to the project will find it very useful to dive into the test suite even before looking at the implementation code to find up-to-date explainations of a module and it's dependencies.
 
-- Automated tests force the implementer to **modularize**. Unit testing requires that the dependencies of the project be minimized, so as to make testing each part individually as easy as possible. Therefore, TDD encourages a very decoupled design, which makes it easy to reason about each part separately [@modularisbetterforlearning].
+- Automated tests force the implementer to **modularize**. Unit testing requires that the dependencies of the project be minimized, so as to make testing each part individually as easy as possible. Therefore, TDD encourages a very decoupled design, which makes it easy to reason about each part separately [@beck2003test].
 
 - Automated tests make it **easy to make changes**. When a student or potential collaborator is planning to make changes, it can be daunting to modify any of the existing source code, in fear of a functionality regression. Automated tests aid with that, and encourage the programmer to make changes by reassuring the sense that any undesired changes in functionality will be immediately reported, and the amount of hidden bugs created will be minimal.
 
@@ -25,7 +25,7 @@ Since the goal was to cover as much code as possible with test cases, the indust
 
 TDD may feel slow at first, but as the end of the project approached the critical parts of the project were covered in test cases, which provided with immense agility to develop extraneous features such as the frontends. 
 
-As a result of following the TDD discipline, the length of the test code is very similar to that of the implementation code, a common occurrence in projects following this practice [@kethbecktddpractice].
+As a result of following the TDD discipline, the length of the test code is very similar to that of the implementation code, a common occurrence in projects following this practice [@beck2003test].
 
 The Framework
 ------
@@ -159,7 +159,7 @@ The testing methodology for the parser was standardized rather quickly, with the
 
 3. Retrieve the AST resulting from the parsing process (e.g. `auto AST = translate("var x := 3;");`).
 
-4. Use static casts [@staticcast] and assertions to validate the structure of the tree.
+4. Use static casts [^staticcast] and assertions to validate the structure of the tree.
 
 ```c++
 // Full example test case
@@ -195,3 +195,7 @@ Testing Frontends
 Naylang does not feature any unit tests for the frontends, for several reasons. On the one hand, the frontends are not part of the core evaluation and debugging system, and thus are not as important for the prospect student to learn from. On the other hand, the frontends feature some of the shortest and most industry-standard code of the project, and thus it's design is deemed straightforward enough to not grant their inclusion in the test suite.
 
 However, as more and more complicated frontends are added to the project, the possibility of including them in the test suite will be reconsidered.
+
+[^freesoftware]: https://www.fsf.org/about/what-is-free-software
+
+[^staticcast]: http://en.cppreference.com/w/cpp/language/static_cast
