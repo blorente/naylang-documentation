@@ -1,21 +1,22 @@
 PDF := naylang.pdf  # PDF Main Target
-MARKDOWN := introduction.md the_grace_programming_language.md \
-						state_of_the_art.md \
-						implementation.md \
-						project_structure.md \
-						execution_flow.md \
-						parsing.md \
-						ast.md \
-						evaluator.md \
-						methods_and_dispatch.md \
-						object_model.md \
-						heap.md \
-						debug.md \
-						frontend.md \
-						modular_visitor_pattern.md \
-						testing_methodology.md \
-						conclusions.md \
-						bibliography.md # Markdown files
+MARKDOWN := introduction.md introduction_es.md \
+			the_grace_programming_language.md \
+			state_of_the_art.md \
+			implementation.md \
+			project_structure.md \
+			execution_flow.md \
+			parsing.md \
+			ast.md \
+			evaluator.md \
+			methods_and_dispatch.md \
+			object_model.md \
+			heap.md \
+			debug.md \
+			frontend.md \
+			modular_visitor_pattern.md \
+			testing_methodology.md \
+			conclusions.md conclusions_es.md \
+			bibliography.md # Markdown files
 APPENDICES := grace_grammar.md appendixB.md # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography
