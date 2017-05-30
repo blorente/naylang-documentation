@@ -3,7 +3,7 @@
 Frontend
 ------
 
-One of the design goals of Naylang is to serve as a teaching example of an interpreter. This requires that the execution core (parsing, AST and evaluation) be as isolated as possible from the interaction with the user, with aims to facilitate the student to discern the essential parts of interpreters from the nonessential I/O operations.
+One of the design goals of Naylang is to serve as a teaching example in interpreter construction. This requires that the execution core (parsing, AST and evaluation) be as isolated as possible from the interaction with the user, with aims to help the student in discerning the fundamental parts of interpreters from the nonessential I/O operations.
 
 Currently, all the user interaction is handled by the `ConsoleFrontend` class, which is in charge of receiving commands from the user and calling one of it's `ExecutionMode`s to handle the commands.
 
@@ -44,6 +44,6 @@ ndb> skip (sk)
   // Step to the next instruction, skipping scope changes and calls
 ```
 
-Figure 4.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent what can be done with such structure.
+Figure 5.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent how such structure could function.
 
 ![Frontends And Controllers](images/frontends.pdf) 

@@ -1,4 +1,6 @@
-\newpage
+\pagebreak
+
+
 
 Debugging
 ------
@@ -13,7 +15,7 @@ In addition to that, a controler was created (`Debugger`) to act as an adaption 
 
 The debugger uses a _before-after_ stateful execution pattern. In general, the debugger behaves exactly the same as the `ExecutionEvaluator`, **except** for when a pause in the execution is required, in which case the execution must block and request commands until a command is provided that resumes execution (e.g. `continue` or `next`). A pause can happen either because a breakpoint is reached, or the execution was paused in the instruction before and a step instruction was executed (e.g. `step` will execute an instruction and block again).
 
-The extension of the evaluation must only handle the cases where a pause is necessary. In these cases, two calls are added before and after the call to the regular evaluation. Either function can block if the conditions demand so. When they do, they request commands from the frontend until the conditions are met to resume exection.
+The extension of the evaluation must only handle the cases where a pause is necessary. In these cases two calls are added before and after the call to the regular evaluation. Either function can block if the conditions demand so. When they do, they request commands from the frontend until the conditions are met to resume exection.
 
 ```c++
 void DebugEvaluator::evaluate(VariableDeclaration &expression) {
@@ -27,7 +29,7 @@ void DebugEvaluator::evaluate(VariableDeclaration &expression) {
 }
 ```
 
-To handle all the possible cases and commands, the debugger holds a `state` field, which determines the behavior of a certain `debug()` call. Therefore, the `debug()` functions are also resposible for handling automatic state transitions in the debugger, that is, transitions that do not require user interaction. The possible debug states are the following:
+To handle all the possible cases and commands, the debugger holds a `state` field, which determines the behavior of a certain `<begin/end>debug()` call. Therefore, the `<begin/end>debug()` functions are also resposible for handling automatic state transitions in the debugger, that is, transitions that do not require user interaction. The possible debug states are the following:
 
 ```c++
 enum DebugState {
@@ -58,11 +60,11 @@ void DebugEvaluator::endDebug(Statement *node, DebugState prevState) {
 }
 ```
 
-The state can also be changed with external commands such as `continue`, which changes the state unconditionally to `CONTINUE`, or by the controller because of breakpoints.
+The state can also be changed with external commands such as `continue`, which changes the state unconditionally to `CONTINUE`, or by the controller for diverse causes, such as a breakpoint being reached.
 
 ### Debugger Class
 
-The `Debugger` class can be thought of as the controller for the `DebugEvaluator` execution controller. It is responsible for:
+The `Debugger` class can be thought of as the controller for the `DebugEvaluator`. It is responsible for:
 
 - Handling user-defined breakpoints. In this case, the breakpoints are only a set of lines in which a breakpoint is set.
 - Implementing the `debug()` function which the `DebugEvaluator` calls to update it's state.

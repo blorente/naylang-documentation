@@ -6,11 +6,10 @@ Lexing and Parsing
 This step of the process was performed with the ANTLRv4 tool [@antlr4ref],
 specifically the C++ target [@antlr4cpp]. ANTLRv4 generates several lexer and
 parser classes for the specified grammar, which contain methods that are executed
-every time a rule is activated.
+every time a rule is activated. These classes can then be extended to override the rule methods and execute
+arbitrary code, as will be shown later. 
 
-These classes can then be extended to override the rule methods and execute
-arbitrary code, as will be shown later. This method allows instantiation of the
-AST independently from the grammar specification.
+This method allows instantiation of the AST independently from the grammar specification.
 
 ### The Naylang Parser Visitor
 
@@ -21,7 +20,7 @@ One might, for example, prefer to visit the _right_ side of an assignment before
 moving onto the _left_ side to instantiate particular types of assignment,
 depending on the assigned value. To that end, the `NaylangParserVisitor`
 class was created, which extends `GraceParserBaseVisitor`, a class designed to
-provide the default implementation of a parse tree traversal.
+provide the default preorder implementation of the parse tree traversal.
 
 The class definition along with the overriden method list can be found in
 `NaylangParserVisitor.h`.
@@ -29,11 +28,11 @@ Note that ANTLRv4 names the visitor methods `visit<RuleName>` by convention.
 For example, `visitBlock()` will be called when the `block` rule is matched in
 parsing.
 
-To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the initial value expression node in a variable declaration). A full description of this structure is found in [a following section](#naylang-parser-visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
+To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the parameter expressions in a method call). A full description of this structure is found in [a following section](#naylang-parser-visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
 
 #### Parsing Strategy
 
-The strategy followed for parsing the source code was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an Assignment), the child nodes were visited and instatiated **before** constructing the parent node, as opposed to constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
+The strategy followed for parsing the source code was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an `Assignment`), the child nodes were visited and instatiated **before** constructing the parent node, as opposed to constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
 
 - It corresponds with a postorder traversal of the implicit parse tree, which is more akin to most traditional parsing algorithms.
 
@@ -41,36 +40,35 @@ The strategy followed for parsing the source code was to override only the neces
 
 #### Prefix and Infix Operators
 
-Prefix and infix operators are a special case of syntactic sugar in Grace, since they allow for the familiar infix and prefix syntax (e.g. `4 + 5`). It is necessary to process these operators as special cases of the syntax, to convert them to valid AST nodes. As the Grace specification says [^gracespecinfixops], infix and prefix operators must be converted to explicit requests on an object.
+Prefix and infix operators are a special case of syntactic sugar in Grace, since they allow for the familiar infix and prefix syntax (e.g. `4 + 5`). It is necessary to process these operators as special cases of the syntax, to convert them to valid AST nodes. The Grace specification states that infix and prefix operators must be converted to explicit requests to an object[^gracespecinfixops].
 
 In the case of **prefix operators**, the operation must be transformed to an explicit request in the right-hand receiver. In addition to that, the name of the method to call must be preceded with the `prefix` keyword. For instance, a call to the logical not operator `!x` would be transformed into the explicit request `x.prefix!`. As can be seen, a prefix operator does not take parameters.
 
-For **infix operators** the transformation is similar, but in this case the receiver is the leftmost operand while the right-side operand is passed in as a parameter. In addition, the canonical name of the method must be formed by adding one parameter to the method name, to account for the right-side operand. Therefore, the aforementioned `4 + 5` request would be translated to `4.+(5)`, an explicit request for the `+(_)` method of the `4` object with `5` as a parameter.
+For **infix operators** the transformation is similar, but in this case the receiver is the leftmost operand while the right-side operand is passed in as a parameter. In addition, the canonical name of the method must be formed by adding one parameter to the method name, to account for the right-side operand. Therefore, the aforementioned `4 + 5` request would be translated to `4.+(5)`, an explicit request for the `+(_)` method of the object `4` with `5` as a parameter.
 
 ### The Naylang Parser Stack
 
 During the AST construction process, information must be passed between parser
-function calls. A function call parser rule must have information about each of
-the parameters available, for example. To that end, the parser methods generated
+function calls. A method call must, for instance, retrieve information about each of it's effective parameter expressions. To that end, the parser methods generated
 by ANTLR have a return value of type `antlrcpp::Any`. This however was not usable
-by the project, since sometimes more than one value needed to be returned, and
-most of all, converting from `Any` to the correct node types proved impossible.
+by the project, since sometimes more than one value needed to be returned and,
+most of all, converting from `Any` to the correct node types proved impractical and error-prone.
 
 Therefore, a special data structure was developed to pass information between
-function calls. The requirements were:
+function calls. The requirements were that:
 
-- It must hold references to Statement nodes.
-- It must be able to return the n last inserted Statement pointers,
+- It must hold references to `Statement` nodes.
+- It must be able to return the n last inserted `Statement` pointers,
 in order of insertion.
-- It must be able to return those references as either Statements, Expressions
-or Declarations, the three abstract types of AST nodes that the parser handles.
+- It must be able to return those references as either `Statements`, `Expressions`
+or `Declarations`, the three abstract types of AST nodes that the parser handles.
 
 The resulting structure declaration can be found in
 `NaylangParserStack.h`. It uses template
 metaprogramming to be able to specify the desired return type from the caller
 and cast the extracted elements to the right type. Note that a faulty conversion
 is possible and the structure does not enforce any type invariants other than
-those statically enforced by the compiler. Therefore, the invariants must be
+those statically guarranteed by the compiler. Therefore, the invariants must be
 implicitly be preserved by the client class.
 
 The parser class uses wrapper functions for convenience to predefine the most
@@ -87,7 +85,7 @@ std::vector<StatementPtr> NaylangParserVisitor
 }
 ```
 
-An example of the stack usage can be found in parsing user-defined methods, since these require Statement nodes for the body and Declarations for the formal parameters. 
+An example of the stack usage can be found in parsing user-defined methods, since these require `Statement` nodes for the body and `Declaration`s for the formal parameters. 
 
 ```c++
 antlrcpp::Any NaylangParserVisitor::
@@ -138,14 +136,13 @@ antlrcpp::Any NaylangParserVisitor::
 ### Left-Recursion and Operator Precedence
 
 Grace assigns a three levels of precedence for operators: `*` and `/` have the
-highest precedence, followed by `+` and '-', and then the rest of prefix and infix
-operators along with user methods are executed.
+highest precedence, followed by `+` and `-`, and then the rest of prefix and infix operators along with user and native methods.
 
 Usually, for an EBNF-like [@standard1996ebnf] grammar language to correctly assign operator
 precedence, auxiliary rules must be defined which clutter the grammar with
-unnecessary information.
+unnecessary information, which is the case for example for LL(k)-grammar parser generators.
 ANTLRv4, however, can handle left-recursive rules as long as they are not indirect [@antlr4ref].
-It does this by assigning rule precedence based on the position of the alternative in the rule definition. This way, defining operator precedence becomes trivial:
+It does so by assigning rule precedence based on the position of the alternative in the rule definition. This way, defining operator precedence becomes trivial:
 
 ```antlr
 // Using left-recursion and implicit rule precendence.

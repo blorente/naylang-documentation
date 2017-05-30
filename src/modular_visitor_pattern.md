@@ -11,9 +11,9 @@ During the factoring process, a new programming pattern arised. This new pattern
 Description
 -------
 
-This pattern takes advantage of the very structure of Visitor-based interpreters. In this model of computation, every node in the AST has a certain function associated with it, which provides implicit entry and exit points to the processing of every node. This gives the class that calls these methods total control over the execution of the tree traversal. Up to this point, this caller class was the evaluator itself.
+This pattern takes advantage of the very structure of Visitor-based interpreters. In this model of computation, every node in the AST has an `Evaluator` method associated with it, which provides implicit entry and exit points to the processing of every node. This gives the class that calls these methods total control over the execution of the tree traversal. Up to this point, this caller class was the evaluator itself.
 
-However, the key to this technique is to take advantage of those intervention points and the extra control over the execution flow and insert arbitrary code at those points. This code pieces could potentially do anything, from pausing the normal evaluation flow (e.g. in a debugger) to modifying the AST itself, allowing for any new feature to be developed.
+However, the key to this technique is to take advantage of the intervention points and the extra control over the execution flow and insert arbitrary code in those locations. This code pieces could potentially do anything, from pausing the normal evaluation flow (e.g. in a debugger) to modifying the AST itself, potentially allowing for any new feature to be developed.
 
 This pattern is most comfortably used with classes that implement the same methods as the original class, since that will provide with a common and seamless interface with the rest of the system.
 
@@ -21,14 +21,14 @@ The following sections explain different variations in the pattern, and provide 
 
 ### Direct Subclass Modularity
 
-The most straightforward way to implement a Modular Visitor is to directly subclass the class that needs to be extended. This way, the old class can be replaced with the new subclass in the parts of the system that need that functionality with minimal influence in the rest of the codebase.
+The most straightforward way to implement a Modular Visitor is to directly subclass the class that needs to be extended. This way, the old class can be replaced with the new subclass in the parts of the system that need that functionality with minimal influence in the rest of the codebase [@liskov1994behavioral].
 
 By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods.
 
-Figure 5.1 demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
+Figure 6.1 demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
 
 ```
-proc createExtensioVisitor() {
+proc createExtensionVisitor() {
 	return new ExtensionVisitor();
 }
 ```
@@ -74,10 +74,10 @@ In this technique, what previously was a subclass of the extended class is now a
 
 Obviously, since the main visitor is not being extended anymore, **all of the methods** it implements will have to be overriden from the extender class to include _at least_ calls to the main evaluator.
 
-Figure 5.2 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 6.2 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
-proc createExtensioVisitor() {
+proc createExtensionVisitor() {
 	super := new MainVisitor();
 	return new ExtensionVisitor(super);
 }
@@ -124,7 +124,7 @@ void DebugEvaluator::evaluate(NumberLiteral &expression) {
 
 #### Discussion
 
-This method simplifies greatly the class hierarchy by moving the composition of visitors from the subclassing mechanism to runtime instantiation. However, this also means that the desired composition of visitors must be explicitly instantiated and passed to their respective constructors (e.g. via _factory methods_).
+The Composite Modularity method simplifies greatly the class hierarchy by moving the composition of visitors from the subclassing mechanism to runtime instantiation, creating wider, more shallow class hierarchies. However, this also means that the desired composition of visitors must be explicitly instantiated and passed to their respective constructors (e.g. via _factory methods_ [@compositionoverinheritance]).
 
 This problem can be circunvented by having the extender class explicitly create the instances of the visitors it nedds directly into it's constructor. This can be a solution in some cases, but implementors must be aware of the tradeoff in flexibility that it poses, since then the extender is bound to have only one possible class to call.
 
@@ -139,10 +139,10 @@ This final version of the Modular Visitor Pattern tries to solve some of the iss
 
 One way to accomplish these goals is to define an intermediate layer of inheritance in the class hierarchy such that all the default calls to the main visitor are implemented in a superclass, and only the relevant functionality is implemented in a subclass. Roughly speaking, it consists on **grouping together** extensions that need to interject the execution at similar times, and **moving all the non-specific code to a superclass**. This way, it is the superclass that has the responsibility of handling the main evaluator instance.
 
-Figure 5.3 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 6.3 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
-proc createExtensioVisitor() {
+proc createExtensionVisitor() {
 	super := new MainVisitor();
 	return new ExtensionVisitorA(super);
 }
@@ -152,7 +152,7 @@ proc createExtensioVisitor() {
 
 #### Example
 
-Following the previous example, it is possible to define a superclass that agrupates the behavior of "executing code before and after evaluating a node". Let us call that class `BeforeAfterEvaluator`. This class has the responsibility of implementing calls to the regular evaluation and providing interfaces for the `before()` and `after()` operations.
+Following the previous example, it is possible to define a superclass that bundles the behavior of "executing code before and after evaluating a node". Let us call that class `BeforeAfterEvaluator`. This class has the responsibility of implementing calls to the regular evaluation and providing interfaces for the `before()` and `after()` operations.
 
 ```c++
 class BeforeAfterEvaluator : public Evaluator {
@@ -163,7 +163,9 @@ public:
 	BeforeAfterEvaluator(Evaluator *super);
 
 	virtual evaluate(VariableDeclaration &expression) override {
+		before(&expression);
 		_super->evaluate(expression);
+		after(&expression);
 	}
 	// ...
 	virtual void before(Statement *stat) = 0;
@@ -179,8 +181,8 @@ class DebugEvaluator : public BeforeAfterEvaluator {
 
 public:
 	// Override the desired function
-	virtual void before();
-	virtual void after();
+	virtual void before() override;
+	virtual void after() override;
 
 	virtual evaluate(VariableDeclaration &expression) override;
 }
@@ -200,7 +202,7 @@ This is by far the most flexible method, and the one that offers the best tradeo
 Applications
 -------
 
-This visitor design pattern has a myriad of applications. The main benefit is that it allows to practically extend the functionality of an intepreting engine without needing to change the previous processings. It permits to add both semantic power to the language (e.g. by creating a type checking extension, or an importing system) and extralinguistic tools (such as the debugging mechanism) with minimal risk to the existing processing core of the language.
+This visitor design pattern has a myriad of applications. The main benefit is that it allows to extend the functionality of an intepreting engine without needing to change the previous processings. It permits the addition of both semantic power to the language (e.g. by creating a type checking extension, or an importing system) and extralinguistic tools (such as the debugging mechanism) with minimal risk to the existing processing core of the language.
 
 **Further investigation is necessary**, but this technique could lead to a way of **incrementally designing a language**, wherein a language implementation could grow incrementally and iteratively in parallel to it's design and specification, safely. It is not hard to imagine the benefits of having the most atomic parts of a language implemented first, and more visitor extensions are added as more complex features are introduced to the language.
 

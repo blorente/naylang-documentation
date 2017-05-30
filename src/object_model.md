@@ -3,11 +3,11 @@
 Object Model
 ------
 
-In Grace, everything is an object, and therefore the implementation of these
+Everything is an object in Grace, and therefore the implementation of these
 must be flexible enough to allow for both JavaScript-like objects and native
 types such as booleans, numbers and strings.
 
-To represent this, a shallow bit wide class hierarchy was used, with an abstract `GraceObject` class at the top and every other type of object implemented as a direct subclass of it.
+To represent this, a shallow but wide class hierarchy was used, with an abstract `GraceObject` class at the top and every other type of object implemented as a direct subclass of it.
 
 ### GraceObject
 
@@ -87,8 +87,8 @@ void GraceNumber::addDefaultMethods() {
 ```
 
 There are some other native types, most of them used in the implementation and
-invisible to the user, but they have no methods and only one element in their
-type class, such as `Undefined`, which throws an error whenever the user tries
+invisible to the user, but they have few methods and only one element in their
+type class. One such type is `Undefined`, which throws an error whenever the user tries
 to interact with it.
 
 #### Blocks
@@ -106,7 +106,7 @@ accomplished via virtual methods in the base class, **which error by default**:
 ```c++
 // GraceObject.h
 
-// Each of these methods will throw a type exception called
+// Each of these methods will throw an exception when called
 virtual const GraceBoolean &asBoolean() const;
 virtual const GraceNumber &asNumber() const;
 virtual const GraceString &asString() const;
@@ -127,7 +127,7 @@ virtual bool isBlock() const;
 
 This approach has two major benefits:
 
-- It allows the evaluator to treat every object equally, except where a specific cast is necessary, such as the result of evaluating condition expression of an `if` statement, which must be a `GraceBoolean`. Therefore, the type checking is completely detached from the AST and, to an extent, the evaluator. The evaluator only has to worry about types when the language invarints require so.
+- It allows the evaluator to treat every object equally, except where a specific cast is necessary, such as the result of evaluating condition expression of an `if` statement, which must be a `GraceBoolean`. Therefore, the type checking is completely detached from the AST and, to an extent, the evaluator. The evaluator only has to worry about types when the language invariants require so.
 
 - It scales very well. For instance, if a new native type arised that could be either a boolean or a number, it would be sufficient to implement both caster methods in an appropriate subclass.
 
