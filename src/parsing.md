@@ -89,7 +89,7 @@ An example of the stack usage can be found in parsing user-defined methods, sinc
 
 ```c++
 antlrcpp::Any NaylangParserVisitor::
-	visitUserMethod(GraceParser::UserMethodContext *ctx) 
+    visitUserMethod(GraceParser::UserMethodContext *ctx) 
 	{
 	// Parse the signature.
 	// After this line, both the node stack and the string stack
@@ -107,7 +107,7 @@ antlrcpp::Any NaylangParserVisitor::
 
     // Retrieve the formal parameters from the node stack
     int numParams = 0;
-    for (auto part : ctx->methodSignature()->methodSignaturePart()) {
+    for(auto part : ctx->methodSignature()->methodSignaturePart()){
         numParams += 
         	part->formalParameterList()->formalParameter().size();
     }
@@ -124,7 +124,8 @@ antlrcpp::Any NaylangParserVisitor::
     // Create the method node
     auto methodDeclaration = 
     	make_node<MethodDeclaration>(
-    		methodName, formalParams, body, getLine(ctx), getCol(ctx));
+    		methodName, formalParams, body, 
+            getLine(ctx), getCol(ctx));
 
     // Push the new node into the stack as a declaration 
     // for the caller method to consume

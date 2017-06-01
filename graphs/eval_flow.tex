@@ -8,13 +8,13 @@
   	\parindent=3em  
   	 \\ \\
 \indent ExecutionEvaluator.evaluate(const GraceAST \&ast)\\
-\indent -- VariableDeclaration.accept(Evaluator \&eval)\\
- \indent\indent -- ExecutionEvaluator.evaluate(VariableDeclaration \&node)\\
- \indent\indent\indent -- ExecutionEvaluator.setIdentifier(node.id())\\ 
- \indent\indent\indent -- Number.accept(this)\\
- \indent\indent\indent\indent -- ExecutionEvaluator.evaluate(NumberLiteral \&node)\\
- \indent\indent\indent\indent\indent -- ExecutionEvaluator.setPartial(new GraceNumber(node.val()))\indent\\
- \indent\indent\indent -- ExecutionEvaluator.declareVariable(id, \_partial)
+\indent $|$-- VariableDeclaration.accept(Evaluator \&eval)\\
+ \indent\indent $|$-- ExecutionEvaluator.evaluate(VariableDeclaration \&node)\\
+ \indent\indent\indent $|$-- ExecutionEvaluator.setIdentifier(node.id())\\ 
+ \indent\indent\indent $|$-- Number.accept(this)\\
+ \indent\indent\indent$|$\indent $|$-- ExecutionEvaluator.evaluate(NumberLiteral \&node)\\
+ \indent\indent\indent$|$\indent\indent $|$-- ExecutionEvaluator.setPartial(new GraceNumber(node.val()))\indent\\
+ \indent\indent\indent $|$-- ExecutionEvaluator.declareVariable(id, \_partial)
  \\ \\
  };	
 	\node at (7.5,2) {VariableDeclaration} [grow'=down]

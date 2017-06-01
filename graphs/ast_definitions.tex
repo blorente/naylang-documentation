@@ -10,7 +10,7 @@
       \umlsimpleclass[x=-1, y=0]{Statement}
       \begin{umlpackage}[y=-3]{declarations}
         \umlclass[x=0, y=0]{Declaration}{}{\umlvirt{virtual name() const : const string \&}}
-        \umlclass[x=-4, y=-2.5]{MethodDeclaration}{name :string \\ params : vector(DeclarationPtr) \\ body : vector(StatementPtr)}{}
+        \umlclass[x=-4, y=-2.5]{MethodDeclaration}{name :string \\ params : vector$<$DeclarationPtr$>$ \\ body : vector$<$StatementPtr$>$}{}
         \umlclass[x=4, y=-2.5]{ConstantDeclaration}
           {name : string \\ value : ExpressionPtr}
           {name() const : const string \& \\ value() const : ExpressionPtr}

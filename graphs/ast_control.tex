@@ -13,14 +13,14 @@
           {field : string \\ scope : ExpressionPtr \\ value : ExpressionPtr}
           {field() const : const string \& \\ scope() const : const ExpressionPtr \& \\ value() const :const ExpressionPtr \&}
         \umlclass[x=5, y=0]{IfThen}
-          {condition : ExpressionPtr \\ then : vector(StatementPtr)}
-          {condition() const : ExpressionPtr \\ thenPart() const :  const vector(StatementPtr) \&}
+          {condition : ExpressionPtr \\ then : vector$<$StatementPtr$>$}
+          {condition() const : ExpressionPtr \\ thenPart() const :  const vector$<$StatementPtr$>$ \&}
         \umlclass[x=5, y=-4]{IfThenElse}
-          {condition : ExpressionPtr \\ thenp : vector(StatementPtr) \\ elsep : vector(StatementPtr)}
-          {condition() const : ExpressionPtr \\ thenPart() const :  const vector(StatementPtr) \& \\ \\ elsePart() const :  const vector(StatementPtr) \&}
+          {condition : ExpressionPtr \\ thenp : vector$<$StatementPtr$>$ \\ elsep : vector$<$StatementPtr$>$}
+          {condition() const : ExpressionPtr \\ thenPart() const :  const vector$<$StatementPtr$>$ \& \\ elsePart() const :  const vector$<$StatementPtr$>$ \&}
         \umlclass[x=-5, y=-4]{While}
-          {condition : ExpressionPtr \\ body : vector(StatementPtr)}
-          {condition() const : ExpressionPtr \\ body() const :  const vector(StatementPtr) \&}
+          {condition : ExpressionPtr \\ body : vector$<$StatementPtr$>$}
+          {condition() const : ExpressionPtr \\ body() const :  const vector$<$StatementPtr$>$ \&}
         \umlemptyclass[x=0.1, y=-2]{Return}
       \end{umlpackage}
     \end{umlpackage}

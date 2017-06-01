@@ -16,18 +16,18 @@ Sin embargo, el coste de esta flexibilidad es que muchas de las actuales impleme
 Objetivos
 ------
 
-Naylang tiene como gran objectivo servir como ejercicio en la construcción de intérpretes de lenguajes, no solamente para los creadores, sino para cualquier futuro contribuyente al código. Como consecuencia, el proyecto presenta los siguientes objetivos primordiales:
+Naylang tiene como primer objectivo servir como ejercicio en la construcción de intérpretes de lenguajes, tanto para los creadores, como para cualquier futuro contribuyente al código. Como consecuencia, el proyecto presenta los siguientes objetivos primordiales:
 
 - Proveer una implementación **sólida** de un **subconjunto relevante** de Grace.
-- Ser tan **amigable** como sea posible, tanto para los **usuarios finales** (estudiantes de programación) como para **posibles colaboraciones**.
-- Ser en sí misma una **herramienta** para **aprender sobre la implementación** de lenguajes tan particulares y flexibles como Grace.
+- Ser tan **amigable** como sea posible para los **usuarios finales** (estudiantes de programación) y para posibles futuras **contribuciones**.
+- Ser en sí misma una **herramienta** para **aprender sobre la implementación** de lenguajes tan flexibles como Grace.
 
 Metodología
 -------
 
 El proyecto se rige por la disciplina del Desarrollo Basado en Tests (TDD), por la cual tests unitarios se escriben en paralelo al código (muchas veces antes que éste), en iteraciones muy cortas. Se ha elegido este modelo de desarrollo por varias razones:
 
-En primer lugar, tere una cobertura extensa de tests provee una forma fácil y automática de verificar qué partes del proyecto están funcionando como deberían. Por lo tanto, nuevos contribuyentes al proyecto sabrán con exactitud qué subsistemas afectan los cambios que hagan y de qué forma, lo que  permitirá hacer cambios con mayor rapidez y seguridad.
+En primer lugar, contar con una cobertura extensa de tests provee una forma fácil y automática de verificar qué partes del proyecto están funcionando como deberían. Por lo tanto, nuevos contribuyentes al proyecto sabrán con exactitud qué subsistemas afectan los cambios que hagan y de qué forma, lo que  permitirá hacer cambios con mayor rapidez y seguridad.
 
 En segundo lugar, los tests unitarios en sí mismos sirven también como _documentación_ del proyecto, dado que proveen **ejemplos funcionales** del uso de cada parte del código. Esto resulta en una facilidad mucho mayor a la hora de entender las interacciones y el funcionamiento de los diferentes subsistemas. Como beneficio añadido, los tests unitarios se mantienen por defecto siempre actualizados con el código, por lo que no es necesario redactar una documentación por separado.
 

@@ -50,11 +50,12 @@ GraceObjectPtr Method::respond(
   GraceObject &self, 
   MethodRequest &request) 
   {
-    // Create the scope where the parameters are to be instantiated
+    // Create the scope where the parameters will be instantiated
     GraceObjectPtr closure = make_obj<GraceClosure>();
     // Instantiate every parameter in the closure
     for (int i = 0; i < request.params().size(); i++) {
-        closure->setField(params()[i]->name(), request.params()[i]);
+        closure->setField(
+            request.params()[i]->name(), request.params()[i]);
     }
     // Set the closure as the new scope, 
     // with the old scope as a parent

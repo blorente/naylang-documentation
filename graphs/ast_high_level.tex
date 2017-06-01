@@ -8,7 +8,7 @@
   \begin{tikzpicture}
     \begin{umlpackage}{src/core/model/ast}
       \umlsimpleclass[x=0, y=0]{Statement} {line : int \\ col : int} {line() : int \\ col() : int \\ \umlvirt{accept(eval : Evaluator \&) : void}}
-      \umlsimpleclass[x=5, y=0]{GraceAST} {nodes : vector<StatementPtr>}{}
+      \umlsimpleclass[x=5, y=0]{GraceAST} {nodes : vector$<$StatementPtr$>$}{}
       \begin{umlpackage}[y=-4, x=8]{expressions}
         \umlsimpleclass[x=-4,y=2]{Expression}
         \umlsimpleclass[y=-2.5, x=0]{ObjectConstructor}

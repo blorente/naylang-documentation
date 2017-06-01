@@ -12,8 +12,8 @@
         \umlsimpleclass[x=-5,y=1.5]{Expression}
         \begin{umlpackage}[x=-7, y=-1]{requests}
           \umlclass[x=2, y=0]{RequestNode}
-            {name : string \\ params : vector<ExpressionPtr>}
-            {identifier() const : const string \& \\ params() const : const vector<ExpressionPtr> \&}
+            {name : string \\ params : vector$<$ExpressionPtr$>$}
+            {identifier() const : const string \& \\ params() const : const vector$<$ExpressionPtr$>$ \&}
           \umlemptyclass[x=-1, y=-3]{ImplicitRequestNode}
           \umlclass[x=6, y=0-3]{ExplicitRequestNode} {receiver : ExpressionPtr} {receiver() const : const ExpressionPtr \&}
         \end{umlpackage}{requests}
