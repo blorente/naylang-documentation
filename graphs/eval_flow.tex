@@ -4,7 +4,7 @@
 
 \begin{document}
   \begin{tikzpicture}
-  	\node[draw,align=left] at (0,-1.5) {
+  	\node[align=left] at (0,-1) {
   	\parindent=3em  
   	 \\ \\
 \indent ExecutionEvaluator.evaluate(const GraceAST \&ast)\\
@@ -17,7 +17,7 @@
  \indent\indent\indent -- ExecutionEvaluator.declareVariable(id, \_partial)
  \\ \\
  };	
-	\node at (9, 2) {VariableDeclaration} [grow'=down]
+	\node at (7.5,2) {VariableDeclaration} [grow'=down]
 		child {node {val}
 			child {node {NumberLiteral}
 				child{node{\_val}
@@ -28,5 +28,6 @@
 		child {node {\_id}
 			child {node {"x"}}		
 	};
+\draw  (-6.5,2.5) rectangle (10,-4.5);
 \end{tikzpicture}
 \end{document}
