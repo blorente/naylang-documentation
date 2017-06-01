@@ -104,33 +104,31 @@ The implementation of the algorithm itself is rather straightforward, since it i
 
 ```c++
 void Heap::markAndSweep() {
-	for (auto obj : _storage) {
-		obj->_visited = false;
-	}
+    for(auto&& obj : _storage) {
+        obj->_accessible = false;
+    }
+    auto scope = _eval->currentScope();
+    scope->_accessible = true;
+    visitMark(scope);
 
-	auto scope = _eval->currentScope();
-	scope->_visited = true;
-	visit(scope);
-
-	int index = 0;
-	std::vector<int> toDelete;
-	for (auto obj : _storage) {		
-		if (!obj->_visited) {
-			toDelete.push_back(index);
-		}
-		index++;
-	}
-
-	for (auto ndx : toDelete) {
-		_storage.erase(ndx);
-	}
+    for (auto&& obj = _storage.begin(); 
+    		obj != _storage.end();) {
+        if (!(*obj)->_accessible) {
+            obj = _storage.erase(obj);
+        } else {
+            ++obj;
+        }
+    }
 }
 
 void Heap::visit(GraceObject* scope) {
-	for (auto field : scope->fields()) {
-		field->_visited = true;
-		visit(field);
-	}
+    for (auto field : obj->fields()) {
+        if (field.first != "self" && 
+        		!field.second->_accessible) {        	
+            field.second->_accessible = true;
+            visitMark(field.second);
+        }
+    }
 }
 ```
 
@@ -148,15 +146,18 @@ Therefore, this would be the code relevant to triggering the garbage collection:
 
 ```c++
 void Heap::triggerGCIfNeeded() {
-	if (_totalObjects >= _maxCapacity) {
-		throw std::string{"Out of Memory"};
-	}
-
-	if (_nthObject == _interval) {
-		if (_totalObjects >= _threshold) {
-			markAndSweep();
-		}
-	}
+	if (_storage.size() >= _capacity) {
+        markAndSweep();
+        if (_storage.size() >= _capacity) {
+            throw std::string{"Heap: Out of Memory"};
+        }
+    }
+    if (_storage.size() >= _threshold) {
+        if (_nthObject == _triggerInterval) {
+            _nthObject = 0;
+            markAndSweep();
+        }
+    }
 }
 ```
 

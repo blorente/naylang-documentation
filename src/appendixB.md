@@ -4,7 +4,7 @@ How was this document made?
 Author
 -------
 The process described in this Appendix was devised by Álvaro
-Bermejo, who published it under the MIT license in 2017 [@persimmon]. What follows is a verbatim copy of the original.
+Bermejo, who published it under the MIT license in 2017[^persimmon]. What follows is a verbatim copy of the original.
 
 Process
 -------
@@ -31,3 +31,7 @@ References
 References are handled by pandoc-citeproc, we can write our bibliography in
 a myriad of different formats: bibTeX, bibLaTeX, JSON, YAML, etc..., then
 we reference in our markdown, and that reference works for multiple formats
+
+
+[^persimmon]: https://github.com/AlvarBer/Persimmon/tree/master/docs
+
