@@ -1,4 +1,4 @@
-Appendix A: Grammars
+Grace Grammars
 ==========
 
 ANTLR 4 grammars used for parsing Grace in Naylang.
@@ -6,7 +6,9 @@ ANTLR 4 grammars used for parsing Grace in Naylang.
 Lexer Grammar
 --------
 
-```antlr
+The grammar used to generate the string tokenizer:
+
+```
 lexer grammar GraceLexer;
 
 tokens {
@@ -65,23 +67,27 @@ fragment LETTER : [a-zA-Z\u0080-\uFFFF];
 Parser Grammar
 --------
 
-```antlr
+The grammar used to generate the AST constructor:
+
+```
 parser grammar GraceParser;
 options {
 	tokenVocab = GraceLexer;
 }
 program: (statement)*;
-statement: expression DELIMITER | declaration | assignment | control;
+statement: expression DELIMITER 
+         | declaration 
+         | assignment
+         | control;
 
-assignment :
-						 field=identifier VAR_ASSIGN val=expression
-						  DELIMITER #SelfAssign
+assignment : field=identifier VAR_ASSIGN val=expression
+			 DELIMITER #SelfAssign
            | scope=explicitRequest
-					 		DOT field=identifier
-							VAR_ASSIGN val=expression DELIMITER #ExplAssign
+			 DOT field=identifier
+			 VAR_ASSIGN val=expression DELIMITER #ExplAssign
            | scope=implicitRequest
-					 		DOT field=identifier
-							VAR_ASSIGN val=expression DELIMITER #ImplAssign
+			 DOT field=identifier
+			 VAR_ASSIGN val=expression DELIMITER #ImplAssign
            ;
 
 control : ifThen
@@ -89,8 +95,8 @@ control : ifThen
         | whileNode
         ;
 
-ifThen :
-		IF OPEN_PAREN cond=expression CLOSE_PAREN thn=methodBody;
+ifThen : IF OPEN_PAREN cond=expression 
+         CLOSE_PAREN thn=methodBody;
 ifThenElse :
 		IF OPEN_PAREN cond=expression
 		CLOSE_PAREN thn=methodBody ELSE els=methodBody;
@@ -123,29 +129,31 @@ formalParameterList:
 formalParameter: identifier;
 
 methodBody: OPEN_BRACE methodBodyLine* CLOSE_BRACE;
-methodBodyLine: variableDeclaration
-							| constantDeclaration
-							| expression DELIMITER
-							| control
-							| assignment
-							;
+methodBodyLine  : variableDeclaration
+    			| constantDeclaration
+    			| expression DELIMITER
+    			| control
+    			| assignment
+    			;
 
 // Using left-recursion and implicit operator precendence.
 // ANTLR 4 Reference, page 70
-expression  : rec=expression
-								op=(MUL | DIV) param=expression    #MulDivExp
-            | rec=expression
-								op=(PLUS | MINUS) param=expression #AddSubExp
+expression  : rec=expression op=(MUL | DIV) 
+              param=expression    #MulDivExp
+            | rec=expression op=(PLUS | MINUS) 
+              param=expression #AddSubExp
             | explicitRequest #ExplicitReqExp
             | implicitRequest #ImplicitReqExp
             | prefix_op rec=expression #PrefixExp
-            | rec=expression infix_op param=expression #InfixExp
+            | rec=expression infix_op 
+              param=expression #InfixExp
             | value #ValueExp
             ;
 
 explicitRequest : rec=implicitRequest
-									DOT req=implicitRequest #ImplReqExplReq
-                | rec=value DOT req=implicitRequest #ValueExplReq
+				  DOT req=implicitRequest #ImplReqExplReq
+                | rec=value 
+                  DOT req=implicitRequest #ValueExplReq
                 ;
 
 implicitRequest : multipartRequest              #MethImplReq
@@ -169,9 +177,8 @@ value   : objectConstructor #ObjConstructorVal
 
 objectConstructor:
 		OBJECT OPEN_BRACE (statement)* CLOSE_BRACE;
-block:
-		OPEN_BRACE (params=formalParameterList RIGHT_ARROW)?
-		body=methodBodyLine* CLOSE_BRACE;
+block: OPEN_BRACE (params=formalParameterList RIGHT_ARROW)?
+	   body=methodBodyLine* CLOSE_BRACE;
 lineup: OPEN_BRACKET lineupContents? CLOSE_BRACKET;
 lineupContents: expression (COMMA expression)*;
 
