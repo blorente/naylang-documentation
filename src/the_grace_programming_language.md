@@ -74,7 +74,7 @@ method substringOf(str)from(first)to(last) {
 }
 
 // Request (call)
-substringOf("Hello")from(2)to(4); // Would return "llo"
+substringOf("Hello")from(2)to(5); // Would return "llo"
 ```
 
 This way there is a more direct correlation between the mental model of the student and the code.

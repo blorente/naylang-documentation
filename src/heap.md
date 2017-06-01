@@ -162,7 +162,9 @@ void Heap::triggerGCIfNeeded() {
 
 Note that, even though objects may vary in size slightly, there are never degenerate differences in size, since even a big object with many fields has every one of the fields stored as a separate objects in the Heap, as is explained in Figure 5.8
 
-![Heap Storage Model](images/heap_storage_model.png)
+![Heap Storage Model](images/borlean.png)
+
+
 
 
 [^stdlist]: http://en.cppreference.com/w/cpp/container/list
