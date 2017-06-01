@@ -49,7 +49,7 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(M
 		--metadata title:"Naylang" \
 		--metadata subtitle:"A REPL interpreter and debugger for the Grace programming language." \
 		--metadata date:"Director: José Luis Sierra Rodríguez" \
-		--metadata keywords:"Intepreters","Programming Languages","Debuggers","Grace","Intérpretes","Lenguajes de Programación","Depuradores","Grace" \
+		--metadata keywords:"Intepreters"," Programming Languages"," Debuggers"," Grace"," Intérpretes"," Lenguajes de Programación"," Depuradores" \
 		$(METADATA) $(MARKDOWN) --bibliography $(BIBLIOGRAPHY) --include-after-body $(APPENDIX) -o $@
 
 

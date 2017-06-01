@@ -1,4 +1,3 @@
-
 ---
 author: |
     Borja Lorente
@@ -24,8 +23,6 @@ keywords:
     - Debuggers
     - Grace
 abstract: >
-    Naylang is an Open Source REPL interpreter and debugger for a subset of the Grace programming language, written entirely in modern C++. It is structured as a Visitor-based interpreter, and introduces the Modular Visitor Pattern to the realm of programming languages. The focus of Naylang is on education for both the user and the future contributors, and thus offers extensive test coverage and simple implementations of the most common implementation techniques. It features the ANTLRv4 C++ target for parsing direct left-recursive grammars. 
-#    \newline
-#    \newline
-#\indent Something something dark side
+    Naylang is an Open Source REPL interpreter and debugger for a subset of the Grace programming language, written entirely in modern C++. It is structured as a Visitor-based interpreter, and introduces the Modular Visitor Pattern to the realm of programming languages. The focus of Naylang is on education for both the user and the future contributors, and thus offers extensive test coverage and simple implementations of the most common intepreter components. It features the ANTLRv4 C++ target for parsing direct left-recursive grammars. \newline \newline 
+    \indent Naylang es un intérprete REPL, depurador y entorno de ejecución Open Source para un subconjunto del lenguaje de programación Grace, implementado enteramente en C++14. Se estructura como un intérprete basado en visitantes e introduce el Patrón del Visitante Modular al ámbito de los lenguajes de programación. Naylang se enfoca en la educación para el usuario final y futuros contribuyentes, y por lo tanto ofrece una cobertura extensiva de tests unitarios, además de implementaciones fáciles de entender de los componentes comunes de los intérpretes. Utiliza el enlace de ANTLRv4 con C++ para generar reconocedores de gramáticas directamente recursivas a izquierdas.
 ---
