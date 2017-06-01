@@ -60,12 +60,14 @@
    \begin{umlpackage}[x=3, y=0]{Evaluation}
      \umlsimpleclass[x=0, y=0]{Evaluator}      
      \umlsimpleclass[x=0,y=-1.5]{ExecutionEvaluator}
-     \umlsimpleclass[x=0,y=-3]{DebugEvaluator}      
+     \umlsimpleclass[x=0,y=-3]{DebugEvaluator}     
+     \umlsimpleclass[x=-1,y=-4.5]{Heap}          
    \end{umlpackage}
 
 	% Inheritances
 	\umlinherit[geometry=-|]{ExecutionEvaluator}{Evaluator}
 	\umlinherit[geometry=-|]{DebugEvaluator}{ExecutionEvaluator}
+  \umlunicompo[geometry=--, align2=right, pos=0.8 , angle1=30 , angle2=60, loopsize=2cm] {ExecutionEvaluator}{Heap}
 	
   % -------------------------
   % Object Model
