@@ -1,17 +1,8 @@
+{
+"author": "Borja Lorente",
+"title": "Universidad Complutense de Madrid \newline Facultad de Informática \newline Grado en Ingeniería Informática \newline Trabajo de Fin de Grado",
+"subtitle": "Memoria \newline Mayo 2017 \newline Naylang",
 
----
-author: |
-    Borja Lorente
-title: |
-    Universidad Complutense de Madrid
-    Facultad de Informática
-    Grado en Ingeniería Informática
-    Trabajo de Fin de Grado
-subtitle: |
-    Memoria
-    Mayo 2017
-    Naylang
-#date: 2017-03-01
 documentclass: scrreprt
 colorlinks: True
 lof: True
@@ -25,7 +16,9 @@ keywords:
     - Grace
 abstract: >
     Naylang is an Open Source REPL interpreter and debugger for a subset of the Grace programming language, written entirely in modern C++. It is structured as a Visitor-based interpreter, and introduces the Modular Visitor Pattern to the realm of programming languages. The focus of Naylang is on education for both the user and the future contributors, and thus offers extensive test coverage and simple implementations of the most common implementation techniques. It features the ANTLRv4 C++ target for parsing direct left-recursive grammars. 
-#    \newline
-#    \newline
-#\indent Something something dark side
+    \newline
+    \newline
+\indent Something something dark side
 ---
+
+}
