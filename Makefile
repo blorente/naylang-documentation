@@ -44,14 +44,15 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(M
 		--metadata geometry:top=2.5cm,left=4cm,right=2.5cm,bottom=2.5cm \
 		--metadata date:"$(shell date +%Y/%m/%d)" \
 		--metadata sansfont:"TeX Gyre Heros" \
-		--metadata title:"Naylang" \
-		--metadata subtitle:"A REPL interpreter and debugger for the Grace programming language." \
+		--metadata subtitle:"Intérprete y Depurador de Grace" \
 		--metadata date:"Director: José Luis Sierra Rodríguez" \
 		--metadata keywordsen:"Intepreters"," Programming Languages"," Debuggers"," Grace"\
 		--metadata keywordses:"Intérpretes"," Lenguajes de Programación"," Depuradores" \
 		$(METADATA) $(MARKDOWN) --bibliography $(BIBLIOGRAPHY) --include-after-body $(APPENDIX) -o $@
 
 
+
+		#--metadata title:"Naylang" \
 # 		--top-level-division chapter --highlight-style breezedark \
 
 

@@ -2,14 +2,13 @@
 author: |
     Borja Lorente
 title: |
-    Universidad Complutense de Madrid
-    Facultad de Informática
-    Grado en Ingeniería Informática
-    Trabajo de Fin de Grado
+    Trabajo de fin de grado del Grado en Ingeniería Informática,\linebreak
+    Facultad de Informática,\linebreak
+    Universidad  Complutense  de  Madrid
 subtitle: |
     Memoria
     Mayo 2017
-    Naylang
+    Intérprete y Depurador de Grace
 #date: 2017-03-01
 documentclass: scrreprt
 colorlinks: True
