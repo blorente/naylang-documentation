@@ -12,7 +12,7 @@ Tests as an educational resource
 
 Naylang aims to be more than just a Grace interpreter, but to also be an approachable Free Software [^freesoftware] project for both potential collaborators and programming language students the same. Having a sufficiently big automated test suite is vital to make the project amiable to newcomers, for the following reasons:
 
-- Automated tests provide **complete, synchronized documentation** of the system. Unlike written documentation or comments, automated tests do not get outdated and, if they are sufficiently atomic and well-named, provide working **specification and examples** of what a part of the system does and how it is supposed to be used. A newcomer to the project will find it very useful to dive into the test suite even before looking at the implementation code to find up-to-date explainations of a module and it's dependencies.
+- Automated tests provide **complete, synchronized documentation** of the system. Unlike written documentation or comments, automated tests do not get outdated and, if they are sufficiently atomic and well-named, provide working **specification and examples** of what a part of the system does and how it is supposed to be used. A newcomer to the project will find it very useful to dive into the test suite even before looking at the implementation code to find up-to-date explainations of a module and its dependencies.
 
 - Automated tests force the implementer to **modularize**. Unit testing requires that the dependencies of the project be minimized, so as to make testing each part individually as easy as possible. Therefore, TDD encourages a very decoupled design, which makes it easy to reason about each part separately [@beck2003test].
 
@@ -89,7 +89,7 @@ As mentioned above, the nodes do not have any internal logic to speak of, and ar
 Testing the Evaluation
 ------
 
-The `ExecutionEvaluator` was one of the more complicated parts of the system to test, since it's closely tied to both the object model and the abstract representation of the language. In addition to that, it is very useful to be able to make assertions about the internal state of the evaluator after evaluating a node, which goes against the standard practice of testing an object's interface, and not it's internal state. This problem required the `ExecutionEvaluator` to be able to make queries about it's state, and modify it (namely, the current scope and the partial result), which later proved useful when implementing user-defined method evaluation.
+The `ExecutionEvaluator` was one of the more complicated parts of the system to test, since it's closely tied to both the object model and the abstract representation of the language. In addition to that, it is very useful to be able to make assertions about the internal state of the evaluator after evaluating a node, which goes against the standard practice of testing an object's interface, and not its internal state. This problem required the `ExecutionEvaluator` to be able to make queries about its state, and modify it (namely, the current scope and the partial result), which later proved useful when implementing user-defined method evaluation.
 
 The test structure of the evaluator is probably one of the lengthiest ones in the project, since the evaluation of every node has to be tested, and some nodes need more than one test case (e.g. `Requests`), which can be either field or method requests. 
 
@@ -111,7 +111,7 @@ Test files for object classes have two `TEST_CASE()`s defined in them, since obj
 TEST_CASE("Grace Boolean", "[GraceObjects]") {
     GraceBoolean bul(true);
 
-    SECTION("A GraceBoolean can return it's raw boolean value") {
+    SECTION("A GraceBoolean can return its raw boolean value") {
         REQUIRE(bul.value());
     }
     
@@ -197,7 +197,7 @@ To test whether particular features of the language fit inside the whole of the 
 Testing Frontends
 ------
 
-Naylang does not feature any unit tests for the frontends, for several reasons. On the one hand, the frontends are not part of the core evaluation and debugging system, and thus are not as important for the prospect student to learn from. On the other hand, the frontends feature some of the shortest and most industry-standard code of the project, and thus it's design is deemed straightforward enough to not grant their inclusion in the test suite.
+Naylang does not feature any unit tests for the frontends, for several reasons. On the one hand, the frontends are not part of the core evaluation and debugging system, and thus are not as important for the prospect student to learn from. On the other hand, the frontends feature some of the shortest and most industry-standard code of the project, and thus its design is deemed straightforward enough to not grant their inclusion in the test suite.
 
 However, as more and more complicated frontends are added to the project, the possibility of including them in the test suite will be reconsidered.
 

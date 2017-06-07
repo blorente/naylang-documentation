@@ -16,7 +16,7 @@ Grace is aimed towards providing a solid introduction to the basic concepts of p
 
 Different teaching entities have different curricula when teaching novices. For instance, one institution might prefer to start with a declarative approach and focus on teaching students the basics of functional programming, while another one might want to start with a more imperative system.
 
-Despite being imperative at it's core, Grace provides sufficient tools to teach any curriculum, since methods are intuitively named and can be easily composed. In addition to that, lambda calculus is embedded in the language, with every block being a lambda function and accept arguments [@gracefunctionalandimperative].
+Despite being imperative at its core, Grace provides sufficient tools to teach any curriculum, since methods are intuitively named and can be easily composed. In addition to that, lambda calculus is embedded in the language, with every block being a lambda function and accept arguments [@gracefunctionalandimperative].
 
 ### Safety
 

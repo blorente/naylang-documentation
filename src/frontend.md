@@ -5,9 +5,9 @@ Frontend
 
 One of the design goals of Naylang is to serve as a teaching example in interpreter construction. This requires that the execution core (parsing, AST and evaluation) be as isolated as possible from the interaction with the user, with aims to help the student in discerning the fundamental parts of interpreters from the nonessential I/O operations.
 
-Currently, all the user interaction is handled by the `ConsoleFrontend` class, which is in charge of receiving commands from the user and calling one of it's `ExecutionMode`s to handle the commands.
+Currently, all the user interaction is handled by the `ConsoleFrontend` class, which is in charge of receiving commands from the user and calling one of its `ExecutionMode`s to handle the commands.
 
-Execution modes (such as REPL or Debug) are in charge of feeding data to and controlling the flow of the interpreters. Each mode has it's own commands, which are implemented using the Command pattern. It can be easily seen how any one of these pieces can be easily swapped, and seemingly relevant changes such as adding a graphical frontend are as simple as replacing `ConsoleFrontend`.
+Execution modes (such as REPL or Debug) are in charge of feeding data to and controlling the flow of the interpreters. Each mode has its own commands, which are implemented using the Command pattern. It can be easily seen how any one of these pieces can be easily swapped, and seemingly relevant changes such as adding a graphical frontend are as simple as replacing `ConsoleFrontend`.
 
 Here is the list of available commands in Naylang:
 

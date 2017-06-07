@@ -9,9 +9,9 @@ It currently implements a subset of Grace described later, but as both the langu
 Motivation
 -------
 
-Grace is a language aimed to help novice programmers get acquainted with the process of programming. As such, it provides safety and flexibility in it's design.
+Grace is a language aimed to help novice programmers get acquainted with the process of programming. As such, it provides safety and flexibility in its design.
 
-However, that flexibility comes at a cost, and most of the current implementations of Grace are opaque and obscure. Since the language is Open Source, most of it's implementations are also Open Source, but this lack of clarity in the implementation makes them hard to extend and modify by third parties and contributors, severely damaging the growth opportunities of the language.
+However, that flexibility comes at a cost, and most of the current implementations of Grace are opaque and obscure. Since the language is Open Source, most of its implementations are also Open Source, but this lack of clarity in the implementation makes them hard to extend and modify by third parties and contributors, severely damaging the growth opportunities of the language.
 
 Objectives
 -------

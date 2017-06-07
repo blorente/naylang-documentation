@@ -3,7 +3,7 @@
 Methods and Dispatch
 ------
 
-One of the advantages of Grace is that it integrates native methods and user-defined methods seamlessly in it's syntax. As a consequence, the implementation must be able to handle both types of methods indistinctly from each other. Hence, the `Method` class was created. This class represents a container for everything that is needed to define a Grace method. Namely, a list of **formal parameters** in the form of **declarations**, and a list of **statements** that conforms the **body** of the method. The canonical name of a method is used in determining which of an object's methods to use, and not in the execution of the method itself. Hence, it is not necessary to include it in the representation. Since Grace blocks are lambda expressions, it is also possible to instantiate a `Method` from a `Block`:
+One of the advantages of Grace is that it integrates native methods and user-defined methods seamlessly in its syntax. As a consequence, the implementation must be able to handle both types of methods indistinctly from each other. Hence, the `Method` class was created. This class represents a container for everything that is needed to define a Grace method. Namely, a list of **formal parameters** in the form of **declarations**, and a list of **statements** that conforms the **body** of the method. The canonical name of a method is used in determining which of an object's methods to use, and not in the execution of the method itself. Hence, it is not necessary to include it in the representation. Since Grace blocks are lambda expressions, it is also possible to instantiate a `Method` from a `Block`:
 
 ```c++
 class Method {
@@ -98,7 +98,7 @@ public:
 };
 ```
 
-Each native method is a subclass of `NativeMethod`, and implements it's functionality in the body of the overriden `respond()` method. For convenience, each subclass of `GraceObject` that implements native types defines them inside it's header, as inner classes. This is specially useful when a method requires access to the internal structure of an object, since inner classes have access to them by default:
+Each native method is a subclass of `NativeMethod`, and implements its functionality in the body of the overriden `respond()` method. For convenience, each subclass of `GraceObject` that implements native types defines them inside its header, as inner classes. This is specially useful when a method requires access to the internal structure of an object, since inner classes have access to them by default:
 
 ```c++
 // GraceNumber.h

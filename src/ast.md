@@ -9,7 +9,7 @@ developed to denote the different aspects of the abstract syntax. Note that
 even though the resulting number of classes is rather small, the iterative
 process necessary to arrive to the following hierarchy took many iterations,
 due to the sparse specification of the language semantics[^gracespec] and the
-close ties this language has with it's execution model. This created a loop where
+close ties this language has with its execution model. This created a loop where
 design decisions in the execution model required changes in the AST
 representation, and vice versa. The following diagram represents the current
 class hierarchy:
@@ -23,7 +23,7 @@ The rest of this section covers the implementation of the memory management of t
 
 ### Pointers
 
-In the representation of the different parts of the abstract syntax, often a node has to reference other nodes in the tree. Since that memory management of tree nodes was not clear at the beginning of the project, a series of aliases were created to denote pointers to the different major classes of nodes available. These aliases are named `<Nodeclass>Ptr` (e.g. `ExpressionPtr`). For the current representation of the language, only three classes need these pointers specified: `Statement`, `Declaration` and `Expression`. These three classes of pointers give the perfect balance of specificity and generality to be able to express the necessary constructs in Grace. For instance, a variable declaration might want an `ExpressionPtr` as it's value field, while a method declaration might want `DeclarationPtr`s for it's formal parameters and high-level `StatementPtr`s for it's body.
+In the representation of the different parts of the abstract syntax, often a node has to reference other nodes in the tree. Since that memory management of tree nodes was not clear at the beginning of the project, a series of aliases were created to denote pointers to the different major classes of nodes available. These aliases are named `<Nodeclass>Ptr` (e.g. `ExpressionPtr`). For the current representation of the language, only three classes need these pointers specified: `Statement`, `Declaration` and `Expression`. These three classes of pointers give the perfect balance of specificity and generality to be able to express the necessary constructs in Grace. For instance, a variable declaration might want an `ExpressionPtr` as its value field, while a method declaration might want `DeclarationPtr`s for its formal parameters and high-level `StatementPtr`s for its body.
 
 Currently, the aliases are implemented as reference-counted pointers (`std::shared_ptr<>` [^sharedptrcpp]). However, as the project has moved towards a centralized tree manager (`GraceAST`), the possibility of making that class responsible for the memory of the nodes has arised. This would permit the aliases to switch to weak pointers [^weakptrcpp] or even raw pointers in their representation, probably reducing memory management overhead.
 
@@ -191,7 +191,7 @@ includes some unusual classes called `Requests`.
 
 #### Primitives
 
-Primitives are the expressions that, when evaluated, must return objects in the a base type of the language. In general, a primitive node is only responsible for holding the information necessary to build an object of it's type, and they correspond directly with native type constructors. For instance, a `NumberLiteral` node will only need to hold it's numeric value, which is all that's necessary to create a `GraceNumber` object. Of course, this makes the evaluation of these nodes straightforward, as they will always be leaves of the AST. As an example, this is the defininiton of the primitive node used for strings.
+Primitives are the expressions that, when evaluated, must return objects in the a base type of the language. In general, a primitive node is only responsible for holding the information necessary to build an object of its type, and they correspond directly with native type constructors. For instance, a `NumberLiteral` node will only need to hold its numeric value, which is all that's necessary to create a `GraceNumber` object. Of course, this makes the evaluation of these nodes straightforward, as they will always be leaves of the AST. As an example, this is the defininiton of the primitive node used for strings.
 
 ```c++
 class StringLiteral : public Expression {

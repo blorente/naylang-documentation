@@ -46,7 +46,7 @@ While it is indeed a fully-fledged debugger and it accepts a substantial subset 
 
 ### Education Goals
 
-The other key goal of Naylang was to be **approachable** to any student learning about language implementation or any future contributors to the project. In this objective Naylang has excelled, featuring extensive and descriptive test coverage that acts as documentation for the project, and great modularity in it's components.
+The other key goal of Naylang was to be **approachable** to any student learning about language implementation or any future contributors to the project. In this objective Naylang has excelled, featuring extensive and descriptive test coverage that acts as documentation for the project, and great modularity in its components.
 
 Future work
 ------
@@ -59,7 +59,7 @@ The Modular Visitor Pattern is probably the area that deserves the most attentio
 
 ### Language features
 
-Many of the features of Grace were left unimplemented in Naylang. While Naylang will not strive for feature-completeness in Grace, it should implement some of it's most important features for education, such as the class and type systems.
+Many of the features of Grace were left unimplemented in Naylang. While Naylang will not strive for feature-completeness in Grace, it should implement some of its most important features for education, such as the class and type systems.
 
 However, by not embedding these features directly into the core evaluation, the possibility arises to **use Naylang as a research project** for the viability of the Modular Visitor Pattern, as the new language features can be added using it.
 

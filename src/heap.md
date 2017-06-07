@@ -72,9 +72,9 @@ public:
 
 In order to implement garbage collection in the `Heap`, an appropriate algorithm had to be selected from the myriad of options available. When reviewing the different possibilities, the focus was set on finding the simplest algorithm that could manage memory without memory leaks. This criteria was informed by the desire of making Naylang a learning exercise, and not a commercial-grade interpreter. As a result, the **Mark and Sweep** garbage collection algorithm was selected [@markandsweep], since it is the most straightforward to implement.
 
-In this algorithm, the `Heap` must hold references to all objects created in a list. Every time memory liberation is necessary, the `Heap` traverses all the objects accessible by the current scope of the evaluator with a depth-first marked graph search. Whenever it reaches an object that was not reached before, it marks it as "accesible". After that, every node that is not marked as accessible is deemed destroyable, and it's memory is deallocated.
+In this algorithm, the `Heap` must hold references to all objects created in a list. Every time memory liberation is necessary, the `Heap` traverses all the objects accessible by the current scope of the evaluator with a depth-first marked graph search. Whenever it reaches an object that was not reached before, it marks it as "accesible". After that, every node that is not marked as accessible is deemed destroyable, and its memory is deallocated.
 
-Since this implementation of the `Heap` only _simulates_ the storage of the objects, and does not make claims about it's continuity, heap fragmentation cannot happen. Therefore, no strategy is needed to defragment the memory.
+Since this implementation of the `Heap` only _simulates_ the storage of the objects, and does not make claims about its continuity, heap fragmentation cannot happen. Therefore, no strategy is needed to defragment the memory.
 
 Note that the Heap is implemented in such a way that the garbage-collection functionality is blocking and synchronous, and thus it can be called at any point in the evaluator. This would enable, for example, to implement an extension of the evaluator to include garbage collection triggers at key points of the exection, using the [Modular Visitor Pattern](#modular-visitor-pattern).
 

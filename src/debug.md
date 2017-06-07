@@ -67,7 +67,7 @@ The state can also be changed with external commands such as `continue`, which c
 The `Debugger` class can be thought of as the controller for the `DebugEvaluator`. It is responsible for:
 
 - Handling user-defined breakpoints. In this case, the breakpoints are only a set of lines in which a breakpoint is set.
-- Implementing the `debug()` function which the `DebugEvaluator` calls to update it's state.
+- Implementing the `debug()` function which the `DebugEvaluator` calls to update its state.
 - Implementing auxuliary public functions that correspond with the different debug commands (e.g. `run()`, `continue()`).
 - Interfacing with the execution mode (and therefore the frontend) to output information and request additional commands when necessary. 
 

@@ -5,7 +5,7 @@
 Execution Evaluator
 -------
 
-The `ExecutionEvaluator` (or EE) is one of the most crucial components of Naylang. It is it's responsibility to traverse the AST created by the parser and interpret each node's meaning, executing the commands necessary to simulate the desired program's behavior. In a sense, it could be said that the `ExecutionEvaluator` is the engine of the interpreter. 
+The `ExecutionEvaluator` (or EE) is one of the most crucial components of Naylang. It is its responsibility to traverse the AST created by the parser and interpret each node's meaning, executing the commands necessary to simulate the desired program's behavior. In a sense, it could be said that the `ExecutionEvaluator` is the engine of the interpreter. 
 
 As previously described, the `ExecutionEvaluator` (as do all other subclasses of `Evaluator`) follows the Visitor pattern to encapsulate the processing associated with each node. This particular subclass overrides every node processing, since each one has some sematics associated with it.
 
@@ -88,11 +88,11 @@ void ExecutionEvaluator::evaluate(ObjectConstructor &expression) {
 
 #### Implicit Requests
 
-These are the most complex nodes to evaluate, since they can represent a number of intents. Said nodes can be either field requests or method calls (with or without parameters), and thus the evaluation has to include several checks to determine it's behavior. 
+These are the most complex nodes to evaluate, since they can represent a number of intents. Said nodes can be either field requests or method calls (with or without parameters), and thus the evaluation has to include several checks to determine its behavior. 
 
-However, Grace provides a useful invariant to design the evaluation of requests: All identifiers are unique within a scope or it's outer scopes. As a consequence, for any given object, the sets of field and method identifiers **have to be disjoint**. Therefore, it does not make a difference the order in which we check whether a request is a field request or method call. In the case of Naylang, a decision was made to check whether a request was a field request first, and default to interpreting it as a method request if it wasn't.
+However, Grace provides a useful invariant to design the evaluation of requests: All identifiers are unique within a scope or its outer scopes. As a consequence, for any given object, the sets of field and method identifiers **have to be disjoint**. Therefore, it does not make a difference the order in which we check whether a request is a field request or method call. In the case of Naylang, a decision was made to check whether a request was a field request first, and default to interpreting it as a method request if it wasn't.
 
-Once a request is found to represent a **field request**, it's evaluation becomes simple. `Request`s are expressions, and thus must place a value in the partial. `ImplicitRequest`s are requests made to the current scope, and thus it is sufficient to retrieve the value of the field in the current scope.
+Once a request is found to represent a **field request**, its evaluation becomes simple. `Request`s are expressions, and thus must place a value in the partial. `ImplicitRequest`s are requests made to the current scope, and thus it is sufficient to retrieve the value of the field in the current scope.
 
 Evaluating a **method call** requires slightly more processing. First, the values of the effective parameters must be computed by evaluating their expression nodes. These values are then stored in a list that will ultimately be passed to the method object. After that, a request has to be made to the current scope to `dispatch()` the method named in the request, and the return value is stored in the partial. The dispatch and method evaluation mechanism is further discussed in [Methods and Dispatch](#methods-and-dispatch).
 

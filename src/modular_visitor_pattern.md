@@ -6,7 +6,7 @@ During the development of the Naylang debugger, the need arised to integrate it 
 
 Even though the first possibility is much easier to implement, it had serious drawbacks affecting the maintainability and extensibility of the evaluation engine. Since the debugging and evaluation behavior would be intermixed, any time a change had to be made to either part, extensive testing would be required to ensure that the other engine did not suffer a regression. Even with these drawbacks this was the first approach taken when implementing Naylang, with the intention of factoring out the debugger behavior later on. When the core debugger behavior was implemented, the factoring process started.
 
-During the factoring process, a new programming pattern arised. This new pattern allowed for the development of completely separate processing engines, each with it's own set of behaviors, that could be composed to create more powerful engines. After some experimentation, this pattern yielded great results for implementing the Naylang debugger, and showed promising potential for implementing further features of the language.
+During the factoring process, a new programming pattern arised. This new pattern allowed for the development of completely separate processing engines, each with its own set of behaviors, that could be composed to create more powerful engines. After some experimentation, this pattern yielded great results for implementing the Naylang debugger, and showed promising potential for implementing further features of the language.
 
 Description
 -------
@@ -41,7 +41,7 @@ In Naylang, this would translate to creating a direct subclass of `ExecutionEval
 
 Assuming the previous mechanisms are in place to handle state, the only capability required from the debugger is to be able to **block the evaluation** of the AST at the points where it is required (e.g. by a breakpoint). As previously described this can only happen in _stoppable_ nodes, and therefore only the processing of those nodes need to be modified. For this example, assume that only `VariableDeclaration` and `ConstantDeclaration` nodes are stoppable, and that we need to add processing **both at the beginning and at the end** of the node evaluation to handle changing debug states.
 
-To implement this, it is sufficient to override the methods that process those nodes, and to insert the calls to the debug state handlers before and after the call to the parent class. Every other processing would follow it's flow as normal.
+To implement this, it is sufficient to override the methods that process those nodes, and to insert the calls to the debug state handlers before and after the call to the parent class. Every other processing would follow its flow as normal.
 
 ```c++
 class DebugEvaluator : public ExecutionEvaluator {
@@ -126,7 +126,7 @@ void DebugEvaluator::evaluate(NumberLiteral &expression) {
 
 The Composite Modularity method simplifies greatly the class hierarchy by moving the composition of visitors from the subclassing mechanism to runtime instantiation, creating wider, more shallow class hierarchies. However, this also means that the desired composition of visitors must be explicitly instantiated and passed to their respective constructors (e.g. via _factory methods_ [@compositionoverinheritance]).
 
-This problem can be circunvented by having the extender class explicitly create the instances of the visitors it nedds directly into it's constructor. This can be a solution in some cases, but implementors must be aware of the tradeoff in flexibility that it poses, since then the extender is bound to have only one possible class to call.
+This problem can be circunvented by having the extender class explicitly create the instances of the visitors it nedds directly into its constructor. This can be a solution in some cases, but implementors must be aware of the tradeoff in flexibility that it poses, since then the extender is bound to have only one possible class to call.
 
 Lastly, another great drawback of this technique is that it forces the extender class to implement at least the same methods as the main visitor implemented, to include calls to that. This might not be desirable in extensions that only require one or two methods to be modified from the main class.
 
@@ -204,6 +204,6 @@ Applications
 
 This visitor design pattern has a myriad of applications. The main benefit is that it allows to extend the functionality of an intepreting engine without needing to change the previous processings. It permits the addition of both semantic power to the language (e.g. by creating a type checking extension, or an importing system) and extralinguistic tools (such as the debugging mechanism) with minimal risk to the existing processing core of the language.
 
-**Further investigation is necessary**, but this technique could lead to a way of **incrementally designing a language**, wherein a language implementation could grow incrementally and iteratively in parallel to it's design and specification, safely. It is not hard to imagine the benefits of having the most atomic parts of a language implemented first, and more visitor extensions are added as more complex features are introduced to the language.
+**Further investigation is necessary**, but this technique could lead to a way of **incrementally designing a language**, wherein a language implementation could grow incrementally and iteratively in parallel to its design and specification, safely. It is not hard to imagine the benefits of having the most atomic parts of a language implemented first, and more visitor extensions are added as more complex features are introduced to the language.
 
 As mentioned previously, this idea of a fully modular language has been developed in several academic works where the use of monads was suggested [@jlsthesis]. This approach, when applied specifically to Visitor-based interpreters, allows similar levels of flexibility while maintaining the approachability that a design pattern requires.

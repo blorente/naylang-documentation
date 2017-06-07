@@ -49,7 +49,7 @@ For **infix operators** the transformation is similar, but in this case the rece
 ### The Naylang Parser Stack
 
 During the AST construction process, information must be passed between parser
-function calls. A method call must, for instance, retrieve information about each of it's effective parameter expressions. To that end, the parser methods generated
+function calls. A method call must, for instance, retrieve information about each of its effective parameter expressions. To that end, the parser methods generated
 by ANTLR have a return value of type `antlrcpp::Any`. This however was not usable
 by the project, since sometimes more than one value needed to be returned and,
 most of all, converting from `Any` to the correct node types proved impractical and error-prone.

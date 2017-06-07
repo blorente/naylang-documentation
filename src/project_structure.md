@@ -25,7 +25,7 @@ Other folders provide several necessary tools and aids for the project:
 
 The sources folder, `interpreter`, contains the sources necessary to build the
 Naylang executable. The directory is structured as a standalone CMake project,
-with a `CMakeLists.txt` file and a `src` directory at it's root. Inside the `src`
+with a `CMakeLists.txt` file and a `src` directory at its root. Inside the `src`
 directory, the project is separated into `core` and `frontends`. Currently only
 the console frontend is implemented, but this separation will allow for future
 development of other frontends, such as graphical interfaces. The `core`
