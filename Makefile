@@ -38,7 +38,9 @@ APPENDIX := appendix.tex
 all: $(PDF)
 
 $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(METADATA)
-	pandoc --smart --standalone --latex-engine xelatex --template $(TEMPLATE) \
+	pandoc --smart --standalone --latex-engine xelatex \
+		--template $(TEMPLATE) \
+		--number-sections \
 		--csl $(CSL) --table-of-contents \
 		--top-level-division chapter --highlight-style haddock \
 		--metadata geometry:top=2.5cm,left=4cm,right=2.5cm,bottom=2.5cm \
