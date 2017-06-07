@@ -252,15 +252,26 @@ $endif$
   \end{titlepage}
 
 
-  $if(abstract)$
+  $if(abstracten)$
     \begin{abstract}
-      $abstract$
+      $abstracten$
     \end{abstract}
+  $endif$  
+
+   $if(keywordsen)$
+    \vfill
+    \textbf{Keywords:}$for(keywordsen)$ $keywordsen$ $sep$,$endfor$.
   $endif$
 
-  $if(keywords)$
+  $if(abstractes)$
+    \begin{abstract}
+      $abstractes$
+    \end{abstract}
+  $endif$  
+
+  $if(keywordses)$
     \vfill
-    \textbf{Keywords:}$for(keywords)$ $keywords$ $sep$,$endfor$.
+    \textbf{Keywords:}$for(keywordses)$ $keywordses$ $sep$,$endfor$.
   $endif$
 
   $for(include-before)$
