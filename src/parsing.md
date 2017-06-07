@@ -24,12 +24,11 @@ provide the default preorder implementation of the parse tree traversal.
 The class definition along with the overriden method list can be found in
 `NaylangParserVisitor.h`.
 Note that ANTLRv4 names the visitor methods `visit<RuleName>` by convention.
-For example, `visitBlock()` will be called when the `block` rule is matched in
-parsing.
+For example, `visitBlock()` makes it possible to visit the parse tree structure recognized by the `block` rule. 
 
 To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the parameter expressions in a method call). A full description of this structure is found in [a following section](#naylang-parser-visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
 
-#### Strategy
+#### Lexical Tree Visiting Strategy
 
 The strategy followed was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an `Assignment`), the child nodes were visited and instatiated **before** constructing the parent node, as opposed to constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
 
@@ -141,8 +140,8 @@ highest precedence, followed by `+` and `-`, and then the rest of prefix and inf
 Usually, for an EBNF-like [@standard1996ebnf] grammar language to correctly assign operator
 precedence, auxiliary rules must be defined which clutter the grammar with
 unnecessary information, which is the case for example for LL(k)-grammar parser generators.
-ANTLRv4, however, can handle left-recursive rules as long as they are not indirect [@antlr4ref].
-It does so by assigning rule precedence based on the position of the alternative in the rule definition. This way, defining operator precedence becomes trivial:
+ANTLRv4, however, can handle left-recursive rules as long as they are not indirect [@antlr4ref], which allows for the simplification of the grammars by introducing some ambiguity, which is resolved 
+by assigning rule precedence based on the position of the alternative in the rule definition. This way, defining operator precedence becomes trivial:
 
 ```antlr
 // Using left-recursion and implicit rule precendence.

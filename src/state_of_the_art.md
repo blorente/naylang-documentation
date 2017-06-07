@@ -23,7 +23,7 @@ GDB
 
 The GNU Project Debugger has for many years been the de facto debugger for C and C++, and thus it merits some time to study it. The main influence of GDB in Naylang is the design of its command set, that is, the commands it offers to the user. In particular, Naylang will focus on reproducing the functionality of the following commands: `run`, `continue`, `next`, `step`, `break` and `print` [^gdbcommands]. Naylang will add another command, `env`, that allows the user to print the current evaluation scope. This set of core commands is simple yet highly usable, and can be composed to form virtually any behavior desired by the user. Support for commands such as `finish` and `list` will be added as future work.
 
-To offer a controlled and pausable execution of a program, GDB reads the executable metada and executes it pausing in the desired locations set by user-specified breakpoints. Since Naylang is an intepreter and thus doesn't generate an executable, this information gathering technique is of course unusable by the project. Instead, Naylang gathers information from the AST directly to control the debugging flow.
+To offer a controlled and pausable execution of a program, GDB reads the executable metada and executes it pausing in the desired locations set by user-specified breakpoints. Since Naylang is an intepreter and thus doesn't generate an executable, this information gathering technique is of course unusable by the project. Instead, Naylang gathers information from the AST (Abstract Syntax Tree) directly to control the debugging flow.
 
 
 Evaluation modularity
