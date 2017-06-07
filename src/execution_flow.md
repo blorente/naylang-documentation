@@ -9,7 +9,7 @@ At its core, Naylang is designed to be an visitor-based interpreter [@parr2009la
 
 The main evaluator in Naylang is `ExecutionEvaluator`, with `DebugEvaluator` extending the functionality by providing the necessary mechanisms for debugging. The implementation of the evaluation has been designed to be extensible and modular by default, which is described in [Modular Visitor Pattern](#modular-visitor-pattern).
 
-Figure 5.2 presents an example AST and its evaluation stack trace is presented below:
+Figure 4.2 presents an example AST and its evaluation stack trace is presented below:
 
 ![Example AST for execution flow](images/eval_flow.pdf)
 

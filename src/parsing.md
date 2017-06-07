@@ -64,7 +64,7 @@ or `Declarations`, the three abstract types of AST nodes that the parser handles
 
 The resulting structure declaration can be found in
 `NaylangParserStack.h`. It uses template
-metaprogramming [@abrahams2004c++] to be able to specify the desired return type from the caller
+metaprogramming [@abrahams2004cpp] to be able to specify the desired return type from the caller
 and cast the extracted elements to the right type. Note that a faulty conversion
 is possible and the structure does not enforce any type invariants other than
 those statically guarranteed by the compiler. Therefore, the invariants must be

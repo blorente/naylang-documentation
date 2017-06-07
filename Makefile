@@ -1,6 +1,5 @@
 PDF := naylang.pdf  # PDF Main Target
 MARKDOWN := introduction.md \
-			introduction_es.md \
 			the_grace_programming_language.md \
 			state_of_the_art.md \
 			implementation.md \
@@ -17,9 +16,8 @@ MARKDOWN := introduction.md \
 			modular_visitor_pattern.md \
 			testing_methodology.md \
 			conclusions.md \
-			conclusions_es.md \
 			bibliography.md # Markdown files
-APPENDICES := grace_grammar.md appendixB.md # Appendix after bibliography
+APPENDICES := introduction_es.md conclusions_es.md grace_grammar.md appendixB.md # Appendix after bibliography
 METADATA := metadata.yaml  # Metadata files (Author, Date, Title, etc..)
 BIBLIOGRAPHY := naylang.bib  # BibLaTeX bibliography
 CSL := emerald-harvard.csl  # CSL file used for citations

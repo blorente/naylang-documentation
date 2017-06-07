@@ -25,7 +25,7 @@ The most straightforward way to implement a Modular Visitor is to directly subcl
 
 By directly subclassing the desired visitor, the implementer only needs to override the parts of the superclass that need code injected, and it can embed the normal execution flow of the application by calling the superclass methods.
 
-Figure 6.1 demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
+Figure 5.1 demonstrates the use of this specific technique. In this case, the instantiation of the visitors would be as follows:
 
 ```
 proc createExtensionVisitor() {
@@ -74,7 +74,7 @@ In this technique, what previously was a subclass of the extended class is now a
 
 Obviously, since the main visitor is not being extended anymore, **all of the methods** it implements will have to be overriden from the extender class to include _at least_ calls to the main evaluator.
 
-Figure 6.2 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 5.2 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
 proc createExtensionVisitor() {
@@ -139,7 +139,7 @@ This final version of the Modular Visitor Pattern tries to solve some of the iss
 
 One way to accomplish these goals is to define an intermediate layer of inheritance in the class hierarchy such that all the default calls to the main visitor are implemented in a superclass, and only the relevant functionality is implemented in a subclass. Roughly speaking, it consists on **grouping together** extensions that need to interject the execution at similar times, and **moving all the non-specific code to a superclass**. This way, it is the superclass that has the responsibility of handling the main evaluator instance.
 
-Figure 6.3 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
+Figure 5.3 demonstrates an implementation of this pattern. In this case, the instantiation of the extension is as follows:
 
 ```
 proc createExtensionVisitor() {

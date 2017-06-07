@@ -44,6 +44,6 @@ ndb> skip (sk)
   // Step to the next instruction, skipping scope changes and calls
 ```
 
-Figure 5.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent how such structure could function.
+Figure 4.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent how such structure could function.
 
 ![Frontends And Controllers](images/frontends.pdf) 

@@ -9,7 +9,7 @@ It currently implements a subset of Grace described later, but as both the langu
 Motivation
 -------
 
-Grace is a language aimed to help novice programmers get acquainted with the process of programming. As such, it provides safety and flexibility in its design.
+Grace is a language aimed to help novice programmers get acquainted with the process of programming [@gracepapersoftwareengineering] [@gracefunctionalandimperative]. As such, it provides safety and flexibility in its design.
 
 However, that flexibility comes at a cost, and most of the current implementations of Grace are opaque and obscure. Since the language is Open Source, most of its implementations are also Open Source, but this lack of clarity in the implementation makes them hard to extend and modify by third parties and contributors, severely damaging the growth opportunities of the language.
 
@@ -41,3 +41,10 @@ Since Naylang is designed as a learning exercise, clarity of code and good softw
 However, good software engineering practices demand that the architecture of the software has to be modular and loosely coupled. This, in addition to the test coverage mentioned earlier, will make the system extensible enough for anyone interested to modify the project. For instance, it will give them the ability to add a substitute any inefficient part of the system with a more efficient implementation.
 
 In short, the project optimizes for **approachability** and **extensibility**, not for **execution time** or **memory usage**.
+
+Structure of This Document
+-------
+
+The rest of this document describes the implementation and results of the project. It first introduces the reader to the Grace programming language and shows the research done about the state of the art as it pertains Naylang. Following that, the document presents a section about the implementation phase of the project, which details the structure and inner workings of the relevant components of the system. After that, two short chapters describe the modular visitor pattern and the testing methodology used in development. Lastly, the results of the research are presented, with an assesment of the state of the project.
+
+The appendices cover a wide range of non-vital material, such as the Spanish translations of the introduction and comclusion and the grammars used for parsing.

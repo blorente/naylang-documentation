@@ -2,7 +2,7 @@
 Introducción
 =========
 
-Naylang es un intérprete REPL [@abelson1996structure], entorno de ejecución y depurador para el lenguaje de programación Grace, implementado totalmente en C++14.
+Naylang es un intérprete REPL, entorno de ejecución y depurador para el lenguaje de programación Grace, implementado totalmente en C++14.
 
 Actualmente, implementa un subconjunto de Grace (descrito a continuación), pero a medida que el proyecto evolucione tenderá hacia una mayor compatibilidad con el lenguaje.
 

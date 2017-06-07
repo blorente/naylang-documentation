@@ -11,7 +11,7 @@ process necessary to arrive to the following hierarchy took many iterations,
 due to the sparse specification of the language semantics[^gracespec] and the
 close ties this language has with its execution model. This created a loop where
 design decisions in the execution model required changes in the AST
-representation, and vice versa. Figure 5.3 represents the current class hierarchy.
+representation, and vice versa. Figure 4.3 represents the current class hierarchy.
 
 ![Abstract Syntax Tree class hierarchy](images/ast_high_level.pdf)
 
@@ -38,7 +38,7 @@ information.
 
 Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [^preludeloops].
 
-Figure 5.4 shows the class definitions of the existing control nodes
+Figure 4.4 shows the class definitions of the existing control nodes
 
 ![Control nodes in Naylang](images/ast_control.pdf)
 
@@ -137,7 +137,7 @@ construct to an identifier. Therefore, all nodes must have a way of retrieving t
 names so that the fields can be created in the corresponding objects. We must
 distinguish between two types of declarations: __Field Declarations__, and __Method Declarations__.
 
-Figure 5.5 shows the class structure for declarations in Naylang:
+Figure 4.5 shows the class structure for declarations in Naylang:
 
 ![Declarations in Naylang](images/ast_definitions.pdf)
 
@@ -203,7 +203,7 @@ public:
 };
 ```
 
-Figure 5.6 shows a diagram of the current primitive expressions in Naylang
+Figure 4.6 shows a diagram of the current primitive expressions in Naylang
 
 ![Primitive expressions in Naylang](images/ast_primitives.pdf)
 
@@ -303,7 +303,7 @@ add(4)to(3);    // IR("add(_)to(_)", {4, 3})
 Note that, even in the case of an expression not returning anything, it will
 always return the special object `Done` by default.
 
-Figure 5.7 shows a diagram of the current requests in Naylang
+Figure 4.7 shows a diagram of the current requests in Naylang
 
 ![Requests in Naylang](images/ast_requests.pdf)
 
