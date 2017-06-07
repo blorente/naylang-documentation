@@ -7,7 +7,7 @@ Grace is a relatively new language, and thus it does not feature most of the vas
 Kernan
 ------
 
-Kernan is currently the most feature-complete implementation of Grace. It is an interpreter written entirely in C#, and it features some execution and AST models similar to those implemented in Naylang. Specifically, the method dispatch and execution flow takes heavy inspiration from Kernan. However, Kernan is not visitor-based, and therefore it and Naylang diverge in that regard, as Naylang features a flexible and extensible evaluator structure.
+Kernan is currently the most feature-complete implementation of Grace. It is an interpreter written entirely in C# [@hejlsberg2003c], and it features some execution and AST models similar to those implemented in Naylang. Specifically, the method dispatch and execution flow takes heavy inspiration from Kernan. However, Kernan is not visitor-based, and therefore it and Naylang diverge in that regard, as Naylang features a flexible and extensible evaluator structure.
 
 Kernan is publicly available from the Grace website[^kernanlink].
 
@@ -31,7 +31,7 @@ Evaluation modularity
 
 The means by which a language's evaluation can be modularized have been discussed at length in the field of programming language implementation, specially pertaining to Domain Specific Languages [@jlsthesis]. For Naylang, this topic is specially interesting since the traditionally monolithic approaches to language interpreters [@aho1986compilers] imposed a particularly hard barrier on the scope of the project.
 
-Amongst these techniques, the ones that stood out the most are the monad-based approaches (such as the one formulated in [@espinosa1995semantic]), and the mixin-based approaches (abstract subclassing). These techniques however differ fundamentally from the Visitor-based interpreter pattern that was the aim of Naylang, and thus were discarded in favor of a new approach detailed in the [Modular Visitor Pattern](#modular-visitor-pattern) section.
+Amongst these techniques, the ones that stood out the most are the monad-based approaches (such as the one formulated in [@espinosa1995semantic]), and the mixin-based approaches (abstract subclassing, as presented in [@duggan2000mixin]). These techniques however differ fundamentally from the Visitor-based interpreter pattern that was the aim of Naylang, and thus were discarded in favor of a new approach detailed in the [Modular Visitor Pattern](#modular-visitor-pattern) section.
 
 [^kernanlink]: http://gracelang.org/applications/grace-versions/kernan/
 

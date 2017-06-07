@@ -16,7 +16,7 @@ Grace is aimed towards providing a solid introduction to the basic concepts of p
 
 Different teaching entities have different curricula when teaching novices. For instance, one institution might prefer to start with a declarative approach and focus on teaching students the basics of functional programming, while another one might want to start with a more imperative system.
 
-Despite being imperative at its core, Grace provides sufficient tools to teach any curriculum, since methods are intuitively named and can be easily composed. In addition to that, lambda calculus is embedded in the language, with every block being a lambda function and accept arguments [@gracefunctionalandimperative].
+Despite being imperative at its core, Grace provides sufficient tools to teach any curriculum, since methods are intuitively named and can be easily composed. In addition to that, lambda calculus is embedded in the language, with every block being a lambda function and having the possiblity to accept arguments [@gracefunctionalandimperative].
 
 ### Safety
 
@@ -79,9 +79,9 @@ substringOf("Hello")from(2)to(5); // Would return "llo"
 
 This way there is a more direct correlation between the mental model of the student and the code.
 
-To differentiate between methods, Grace uses the **arity** of each of the parts to construct a _canonical name_ for the method. A canonical name is nothing more than the concatenation of each of the parts, substituting the parameter names with underscores. That way, the canonical name of the method above would be `substringFrom(_)to(_)`.
+To differentiate between methods, Grace uses the **arity** of each of the parts to construct a _canonical name_ for the method. A canonical name is nothing more than the concatenation of each of the parts, substituting the parameter names with underscores. That way, the canonical name of the method above would be `substringOf(_)From(_)to(_)`.
 
-Two methods are different if and only if their canonical names are different. For example, `substringFrom(_)to(_)` is different from `substringFromto(_,_)`. As it is obvious, this mechanism imposes a **differentiation by arity**, and **not by parameter types**. Therefore, we could have this situation:
+Two methods are different if and only if their canonical names are different. For example, `substringOf(_)From(_)to(_)` is different from `substringOfFromto(_,_,_)`. As it is obvious, this mechanism imposes a **differentiation by arity**, and **not by parameter types**. Therefore, we could have this situation:
 
 ```
 method substringOf(str)from(first : Rational)to(last : Rational) {

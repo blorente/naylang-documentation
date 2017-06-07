@@ -13,9 +13,8 @@ This method allows instantiation of the AST independently from the grammar speci
 
 ### The Naylang Parser Visitor
 
-For this particular program, the Visitor lexer and parser were chosen, since
-ANTLRv4's default implementation allowed for a preorder traversal of the parse
-tree, but offered enough flexibility to manually modify the traversal if needed.
+For this particular program, the visitor versions of the lexer and parser were chosen from amongst the diferent parsing options provided, since their default implementation allowed for a preorder traversal of the parse
+tree, but offered enough flexibility to manually modify the traversal if needed. Note that the choice of the visitor pattern for static analysis is completely independent from that chosen for the runtime intepretation of the code.
 One might, for example, prefer to visit the _right_ side of an assignment before
 moving onto the _left_ side to instantiate particular types of assignment,
 depending on the assigned value. To that end, the `NaylangParserVisitor`
@@ -30,11 +29,11 @@ parsing.
 
 To pass data between methods, the Naylang Parser Visitor utilizes _two stacks_. The **first stack** stores partial AST nodes that are created as a result of parsing lower branches of the syntax tree, and are then added to the parent node (e.g. the parameter expressions in a method call). A full description of this structure is found in [a following section](#naylang-parser-visitor). The **second stack** stores raw strings, and is used in the construction of proper _canonical names_ and identifiers for methods and fields, respectively.
 
-#### Parsing Strategy
+#### Strategy
 
-The strategy followed for parsing the source code was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an `Assignment`), the child nodes were visited and instatiated **before** constructing the parent node, as opposed to constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
+The strategy followed was to override only the necessary methods to traverse the tree confortably. In general, for a node that depends on child nodes (such as an `Assignment`), the child nodes were visited and instatiated **before** constructing the parent node, as opposed to constructing an empty parent node and adding fields to it as the children were traversed. This approach has two major advantages:
 
-- It corresponds with a postorder traversal of the implicit parse tree, which is more akin to most traditional parsing algorithms.
+- It corresponds with a postorder traversal of the parse tree, which is more akin to most traditional parsing algorithms.
 
 - As will be seen, it simplifies the design of AST nodes, since it eliminates the need to have mutation operators and transforms them into Data Objects [@dataobjectpattern]. 
 
@@ -65,7 +64,7 @@ or `Declarations`, the three abstract types of AST nodes that the parser handles
 
 The resulting structure declaration can be found in
 `NaylangParserStack.h`. It uses template
-metaprogramming to be able to specify the desired return type from the caller
+metaprogramming [@abrahams2004c++] to be able to specify the desired return type from the caller
 and cast the extracted elements to the right type. Note that a faulty conversion
 is possible and the structure does not enforce any type invariants other than
 those statically guarranteed by the compiler. Therefore, the invariants must be

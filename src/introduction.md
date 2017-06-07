@@ -25,11 +25,11 @@ Naylang strives to be an exercise in interpreter construction not only for the c
 Methodology
 -------
 
-The project follows a Test Driven Development agile methodology, in which unit tests are written in parallel or even before the source code in very short iterations. This is the best approach for two reasons:
+The project follows a Test Driven Development [@beck2003test] agile methodology, in which unit tests are written in parallel or even before the source code in very short iterations. This is the best approach for two reasons:
 
-Firstly, it provides an easy way to verify which part of the code is working at all times, since tests strive for complete code coverage. Therefore, newcomers to the project will know where exactly their changes affect the software as a whole, which will allow them to make changes with more confidence.
+- It provides an easy way to verify which part of the code is working at all times, since tests strive for complete code coverage. Therefore, newcomers to the project will know where exactly their changes affect the software as a whole, which will allow them to make changes with more confidence.
 
-Secondly, the tests themselves provide documentation that is always up-to-date and synchronized with the code. This, coupled with descriptive test names, provide a myriad of **working code examples**. Needless to say that this would result in vital insight gained at a much quicker pace by a student wanting to learn about interpreters.
+- The tests themselves provide documentation that is always up-to-date and synchronized with the code. This, coupled with descriptive test names, provide a myriad of **working code examples**. Needless to say that this would result in vital insight gained at a much quicker pace by a student wanting to learn about interpreters.
 
 The development of Naylang will be carried out in short iterations, usually less than a week long. This has the aim of exploring different architectural approaches to the problems that building an intepreter presents. This way, the benefit of complete test coverage is maximized by being able to completely redesign a subsystem without fear of a regression.
 

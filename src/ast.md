@@ -11,8 +11,7 @@ process necessary to arrive to the following hierarchy took many iterations,
 due to the sparse specification of the language semantics[^gracespec] and the
 close ties this language has with its execution model. This created a loop where
 design decisions in the execution model required changes in the AST
-representation, and vice versa. The following diagram represents the current
-class hierarchy:
+representation, and vice versa. Figure 5.3 represents the current class hierarchy.
 
 ![Abstract Syntax Tree class hierarchy](images/ast_high_level.pdf)
 
