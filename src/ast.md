@@ -36,7 +36,7 @@ information.
 
 #### Control Nodes
 
-Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to make the language Turing-complete, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [^preludeloops].
+Control nodes represent the control structures a user might want to utilize in order to establish the execution flow of the program. Nodes like conditionals, loops and return statements all belong here. Note that, due to the high modularity of Grace, only the most atomic nodes have to be included to support the language, and every other type of control structure (for loops, for instance) can be implemented in a prelude, in a manner transparent to the user [^preludeloops].
 
 Figure 4.4 shows the class definitions of the existing control nodes
 
@@ -66,7 +66,7 @@ Both nodes have a similar structure, with an expression node as the condition, a
 
 ##### Loop Nodes
 
-Loop nodes are the nodes used to execute an action repeated times. In this case, only one node type is necessary, the While node. Every other type of loop can be composed in the Grace prelude using the While loop.
+Loop nodes are the nodes used to execute an action repeatedly. In this case, only one node type is necessary, the While node. Every other type of loop can be composed in the Grace prelude using the While loop.
 
 ```c++
 class While : public Statement {
@@ -143,7 +143,7 @@ Figure 4.5 shows the class structure for declarations in Naylang:
 
 #### Field Declarations
 
-Field declarations represent the intent of mapping an identifier to a value in the current scope. Depending on the desired mutablity of the expression, these declarations will be represented with either `ConstantDeclarations` or `VariableDeclarations`. These two nodes only differ in their evaluation, and their internal representation is identical. They both need an identifier to create the desired field, and optionally an initial value to give to that field. In the case of `ConstantDeclaration`s, the initial value is not optional.
+Field declarations represent the intent of mapping an identifier to a value in the current scope. Depending on the desired mutability of the expression, these declarations will be represented with either `ConstantDeclarations` or `VariableDeclarations`. These two nodes only differ in their evaluation, and their internal representations are identical. They both need an identifier to create the desired field, and optionally an initial value to give to that field. In the case of `ConstantDeclaration`s, the initial value is not optional.
 
 ```c++
 class VariableDeclaration : public Declaration {
@@ -190,7 +190,7 @@ includes some unusual classes called `Requests`.
 
 #### Primitives
 
-Primitives are the expressions that, when evaluated, must return objects in the a base type of the language. In general, a primitive node is only responsible for holding the information necessary to build an object of its type, and they correspond directly with native type constructors. For instance, a `NumberLiteral` node will only need to hold its numeric value, which is all that's necessary to create a `GraceNumber` object. Of course, this makes the evaluation of these nodes straightforward, as they will always be leaves of the AST. As an example, this is the defininiton of the primitive node used for strings.
+Primitives are the expressions that, when evaluated, must return objects in the a base type of the language. In general, a primitive node is only responsible for holding the information necessary to build an object of its type, and it corresponds directly with a native type constructor. For instance, a `NumberLiteral` node will only need to hold its numeric value, which is all that's necessary to create a `GraceNumber` object. Of course, this makes the evaluation of these nodes straightforward, as they will always be leaves of the AST. As an example, this is the defininiton of the primitive node used for strings.
 
 ```c++
 class StringLiteral : public Expression {
@@ -238,7 +238,7 @@ public:
 
 There are two types of Requests:
 
-**Implicit Requests** are Requests made to the current scope. That is, they have no explicit receiver. These requests are incredibly flexible, and they accept
+- **Implicit Requests** are Requests made to the current scope. That is, they have no explicit receiver. These requests are incredibly flexible, and they accept
 almost any parameter. The only necessary parameter is the name of the method or
 field requested, so that the evaluator can look up the correct object
 in the corresponding scope. Optional parameters include a list of expressions
@@ -246,47 +246,47 @@ for the parameters passed to a request (in case it's a method request), and code
 coordinates.
 
 ```c++
-class ImplicitRequestNode : public RequestNode {
-public:
-	// Constructors inherited from superclass
-    ImplicitRequestNode(
-    	const std::string &methodName, 
-    	const std::vector<ExpressionPtr> &params, 
-    	int line, int col);
+    class ImplicitRequestNode : public RequestNode {
+    public:
+    	// Constructors inherited from superclass
+        ImplicitRequestNode(
+        	const std::string &methodName, 
+        	const std::vector<ExpressionPtr> &params, 
+        	int line, int col);
 
-    ImplicitRequestNode(
-    	const std::string &methodName, 
-    	int line, int col);
+        ImplicitRequestNode(
+        	const std::string &methodName, 
+        	int line, int col);
 
-    // Accessors and accept()
-};
+        // Accessors and accept()
+    };
 ```
 
-**Explicit Requests** are Requests made to a specified receiver, such as invoking
+- **Explicit Requests** are Requests made to a specified receiver, such as invoking
 a method of an object. These Requests are little more than a syntactic
 convenience, since they are composed of two Implicit Requests (one for the
 receiver, one for the actual request).
 
 ```c++
-class ExplicitRequestNode : public RequestNode {
-    ExpressionPtr _receiver;
-public:
+    class ExplicitRequestNode : public RequestNode {
+        ExpressionPtr _receiver;
+    public:
 
-	// Constructors call the super() constructor.
+    	// Constructors call the super() constructor.
 
-    ExplicitRequestNode(
-    	const std::string &method, 
-    	ExpressionPtr receiver, 
-    	const std::vector<ExpressionPtr> &params, 
-    	int line, int col);
+        ExplicitRequestNode(
+        	const std::string &method, 
+        	ExpressionPtr receiver, 
+        	const std::vector<ExpressionPtr> &params, 
+        	int line, int col);
 
-    ExplicitRequestNode(
-    	const std::string &method, 
-    	ExpressionPtr receiver, 
-    	int line, int col);
+        ExplicitRequestNode(
+        	const std::string &method, 
+        	ExpressionPtr receiver, 
+        	int line, int col);
 
-    // Accessors and accept()
-};
+        // Accessors and accept()
+    };
 ```
 
 Following are some examples of different code snippets, and how they will be
@@ -309,9 +309,9 @@ Figure 4.7 shows a diagram of the current requests in Naylang
 
 #### ObjectConstructor Nodes
 
-In Grace (similarly to JavaScript), a user can at any point explicitly create an object with the `object` keyword, followed by the desired contents of the object. this operation is represented in the abstract syntax with an `ObjectConstructor` node, which evaluates to a user-defined Grace object.
+In Grace (similarly to JavaScript), a user can at any point explicitly create an object with the `object` keyword, followed by the desired contents of the object. This operation is represented in the abstract syntax with an `ObjectConstructor` node, which evaluates to a user-defined Grace object.
 
-Since an object can contain virtually any Grace construct, and `ObjectConstructor` is nothing more than a list of statements that will be evaluated one after the other.
+Since an object can contain virtually any Grace construct, an `ObjectConstructor` is nothing more than a list of statements that will be evaluated one after the other.
 
 ```c++
 class ObjectConstructor : public Expression {

@@ -102,7 +102,8 @@ void ExecutionEvaluator::evaluate(ImplicitRequestNode &expression) {
 	// Evaluate the node as a field request if possible
     if (expression.params().size() == 0) {
         if (_currentScope->hasField(expression.identifier())) {
-            _partial = _currentScope->getField(expression.identifier());
+            _partial = _currentScope->getField(
+                expression.identifier());
             return;
         }
     }
@@ -114,7 +115,8 @@ void ExecutionEvaluator::evaluate(ImplicitRequestNode &expression) {
         paramValues.push_back(_partial);
     }
 
-    _partial = _currentScope->dispatch(expression.identifier(), *this, paramValues);
+    _partial = _currentScope->dispatch(
+        expression.identifier(), *this, paramValues);
 }
 ```
 
@@ -130,7 +132,8 @@ void ExecutionEvaluator::evaluate(ExplicitRequestNode &expression) {
     // Note the use of "receiver" instead of _currentScope
     if (expression.params().size() == 0) {
         if (receiver->hasField(expression.identifier())) {
-        	_partial = receiver->getField(expression.identifier());
+        	_partial = receiver->getField(
+                expression.identifier());
             return;
         }
     }
@@ -140,7 +143,8 @@ void ExecutionEvaluator::evaluate(ExplicitRequestNode &expression) {
         param->accept(*this);
         paramValues.push_back(_partial);
     }
-    _partial = receiver->dispatch(expression.identifier(), *this, paramValues);
+    _partial = receiver->dispatch(
+        expression.identifier(), *this, paramValues);
 }
 ```
 

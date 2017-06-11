@@ -49,7 +49,7 @@ $(PDF): $(MARKDOWN) $(APPENDIX) $(TEMPLATE) $(IMAGES) $(BIBLIOGRAPHY) $(CSL) $(M
 		--metadata subtitle:"Intérprete y Depurador de Grace" \
 		--metadata date:"Director: José Luis Sierra Rodríguez" \
 		--metadata keywordsen:"Intepreters"," Programming Languages"," Debuggers"," Grace"\
-		--metadata keywordses:"Intérpretes"," Lenguajes de Programación"," Depuradores" \
+		--metadata keywordses:"Intérpretes"," Lenguajes de Programación"," Depuradores"," Grace" \
 		$(METADATA) $(MARKDOWN) --bibliography $(BIBLIOGRAPHY) --include-after-body $(APPENDIX) -o $@
 
 
