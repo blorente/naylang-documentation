@@ -121,7 +121,7 @@ void Heap::markAndSweep() {
     }
 }
 
-void Heap::visit(GraceObject* scope) {
+void Heap::visitMark(GraceObject* scope) {
     for (auto field : obj->fields()) {
         if (field.first != "self" && 
         		!field.second->_accessible) {        	
