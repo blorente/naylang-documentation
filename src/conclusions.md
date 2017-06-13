@@ -1,5 +1,5 @@
 
-Conclusion
+Conclusions and Future Work
 =======
 
 Having reached the end of the development period for this project, it is necessary to review the results obtained and compare them with the proposed objectives.

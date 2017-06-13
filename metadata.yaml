@@ -2,15 +2,16 @@
 author: |
     Borja Lorente
 title: |
-    Trabajo de fin de grado del Grado en Ingeniería Informática,\linebreak
-    Facultad de Informática,\linebreak
-    Universidad  Complutense  de  Madrid
-subtitle: |
-    Memoria
-    Mayo 2017
+    Trabajo de Fin de Grado del Grado en Ingeniería Informática \linebreak
+    
+tfgtitle: |
     Intérprete y Depurador de Grace
+institute: |
+    Facultad de Informática,\linebreak    
+    Universidad  Complutense  de  Madrid
 #date: 2017-03-01
 documentclass: scrreprt
+director: "Director: José Luis Sierra Rodríguez"
 colorlinks: True
 lof: True
 papersize: A4

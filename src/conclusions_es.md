@@ -13,7 +13,7 @@ Esta sección detalla los principales obstáculos para el desarrollo de Naylang.
 
 ### C++ Moderno
 
-El lenguaje elegido para este proyecto fue la última versión estable de C++ (C++14). Habiendo trabajado extensamente con otras versiones de C++, esta elección de lenguaje parecía ser la mejor. Sin embargo, las nuevas versiones de C++ resultaron ser substancialmente diferentes a las anteriores, con una miríada de funcionalidades vitales para el correcto uso de éstas. Esto introdujo un alto grado de dificultad adicional al desarrollo del proyecto, ya que las nuevas funcionalidades debían ser estudiadas al mismo tiempo que se desarrollaba el proyecto. El resultado fue que grandes partes del código tuvieron que ser reescritas más de una vez, a medida que se descubrían mejores formas de aproximar el problema.
+El lenguaje elegido para este proyecto fue la última versión estable de C++ (C++14). Habiendo trabajado extensamente con otras versiones de C++, esta elección de lenguaje parecía ser la mejor. Sin embargo, las nuevas versiones de C++ resultaron ser substancialmente diferentes a las anteriores, con una miríada de funcionalidades vitales para el correcto uso de éstas. Esto introdujo un alto grado de dificultad adicional al desarrollo del proyecto, ya que las nuevas funcionalidades debían ser estudiadas al mismo tiempo que se desarrollaba el proyecto. El resultado fue que grandes partes del código tuvieron que ser reescritas más de una vez, a medida que se descubrían mejores formas de enfocar el problema.
 
 Como resultado, más de la mitad del tiempo de depuración de este proyecto se usó intentando integrar estas nuevas funcionalidades, en lugar de arreglando fallos del Naylang.
 
@@ -27,7 +27,7 @@ Estas iteraciones sobre la representación abstracta probaron ser sencillas pero
 
 ### Modelo de Dispatch y Requests
 
-Este problema está atado al anterior en tanto en cuanto a que resulta de las particularidades de Grace. Dado que los métodos son una parte integral de los objetos en Grace y pueden contener tanto código arbitrario o funcionalidad predefinida, el modelo de ejecución y dispatch presentó un gran desafío. De hecho, la funcionalidad de dispatch y ejecución de métodos está repartida en al menos tres subsistemas.
+Este problema está asociado al anterior en tanto en cuanto a que resulta de las particularidades de Grace. Dado que los métodos son una parte integral de los objetos en Grace y pueden contener tanto código arbitrario o funcionalidad predefinida, el modelo de ejecución y dispatch presentó un gran desafío. De hecho, la funcionalidad de dispatch y ejecución de métodos está repartida en al menos tres subsistemas.
 
 ### Depurador Desacoplado
 
@@ -46,7 +46,7 @@ Mientras que es, de hecho, un depurador muy potente e implementa un subconjunto 
 
 ### Objetivos de Educación
 
-El segundo objetivo vital de Naylang era ser **amigable** para cualquier estudiante interesado en aprender sobre implementación de lenguajes ó para cualquier futuro contribuyente al proyecto. En este aspecto Naylang ha sido un éxito, ya que cuenta con una extensa cobertura de tests, lo que proporciona cientos de casos de uso y una gran modularidad en sus componentes.
+El segundo objetivo vital de Naylang era ser **amigable** para cualquier estudiante interesado en aprender sobre implementación de lenguajes o para cualquier futuro contribuyente al proyecto. En este aspecto Naylang ha sido un éxito, ya que cuenta con una extensa cobertura de tests, lo que proporciona cientos de casos de uso y una gran modularidad en sus componentes.
 
 Trabajo Futuro
 --------

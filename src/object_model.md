@@ -93,7 +93,7 @@ to interact with it.
 
 #### Blocks
 
-Blocks are a particular case of native types in Naylang. They represent lambda functions that respond to an `apply()` method with a correct number of parameters. Therefore, a block will be represented as a GraceBlock with one user-defined method (`apply`) which will nave no set number of parameters, and will simpy consume all the parameters available. The implementation of `apply` will represent the desired behavior of the lambda function.
+Blocks are a particular case of native types in Naylang. They represent lambda functions that respond to an `apply()` method with a correct number of parameters. Therefore, a block will be represented as a `GraceBlock` with one user-defined method (`apply`) which will nave a variable number of parameters, and will simpy consume all the parameters available. The implementation of `apply` will represent the desired behavior of the lambda function.
 
 ### Casting
 
@@ -131,7 +131,7 @@ This approach has two major benefits:
 
 - It scales very well. For instance, if a new native type arised that could be either a boolean or a number, it would be sufficient to implement both caster methods in an appropriate subclass.
 
-Note that this model is used for runtime dynamic typing and, since Grace is a gradually-typed language, some of the type-checking work will have to be moved the the AST as the possibility of proper static typing is implemented.
+Note that this model is used for runtime dynamic typing and, since Grace is a gradually-typed language, some of the type-checking work will have to be moved to the AST as the possibility of proper static typing is implemented.
 
 
 [^gracecanonname]: http://gracelang.org/documents/grace-spec-0.7.0.html#method-names

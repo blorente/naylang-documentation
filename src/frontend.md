@@ -7,7 +7,7 @@ One of the design goals of Naylang is to serve as a teaching example in interpre
 
 Currently, all the user interaction is handled by the `ConsoleFrontend` class, which is in charge of receiving commands from the user and calling one of its `ExecutionMode`s to handle the commands.
 
-Execution modes (such as REPL or Debug) are in charge of feeding data to and controlling the flow of the interpreters. Each mode has its own commands, which are implemented using the Command pattern. It can be easily seen how any one of these pieces can be easily swapped, and seemingly relevant changes such as adding a graphical frontend are as simple as replacing `ConsoleFrontend`.
+Execution modes (such as REPL or Debug) are in charge of feeding data to and controlling the flow of the interpreter. Each mode has its own commands, which are implemented using the Command pattern [@compositionoverinheritance]. It can be easily seen how any one of these pieces can be easily swapped, and seemingly relevant changes such as adding a graphical frontend are as simple as replacing `ConsoleFrontend`.
 
 Here is the list of available commands in Naylang:
 
@@ -44,6 +44,6 @@ ndb> skip (sk)
   // Step to the next instruction, skipping scope changes and calls
 ```
 
-Figure 4.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent how such structure could function.
+Figure 4.9 displays the main class structure that allows for such a command flexibility. Since the frontends are not the main focus of the projects not many more explainations are given, but more than usual information is provided such that it should be apparent how such structure could work.
 
 ![Frontends And Controllers](images/frontends.pdf) 

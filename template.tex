@@ -195,34 +195,17 @@ $if(title)$
     \usepackage{titlepic}
     \titlepic{\includegraphics[width=\textwidth]{$titlepic$}}
   $endif$
-  \title{$title$$if(thanks)$\thanks{$thanks$}$endif$$if(subtitle)$%
-    \subtitle{$subtitle$}$endif$$if(institute)$\institute{$institute$}%
-    $endif$}
-  %\makeatletter
-  %\def\maketitle{
-  % \newpage
-  % \null
-  % \vskip 2em%
-  %   {\sffamily\Huge\bfseries \@title}\par%
-  %   {\@author}\par}%
-  %\makeatother
-  % Let's make titles better
-  %\newfontfamily{\titlefont}
-  % [UprightFont = {* 43 Light Extended},
-  %  BoldFont = {* 107 Extra Black Condensed}]{TeX Gyre Heros}
-  %\usepackage{titling}
-  %\renewcommand{\maketitlehooka}{\sffamily}
-%$endif$
-%$if(subtitle)$
-  %\providecommand{\subtitle}[1]{}
-  %\subtitle{$subtitle$}
+  \title{$title$$if(institute)$%
+    \subtitle{$institute$}$endif$
+    }  
 $endif$
+\subtitle{$tfgtitle$}  
 $if(author)$
   \author{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
 $if(institute)$
   \providecommand{\institute}[1]{}
-  \institute{$for(institute)$$institute$$sep$ \and $endfor$}
+  \institute{$institute$}
 $endif$
 \date{$date$}
 
@@ -246,9 +229,19 @@ $endif$
 
 \begin{document}
   $if(title)$
-    \maketitle
+    %\maketitle
   $endif$
   \begin{titlepage}
+    \centering
+    \includegraphics[width=0.50\textwidth]{images/escudoucm.jpg}\par\vspace{1cm}
+    {\LARGE\bfseries $title$ \par}
+    \vspace{0.3cm}
+    {\Large\bfseries $institute$ \par}    
+    \vspace{0.8cm}
+    {\LARGE\bfseries $tfgtitle$ \par}        
+    \vfill
+    {\large $author$ \par}
+    {\normalsize $director$ \par}
   \end{titlepage}
 
 

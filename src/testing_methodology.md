@@ -10,7 +10,7 @@ This decision has in fact proven to be of great value in the later stages of the
 Tests as an educational resource
 ------
 
-Naylang aims to be more than just a Grace interpreter, but to also be an approachable Free Software [^freesoftware] project for both potential collaborators and programming language students the same. Having a sufficiently big automated test suite is vital to make the project amiable to newcomers, for the following reasons:
+Naylang aims to be more than just a Grace interpreter, but to also be an approachable Free Software [^freesoftware] project for both potential collaborators and programming language students. Having a sufficiently big automated test suite is vital to make the project amiable to newcomers, for the following reasons:
 
 - Automated tests provide **complete, synchronized documentation** of the system. Unlike written documentation or comments, automated tests do not get outdated and, if they are sufficiently atomic and well-named, provide working **specification and examples** of what a part of the system does and how it is supposed to be used. A newcomer to the project will find it very useful to dive into the test suite even before looking at the implementation code to find up-to-date explainations of a module and its dependencies.
 
@@ -23,7 +23,7 @@ As an example, if newcomers wanted learn about how Naylang handles assignment, t
 Test-Driven Development (TDD)
 ------
 
-Since the goal was to cover as much code as possible with test cases, the industry-standard practice of Test-Driven Development was used. According to TDD, for each new addition to the codebase, a failing test case must be added first. Then, enough code is written to pass the test case. Lastly, the code is refactored to meet coding standards, all the while keeping all the tests passing. This way, every part of code crucial part of the codebase will by default have an extensive test coverage.
+Since the goal was to cover as much code as possible with test cases, the industry-standard practice of Test-Driven Development was used. According to TDD, for each new addition to the codebase, a failing test case must be added first. Then, enough code is written to pass the test case. Lastly, the code is refactored to meet coding standards, all the while keeping all the tests passing. This way, every crucial part of the codebase will by default have an extensive test coverage.
 
 TDD may feel slow at first, but as the project grew the critical parts of the project were covered in test cases, which provided with immense agility to develop extraneous features such as the frontends. 
 
@@ -120,22 +120,22 @@ TEST_CASE("Grace Boolean", "[GraceObjects]") {
 
 TEST_CASE("Predefined methods in GraceBoolean", "[GraceBoolean]") {
 
-    SECTION("Not") {
-        MethodRequest req("not");
-        GraceBoolean::Not method;
+SECTION("Not") {
+    MethodRequest req("not");
+    GraceBoolean::Not method;
 
-        SECTION("Calling Not with self == GraceTrue returns GraceFalse") {
-            GraceObjectPtr val = method.respond(*GraceTrue, req);
-            REQUIRE(*GraceFalse == *val);
-        }
-
-        SECTION("Calling Not with self == GraceFalse returns GraceTrue") {
-            GraceObjectPtr val = method.respond(*GraceFalse, req);
-            REQUIRE(*GraceTrue == *val);
-        }
+    SECTION("Calling Not with self == GraceTrue returns GraceFalse") {
+        GraceObjectPtr val = method.respond(*GraceTrue, req);
+        REQUIRE(*GraceFalse == *val);
     }
 
-    // ...
+    SECTION("Calling Not with self == GraceFalse returns GraceTrue") {
+        GraceObjectPtr val = method.respond(*GraceFalse, req);
+        REQUIRE(*GraceTrue == *val);
+    }
+}
+
+// ...
 }
 ```
 
